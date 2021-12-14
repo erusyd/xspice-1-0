@@ -1,0 +1,34 @@
+main.c:
+main.o: main.c
+main.o: /usr/include/stdio.h
+main.o: ./cmpp.h
+main.o: /usr/include/stdio.h
+pp_ifs.c:
+pp_ifs.o: pp_ifs.c
+pp_ifs.o: ./cmpp.h
+pp_ifs.o: /usr/include/stdio.h
+pp_lst.c:
+pp_lst.o: pp_lst.c
+pp_lst.o: ./cmpp.h
+pp_lst.o: /usr/include/stdio.h
+pp_mod.c:
+pp_mod.o: pp_mod.c
+pp_mod.o: ./cmpp.h
+pp_mod.o: /usr/include/stdio.h
+read_ifs.c:
+read_ifs.o: read_ifs.c
+read_ifs.o: /usr/include/assert.h
+read_ifs.o: ./cmpp.h
+read_ifs.o: /usr/include/stdio.h
+test_ifs.c:
+test_ifs.o: test_ifs.c
+test_ifs.o: /usr/include/stdio.h
+util.c:
+util.o: util.c
+util.o: /usr/include/stdio.h
+util.o: ./cmpp.h
+util.o: /usr/include/stdio.h
+write_ifs.c:
+write_ifs.o: write_ifs.c
+write_ifs.o: ./cmpp.h
+write_ifs.o: /usr/include/stdio.h

@@ -1,0 +1,3920 @@
+SUBJECT: main
+TITLE: Help System
+TEXT:      This is the nutmeg _h_e_l_p system.  To chose a subtopic or
+TEXT:      see-also topic, click a mouse button in the appropriate box
+TEXT:      below,  or type the number of the topic that you want if you
+TEXT:      are using an ASCII terminal.
+TEXT: 
+SUBTOPIC: SPICE:analyses NUTMEG:arguments SPICE:batchmode
+SUBTOPIC: NUTMEG:bugs NUTMEG:caveats NUTMEG:commands
+SUBTOPIC: SPICE:convergence NUTMEG:cshstuff SPICE:elements
+SUBTOPIC: SPICE:examples NUTMEG:expressions NUTMEG:graphics
+SUBTOPIC: NUTMEG:hpux NUTMEG:input SPICE:models
+SUBTOPIC: SPICE:options NUTMEG:pc NUTMEG:proglang
+SUBTOPIC: NUTMEG:refs NUTMEG:sconvert SPICE:spice
+SUBTOPIC: NUTMEG:variables NUTMEG:vms
+
+SUBJECT: arguments
+TITLE: Command Line Arguments
+TEXT: 
+TEXT:      GNutmeg Hand Gspice Htake the following command line options.
+TEXT: H     Additional arguments are taken to be circuit files in the
+TEXT: H     case of GspiceH, or raw data files to be loaded in the case of
+TEXT: H     GnutmegH.
+TEXT: H
+TEXT: 
+SUBTOPIC: NUTMEG:dash SPICE:dashb SPICE:dashi
+SUBTOPIC: NUTMEG:dashn NUTMEG:dasho SPICE:dashq
+SUBTOPIC: NUTMEG:dashr SPICE:dashs NUTMEG:dasht
+
+SUBJECT: dash
+TITLE: -
+TEXT: 
+TEXT:      G-    HDon't try load a rawfile (Gnutmeg Honly).  The default
+TEXT: H          rawfile name is GrawspiceH, which will be loaded in if no
+TEXT: H          other filenames are given on the command line.
+TEXT: H
+TEXT: 
+
+SUBJECT: dashn
+TITLE: -n
+TEXT: 
+TEXT:      G-n   HDon't try to source the file ".spiceinit" upon startup.
+TEXT: H          Normally the program tries to find the file in the
+TEXT: H          current directory, and if it is not found then it
+TEXT: H          checks in the user's home directory.
+TEXT: H
+TEXT: 
+
+SUBJECT: dasho
+TITLE: -o
+TEXT: 
+TEXT:      G-o outfile
+TEXT: H          HOpen the given file for output, instead of sending out-
+TEXT: H          put to the terminal.
+TEXT: H
+TEXT: 
+
+SUBJECT: dashr
+TITLE: -r
+TEXT: 
+TEXT:      G-r   HUse the named file for dumping data if this is Gspice Hin
+TEXT: H          batch mode, and use it as the default rawfile for the
+TEXT: H          Gwrite Hcommand.  Note that if the program is GnutmegH,
+TEXT: H          this option will not cause the named file to be loaded.
+TEXT: H
+TEXT: 
+
+SUBJECT: dasht
+TITLE: -t
+TEXT: 
+TEXT:      G-t term
+TEXT: H          HThe program is being run on a terminal with MFB name
+TEXT: H          GtermH.  (MFB is the graphics package used for dumb
+TEXT: H          graphics terminals.) Note that MFB names are often not
+TEXT: H          the same as _t_e_r_m_c_a_p names, so this option is needed to
+TEXT: H          override the TERM environment variable.
+TEXT: H
+TEXT: 
+
+SUBJECT: bugs
+TITLE: Bugs
+TEXT: 
+TEXT:      The label entry facilities are very primitive - after all,
+TEXT: H     Gnutmeg Hisn't a graphics editor (yet).  You must be careful
+TEXT: H     to type very slowly when entering labels -- Gnutmeg Hchecks
+TEXT: H     the GX Hevent queue once every second, and can get very con-
+TEXT: H     fused if characters arrive faster than that.
+TEXT: H
+TEXT:      When defining aliases like
+TEXT: H
+TEXT:           Galias Hpdb Gplot dbH( '!:1' - '!:2' )
+TEXT: H
+TEXT:      you must be careful to quote the argument list substitutions
+TEXT: H     in this manner. If you quote the whole argument it might not
+TEXT: H     work properly.
+TEXT: H
+TEXT:      In a user-defined function, the arguments cannot be part of
+TEXT: H     a name that uses the _p_l_o_t._v_e_c syntax.  I.e,
+TEXT: H
+TEXT:           Gdefine Hpoke(duck) GcosH(tran1.duck)
+TEXT: H
+TEXT:      won't do the right thing.
+TEXT: H
+TEXT:      If you type Gplot all allH, or otherwise use a wildcard refer-
+TEXT: H     ence for one plot twice in a command, bad things will hap-
+TEXT: H     pen.
+TEXT: H
+TEXT:      The Gasciiplot Hcommand doesn't deal with log scales or most
+TEXT: H     of the keywords that Gplot Hrecognises.  Don't expect it to
+TEXT: H     ever do smith charts.
+TEXT: H
+TEXT:      When a new vector is created with the G[ ] Hand G[[ ]] Hopera-
+TEXT: H     tions, a subset of the old scale should also be created for
+TEXT: H     it that includes the same elements, so that it may be plot-
+TEXT: H     ted, etc.
+TEXT: H
+TEXT:      When substitutions are done with the ^_o_l_d^_n_e_w^ syntax, there
+TEXT: H     may be no spaces in either _o_l_d or _n_e_w.
+TEXT: H
+TEXT:      If the user erases text in an X plot window by typing spaces
+TEXT: H     over it, and then dumps it to a file with the Ghardcopy Hcom-
+TEXT: H     mand, the erased text will re-appear.
+TEXT: H
+TEXT:      If an X plot window is created and then resized to be much
+TEXT: H     larger, or the Ghardcopy Hcommand is used to dump it to a file
+TEXT: H     and it is then printed on a device with much higher resolu-
+TEXT: H     tion than the X display, the "automatic manhattanization"
+TEXT: H     feature (i.e, round-off error) will cause the picture to
+TEXT: H     look very funny.
+TEXT: H
+TEXT:      SPICE3 will recognise all the notations used in SPICE2 G.plot
+TEXT: H     Hcards, and will translate Gvp(1) Hinto Gph(v(1))H, and so forth.
+TEXT: H     However, if there are spaces in these names it won't work.
+TEXT: H     Hence Gv(1, 2) Hand G(-.5, .5) Haren't recognised.
+TEXT: H
+TEXT:      The "nutmeg programming language" should serve as a lesson
+TEXT: H     on why a language designer should understand that he is
+TEXT: H     creating a language before he has already implemented it.
+TEXT: H
+TEXT:      If a command is implemented as a script, the Ghelp Hcommand
+TEXT: H     won't say anything about it and it won't be available for
+TEXT: H     command and argument completion.
+TEXT: H
+TEXT:      If you plot an expression containing the function GrndH, and
+TEXT: H     then zoom in or out in the window, you will get different
+TEXT: H     random numbers in the new window.
+TEXT: H
+TEXT:      Global filename expansion has some problems.  In particular,
+TEXT: H     G*/* Hmay give a result of "No match" when there is a file in
+TEXT: H     the current directory.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:caveats
+
+SUBJECT: caveats
+TITLE: Caveats
+TEXT: 
+TEXT:      Often the names of terminals recognised by GMFB Hare different
+TEXT: H     from those in /etc/termcap. Thus you may have to reset your
+TEXT: H     terminal type with the command
+TEXT: H
+TEXT:           Gset Hterm = _t_e_r_m_n_a_m_e
+TEXT: H
+TEXT:      where _t_e_r_m_n_a_m_e is the name in the Gmfbcap Hfile.
+TEXT: H
+TEXT:      The Ghardcopy Hcommand is useless on VMS and other systems
+TEXT: H     without the UNIX Gplot Hcommand, unless the user has a program
+TEXT: H     that understands _p_l_o_t(_5) format.
+TEXT: H
+TEXT:      GSpice Hinput files specified on the command line are read in
+TEXT: H     before theG.spiceinit Hfile is read. Thus if you define
+TEXT: H     aliases there that you call in a Gspice Hsource file mentioned
+TEXT: H     on the command line, they won't be recognised.
+TEXT: H
+TEXT:      If you interrupt a simulation and then load in a new deck,
+TEXT: H     or Gsetcirc Hto a different one, and run a simulation on that,
+TEXT: H     it will not be possible to Gresume Hthe old simulation.
+TEXT: H
+TEXT:      Don't trust command completion too much.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:bugs
+
+SUBJECT: commands
+TITLE: Built-in Commands
+TEXT: 
+TEXT:      When a command is typed, it is interpreted as one of several
+TEXT: H     things.  First, it may be an alias, in which case the line
+TEXT: H     is replaced with the result after alias substitution, and
+TEXT: H     the line is re-parsed.  Second, it may be a pre-defined com-
+TEXT: H     mand, in which case it is executed (see below for a list of
+TEXT: H     available commands).  Third, it may be the name of a circuit
+TEXT: H     file, in which case it is loaded (if the program is GspiceH)
+TEXT: H     as if with a Gsource Hcommand.  Fourth, it may be the name of
+TEXT: H     a command script - Gnutmeg Hsearches the current Gsourcepath
+TEXT: H     Hfor the file and executes it when it is found.  The effect
+TEXT: H     of this is identical to the effect of Gsouce fileH, except
+TEXT: H     that the variables Gargc Hand Gargv Hare set.  Fifth, it may be
+TEXT: H     an assignment statement, which consists of a vector name, an
+TEXT: H     G= Hsymbol, and an expression (see the syntax for the Glet Hcom-
+TEXT: H     mand), in which case it is executed as if it were preceeded
+TEXT: H     by the word GletH.  Finally, it may be a UNIX command, in
+TEXT: H     which case if the variable Gunixcom His set, it is executed as
+TEXT: H     though it were typed to the shell.  (This is only available
+TEXT: H     on BSD UNIX systems.)
+TEXT: H
+TEXT:      The following is a list of the built-in commands available.
+TEXT: H     Some may be command scripts - the only difference between a
+TEXT: H     built-in and a script that is visible to the user is that a
+TEXT: H     script will not be mentioned in the quick help summary, and
+TEXT: H     will not be visible to command completion.
+TEXT: H
+TEXT: 
+SUBTOPIC: SPICE:ac NUTMEG:alias NUTMEG:alter
+SUBTOPIC: NUTMEG:asciiplot SPICE:aspice NUTMEG:break
+SUBTOPIC: NUTMEG:bug NUTMEG:cd NUTMEG:cdump
+SUBTOPIC: NUTMEG:compose NUTMEG:continue NUTMEG:cross
+SUBTOPIC: SPICE:dc NUTMEG:define NUTMEG:deftype
+SUBTOPIC: SPICE:delete NUTMEG:destroy NUTMEG:diff
+SUBTOPIC: NUTMEG:display NUTMEG:dowhile NUTMEG:dump
+SUBTOPIC: NUTMEG:echo NUTMEG:edit NUTMEG:else
+SUBTOPIC: NUTMEG:end NUTMEG:foreach NUTMEG:fourier
+SUBTOPIC: NUTMEG:goto NUTMEG:hardcopy NUTMEG:help
+SUBTOPIC: NUTMEG:historycomm NUTMEG:if SPICE:iplot
+SUBTOPIC: NUTMEG:jobs NUTMEG:label NUTMEG:let
+SUBTOPIC: NUTMEG:linearize SPICE:listing NUTMEG:load
+SUBTOPIC: NUTMEG:oldhelp SPICE:op NUTMEG:plot
+SUBTOPIC: NUTMEG:print SPICE NUTMEG:quit
+SUBTOPIC: NUTMEG:rehash NUTMEG:repeat SPICE:reset
+SUBTOPIC: SPICE:resume SPICE:rspice SPICE:run
+SUBTOPIC: NUTMEG:rusage SPICE:save NUTMEG:set
+SUBTOPIC: SPICE:setcirc NUTMEG:setplot NUTMEG:settype
+SUBTOPIC: NUTMEG:shell NUTMEG:shift NUTMEG:show
+SUBTOPIC: NUTMEG:source NUTMEG:state NUTMEG:status
+SUBTOPIC: SPICE:step SPICE:stop NUTMEG:strcmp
+SUBTOPIC: SPICE:trace SPICE:tran NUTMEG:unalias
+SUBTOPIC: NUTMEG:undefine NUTMEG:unlet NUTMEG:unset
+SUBTOPIC: NUTMEG:version NUTMEG:while NUTMEG:write
+
+SEEALSO: NUTMEG:proglang
+
+SUBJECT: alias
+TITLE: alias
+TEXT: 
+TEXT:      Galias H[ _w_o_r_d ] [ _t_e_x_t ]
+TEXT: H          Cause _w_o_r_d to be aliased to _t_e_x_t.  Whenever a command
+TEXT: H          line beginning with _w_o_r_d is typed, _t_e_x_t is substituted.
+TEXT: H          Arguments are either appended to the end, or substi-
+TEXT: H          tuted in if history characters are present in the _t_e_x_t.
+TEXT: H          See the description of "C-shell like features".
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:unalias
+SEEALSO: NUTMEG:aliases
+
+SUBJECT: alter
+TITLE: alter
+TEXT: 
+TEXT:      Galter H_a_r_g_s...
+TEXT: H          Change the parameters of a device while a simulation is
+TEXT: H          in progress.  This command is not yet implemented.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:show
+
+SUBJECT: asciiplot
+TITLE: asciiplot
+TEXT: 
+TEXT:      Gasciiplot H_p_l_o_t_a_r_g_s
+TEXT: H          Produce a line printer plot of the vectors.  See the
+TEXT: H          description of the Gplot Hcommand for the syntax of _p_l_o_-
+TEXT: H          _t_a_r_g_s.  The plot is sent to the standard output, so you
+TEXT: H          can put it into a file with Gasciiplot H_a_r_g_s G> H_f_i_l_e.  The
+TEXT: H          variables Gwidth, height, Hand Gnobreak Hdetermine the
+TEXT: H          width and height of the plot, and whether there are
+TEXT: H          page breaks, respectively. Note that you will have
+TEXT: H          problems if you try to Gasciiplot Hsomething with an X-
+TEXT: H          scale that isn't monotonic (i.e, something like
+TEXT: H          _s_i_n(_T_I_M_E) ), because Gasciiplot Huses a simple-minded
+TEXT: H          sort of linear interpolation.  Also, most of the key-
+TEXT: H          words that Gplot Hrecognises aren't used by GasciiplotH.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:plot
+SEEALSO: NUTMEG:hardcopy
+SEEALSO: NUTMEG:width
+SEEALSO: NUTMEG:height
+SEEALSO: NUTMEG:noasciiplotvalue
+SEEALSO: NUTMEG:nobreak
+SEEALSO: NUTMEG:expressions
+
+SUBJECT: break
+TITLE: break
+TEXT: 
+TEXT:      Gbreak H[ _n_u_m_b_e_r ]
+TEXT: H          If there is a Gwhile, dowhile, Hor Gforeach Hblock enclos-
+TEXT: H          ing this statement, control passes out of the block.
+TEXT: H          Otherwise an error results.  If a _n_u_m_b_e_r is given, that
+TEXT: H          number of enclosing blocks are exited.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:proglang
+
+SUBJECT: bug
+TITLE: bug
+TEXT: 
+TEXT:      Gbug  HThis sends a bug report to the maintainer of SPICE3, if
+TEXT: H          it has been compiled with the BUGADDR option.
+TEXT: H
+TEXT: 
+
+SUBJECT: cd
+TITLE: cd
+TEXT: 
+TEXT:      Gcd H[ _d_i_r_e_c_t_o_r_y ]
+TEXT: H          Change the current working directory to _d_i_r_e_c_t_o_r_y, or
+TEXT: H          the user's home directory if none is given.
+TEXT: H
+TEXT: 
+
+SUBJECT: cdump
+TITLE: cdump
+TEXT: 
+TEXT:      Gcdump
+TEXT: H          HThis is a debugging command for printing out the con-
+TEXT: H          tents of the currently active control structures.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:proglang
+
+SUBJECT: compose
+TITLE: compose
+TEXT: 
+TEXT:      Gcompose H_v_e_c_n_a_m_e [ _p_a_r_a_m = _v_a_l_u_e ] ...
+TEXT: H          or
+TEXT: H
+TEXT:      Gcompose H_v_e_c_n_a_m_e Gvalues H_v_a_l_u_e ...
+TEXT: H          Both forms of this command create a new vector called
+TEXT: H          _v_e_c_n_a_m_e.  In the first form, the values in the vector
+TEXT: H          are determined by the parameters given.  In the second
+TEXT: H          form, the given values are used to form the vector.
+TEXT: H
+TEXT:           The first form of this command is currently unimple-
+TEXT: H          mented.  Currently, in order to get any desired vector
+TEXT: H          one may use the Glet Hcommand with various functions such
+TEXT: H          as Gvector(), rnd(), Hand so on.  GCompose His intended to
+TEXT: H          be a more convenient method of constructing such vec-
+TEXT: H          tors.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:let
+
+SUBJECT: continue
+TITLE: continue
+TEXT: 
+TEXT:      Gcontinue H[ _n_u_m_b_e_r ]
+TEXT: H          If there is a Gwhile, dowhile, Hor Gforeach Hblock enclos-
+TEXT: H          ing this statement, control returns to the beginning of
+TEXT: H          that block.  If there is no such enclosing block, an
+TEXT: H          error results.  If a _n_u_m_b_e_r is given, control is passed
+TEXT: H          to the beginning of the _n_u_m_b_e_r'th enclosing block.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:proglang
+
+SUBJECT: cross
+TITLE: cross
+TEXT: 
+TEXT:      Gcross H_v_e_c_n_a_m_e _n_u_m_b_e_r [ _s_o_u_r_c_e ] ...
+TEXT: H          A new vector is constructed, with name _v_e_c_n_a_m_e and
+TEXT: H          values consisting of the _n_u_m_b_e_r'th element of each of
+TEXT: H          the _s_o_u_r_c_e vectors.  This is a rather awkward way to
+TEXT: H          deal with multi-dimensional data - a more general
+TEXT: H          method is being developed.
+TEXT: H
+TEXT: 
+
+SUBJECT: define
+TITLE: define
+TEXT: 
+TEXT:      Gdefine H_f_u_n_c_t_i_o_n(_a_r_g, ...) _e_x_p_r_e_s_s_i_o_n
+TEXT: H          Define the macro with the name _f_u_n_c_t_i_o_n and arguments
+TEXT: H          _a_r_g, ... to be _e_x_p_r_e_s_s_i_o_n, which may involve the argu-
+TEXT: H          ments. When the function is later used, the arguments
+TEXT: H          it is given are substituted for the formal arguments
+TEXT: H          when it is parsed.  If _e_x_p_r_e_s_s_i_o_n is not present, any
+TEXT: H          definitions for _f_u_n_c_t_i_o_n are printed, and if there are
+TEXT: H          no arguments to _d_e_f_i_n_e then all currently active defin-
+TEXT: H          itions are printed. Note that you may have different
+TEXT: H          functions defined with the same name but different ari-
+TEXT: H          ties.  Some useful definitions (which are part of the
+TEXT: H          default environment) are:
+TEXT: H
+TEXT:          Gdefine maxH(x,y) (x > y) * x + (x <= y) * y
+TEXT: H         Gdefine minH(x,y) (x < y) * x + (x >= y) * y
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:undefine
+SEEALSO: NUTMEG:expressions
+
+SUBJECT: deftype
+TITLE: deftype
+TEXT: 
+TEXT:      Gdeftype v H_t_y_p_e_n_a_m_e [ _a_b_b_r_e_v ]
+TEXT: H          or
+TEXT: H
+TEXT:      Gdeftype p H_p_l_o_t_t_y_p_e [ _p_a_t_t_e_r_n ] ...
+TEXT: H          This command is intended to make Gnutmeg Heasier to use
+TEXT: H          with simulators other than SPICE3.  It is only a tem-
+TEXT: H          porary facility, however.  The first form defines a new
+TEXT: H          type for vectors.  The _t_y_p_e_n_a_m_e may then be used as a
+TEXT: H          vector type specification in a rawfile, and will be
+TEXT: H          used for the Gdisplay Hcommand to indicate the type.  If
+TEXT: H          an _a_b_b_r_e_v is given, values of that type can be named
+TEXT: H          _a_b_b_r_e_v(_s_o_m_e_t_h_i_n_g) where _s_o_m_e_t_h_i_n_g is the name given in
+TEXT: H          the rawfile (and _s_o_m_e_t_h_i_n_g doesn't contain
+TEXT: H          parentheses).  The second form defines a plot type.
+TEXT: H          The (one word) name for a plot with any of the _p_a_t_t_e_r_ns
+TEXT: H          present in its plot type name as given in the raw file
+TEXT: H          will be _p_l_o_t_t_y_p_e<_n_u_m>, where <_n_u_m> is a positive
+TEXT: H          integer incremented every time a rawfile is read or a
+TEXT: H          new plot is defined.
+TEXT: H
+TEXT: 
+
+SUBJECT: destroy
+TITLE: destroy
+TEXT:      destroy [ _p_l_o_t_n_a_m_e ... ] [ all ]
+TEXT:           Throw away the data in the named plot and reclaim the
+TEXT:           storage space.  This can be necessary if a lot of large
+TEXT:           simulations are being done.  spice should warn the user
+TEXT:           if the size of the program is approaching the maximum
+TEXT:           allowable size (within about 90%), but it is advisable
+TEXT:           to run the rusage command occasionally if running out
+TEXT:           of space is a possibility.  If the argument to destroy
+TEXT:           is all, all plots except the constant plot will be
+TEXT:           thrown away.  It is not possible to destroy the con-
+TEXT:           stant plot.  If no argument is given the current plot
+TEXT:           is destroyed.
+TEXT: 
+SEEALSO: NUTMEG:setplot
+SEEALSO: NUTMEG:rusage
+
+SUBJECT: diff
+TITLE: diff
+TEXT: 
+TEXT:      Gdiff H_p_l_o_t_1 _p_l_o_t_2 [ _v_e_c_n_a_m_e ] ...
+TEXT: H          Compare the vectors in the named _p_l_o_ts and print out
+TEXT: H          any values which differ significantly in corresponding
+TEXT: H          vectors in the two plots.  If no _v_e_c_n_a_m_es are men-
+TEXT: H          tioned, all vectors in the plots are compared, and if
+TEXT: H          one or more names are given only those vectors are com-
+TEXT: H          pared.  The variables GabstolH, GreltolH, and Gvntol Hare
+TEXT: H          used to determine if two values are "significantly"
+TEXT: H          different.  (See the SPICE3 User's Guide for details of
+TEXT: H          these variables.)
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:abstol
+SEEALSO: NUTMEG:vntol
+SEEALSO: NUTMEG:reltol
+
+SUBJECT: display
+TITLE: display
+TEXT: 
+TEXT:      Gdisplay H[ _v_e_c_n_a_m_e ] ...
+TEXT: H          List the names, types and lengths of the vectors
+TEXT: H          defined in the current plot, and whether the vector is
+TEXT: H          real or complex.  If one or more _v_e_c_a_m_es are given the
+TEXT: H          list is restricted to those vectors.  Additional infor-
+TEXT: H          mation is also given:  if there is a minimum or maximum
+TEXT: H          value for the vector defined, this is listed (see the
+TEXT: H          manual page for Gsconvert Hfor a definition of the
+TEXT: H          rawfile format and the manner in which this and the
+TEXT: H          rest of the per-vector parameters are defined), if
+TEXT: H          there is a default grid type or a default plot type,
+TEXT: H          they are mentioned, and if there is a default color or
+TEXT: H          a default scale for the vector it is noted.  Addition-
+TEXT: H          ally, one vector in the plot will have the notation
+TEXT: H          G[default scale] Happended - this vector will be used as
+TEXT: H          the x-scale for the Gplot Hcommand if none is given or is
+TEXT: H          the vectors named have no default scales of their own.
+TEXT: H          A better description of these parameters is given with
+TEXT: H          the description of the Gplot Hcommand.
+TEXT: H
+TEXT: 
+
+SUBJECT: dowhile
+TITLE: dowhile
+TEXT: 
+TEXT:      Gdowhile H_c_o_n_d_i_t_i_o_n
+TEXT: H          This line, together with a matching Gend Hstatement,
+TEXT: H          defines a block of commands that are executed while the
+TEXT: H          _c_o_n_d_i_t_i_o_n remains true.  (The _c_o_n_d_i_t_i_o_n is an expres-
+TEXT: H          sion which is considered true if it evaluates to a
+TEXT: H          non-0 value.)  Unlike the Gwhile Hstatement, the test is
+TEXT: H          done at the bottom of the loop.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:proglang
+
+SUBJECT: dump
+TITLE: dump
+TEXT: 
+TEXT:      Gdump HThis command causes a debugging print of the internal
+TEXT: H          data structures used by the simulator.  It is not
+TEXT: H          guaranteed to provide any useful information. (Gspice
+TEXT: H          Honly)
+TEXT: H
+TEXT: 
+
+SUBJECT: echo
+TITLE: echo
+TEXT: 
+TEXT:      Gecho H[ G-n H] [ _s_t_u_f_f ] ...
+TEXT: H          Print the _s_t_u_f_f on the standard output.  If the G-n Hflag
+TEXT: H          is given, don't append a newline.
+TEXT: H
+TEXT: 
+
+SUBJECT: edit
+TITLE: edit
+TEXT: 
+TEXT:      Gedit H[ _f_i_l_e_n_a_m_e ]
+TEXT: H          Print the current circuit definition into a file, call
+TEXT: H          up the editor on that file and allow the user to modify
+TEXT: H          it, and then read it back in, replacing the original
+TEXT: H          definition. If a Gfilename His given, then edit that file
+TEXT: H          and Gsource Hit, making the circuit the current one.
+TEXT: H
+TEXT: 
+
+SUBJECT: else
+TITLE: else
+TEXT: 
+TEXT:      Gelse HPart of an Gif-else Hblock.  See the description of the
+TEXT: H          Gif Hstatement.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:proglang
+
+SUBJECT: end
+TITLE: end
+TEXT: 
+TEXT:      Gend  HThis statement terminates a block.  It is an error for
+TEXT: H          an Gend Hto appear without a matching Gbegin, if, while,
+TEXT: H          repeat, foreach, Hor Gdowhile Hstatement.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:proglang
+
+SUBJECT: foreach
+TITLE: foreach
+TEXT: 
+TEXT:      Gforeach H_v_a_r  [ _v_a_l_u_e ] ...
+TEXT: H          This statement opens a block which will be executed
+TEXT: H          once for each _v_a_l_u_e given.  Each time through, the _v_a_r
+TEXT: H          will be set to sucessive _v_a_l_u_es.  After the loop is
+TEXT: H          exited it will have the last value that was assigned to
+TEXT: H          it.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:proglang
+
+SUBJECT: fourier
+TITLE: fourier
+TEXT: 
+TEXT:      Gfourier H_f_u_n_d_a_m_e_n_t_a_l__f_r_e_q_u_e_n_c_y [ _v_a_l_u_e ] ...
+TEXT: H          Does a fourier analysis of each of the given values,
+TEXT: H          using the first 10 multiples of the fundamental fre-
+TEXT: H          quency (or the first _n_f_r_e_q_s, if that variable is set).
+TEXT: H          The _v_a_l_u_es may be any valid expression.  They are
+TEXT: H          interpolated onto a fixed-spaced grid with the number
+TEXT: H          of points given by the Gfourgridsize Hvariable, or 200 if
+TEXT: H          it is not set.  The interpolation will be of degree
+TEXT: H          Gpolydegree Hif that variable is set, or 1.  If Gpolyde-
+TEXT: H          gree His 0, then no interpolation will be done.  This
+TEXT: H          command is executed when a G.four Hline is present in the
+TEXT: H          input file and Gspice His being run in batch mode.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:fourgridsize
+SEEALSO: NUTMEG:nfreqs
+
+SUBJECT: goto
+TITLE: goto
+TEXT: 
+TEXT:      Ggoto H_l_a_b_e_l
+TEXT: H          If there is a Glabel Hstatement in an enclosing block
+TEXT: H          defining the _l_a_b_e_l, transfer execution to the statement
+TEXT: H          following it.  Note that if Ggoto His used outside of a
+TEXT: H          block, the label must be above the GgotoH.  There is a
+TEXT: H          Gbegin Hmacro pre-defined as _i_f _1 which may be used if
+TEXT: H          forward label references are required outside of a loop
+TEXT: H          construct.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:proglang
+
+SUBJECT: hardcopy
+TITLE: hardcopy
+TEXT: 
+TEXT:      Ghardcopy H[ _f_i_l_e_n_a_m_e ] [ _p_l_o_t _a_r_g_u_m_e_n_t_s ]
+TEXT: H          This command has a syntax identical to that of the Gplot
+TEXT: H          Hcommand, except for a _f_i_l_e_n_a_m_e in which to put the plot
+TEXT: H          image.  If no plot arguments are given, the user will
+TEXT: H          be prompted to select a window which will be dumped
+TEXT: H          into the file (if he is using a graphics system with
+TEXT: H          windows such as X).  If no _f_i_l_e_n_a_m_e is given a tem-
+TEXT: H          porary file will be used.  If the Ghcopydev Hvariable is
+TEXT: H          defined, the file will be printed using the command
+TEXT: H          "lpr -g -P_h_c_o_p_y_d_e_v file", and if a temporary file was
+TEXT: H          used, it will be removed.  This is likely to work only
+TEXT: H          on a UNIX system.  The format of the plot image file is
+TEXT: H          given in the UNIX manual page for Gplot(5)H, and may be
+TEXT: H          plotted on a terminal with the UNIX Gplot Hprogram.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:plot
+SEEALSO: NUTMEG:asciiplot
+SEEALSO: NUTMEG:hcopydev
+
+SUBJECT: help
+TITLE: help
+TEXT:      help [ _t_o_p_i_c ] ...
+TEXT:           This is an interactive graphical help browser.  Its
+TEXT:           operation should be largely self-explanatory.  The user
+TEXT:           is presented with a window (if he is using the X win-
+TEXT:           dows system) or a screenful of information.
+TEXT: 
+TEXT:           In the X version, there will be a number of "buttons"
+TEXT:           which the user can click the mouse in, each of which
+TEXT:           correspond to a sub-topic of the topic discussed in the
+TEXT:           window, or a "see also" topic which is related to the
+TEXT:           current one.  If the user clicks the mouse in one of
+TEXT:           these buttons, a new window will be created overlapping
+TEXT:           the old one, which contains the information on the
+TEXT:           requested topic.  Each window also contains buttons in
+TEXT:           the upper right-hand corner:  Delete Window will cause
+TEXT:           the window and all others that are its "descendants" to
+TEXT:           go away; Quit Help will cause all the windows to disap-
+TEXT:           pear and help system to be exited; and possibly Next
+TEXT:           Page and Prev Page, which allow the user to scroll
+TEXT:           around the text if there is more data than will fit on
+TEXT:           a reasonable screen.
+TEXT: 
+TEXT:           If X is unavailable, the information will be paged as
+TEXT:           in the _m_o_r_e program.  At the end of the text there will
+TEXT:           be a menu of the available sub-topics and see-alsos.
+TEXT: 
+TEXT:           If for some reason the help directory is unavailable,
+TEXT:           the oldhelp command will be used.
+TEXT: 
+SEEALSO: NUTMEG:X
+SEEALSO: NUTMEG:helpregfont
+SEEALSO: NUTMEG:helpboldfont
+SEEALSO: NUTMEG:helpitalicfont
+SEEALSO: NUTMEG:helptitlefont
+SEEALSO: NUTMEG:helpbuttonfont
+SEEALSO: NUTMEG:helpbuttonstyle
+SEEALSO: NUTMEG:helpinitxpos
+SEEALSO: NUTMEG:helpinitypos
+SEEALSO: NUTMEG:oldhelp
+
+SUBJECT: historycomm
+TITLE: history command
+TEXT: 
+TEXT:      Ghistory H[ G-r H] [ _n_u_m_b_e_r ] ...
+TEXT: H          Print out the last _n_u_m_b_e_r commands typed by the user,
+TEXT: H          or all the commands saved if there are no arguments.
+TEXT: H          The number of commands saved is determined by the value
+TEXT: H          of the Ghistory Hvariable.  If the G-r Hflag is given, the
+TEXT: H          list is printed in reverse order.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:historyvar
+SEEALSO: NUTMEG:historysub
+
+SUBJECT: if
+TITLE: if
+TEXT: 
+TEXT:      Gif H_c_o_n_d_i_t_i_o_n
+TEXT: H          This statement defines a block to be executed if the
+TEXT: H          _c_o_n_d_i_t_i_o_n is true.  See the section on the command
+TEXT: H          language for more details.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:proglang
+
+SUBJECT: jobs
+TITLE: jobs
+TEXT: 
+TEXT:      Gjobs HPrint out a summary of all the simulations which have
+TEXT: H          been started with the Gaspice Hcommand.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:aspice
+
+SUBJECT: label
+TITLE: label
+TEXT: 
+TEXT:      Glabel H_l_a_b_e_l_n_a_m_e
+TEXT: H          This defines a label which can be used as an argument
+TEXT: H          to GgotoH.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:proglang
+
+SUBJECT: let
+TITLE: let
+TEXT: 
+TEXT:      Glet H_v_e_c_n_a_m_e G= H_e_x_p_r
+TEXT: H          Create a vector with name _v_e_c_n_a_m_e and value given by
+TEXT: H          the expression _e_x_p_r.  None of the vector options such
+TEXT: H          as default scale, color, etc that are read from the
+TEXT: H          rawfile are preserved when a vector is created in this
+TEXT: H          manner.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:expressions
+SEEALSO: NUTMEG:compose
+
+SUBJECT: linearize
+TITLE: linearize
+TEXT: 
+TEXT:      Glinearize H[ _v_e_c_n_a_m_e ] ...
+TEXT: H          The purpose of this command is to force data from a
+TEXT: H          transient analysis to conform to a linear scale.  Due
+TEXT: H          to the algorithm used to determine the timesteps used,
+TEXT: H          the time scale may not be linear.  If no _v_e_c_n_a_m_es are
+TEXT: H          given, all the vectors in the current plot are copied
+TEXT: H          to a new plot which becomes the current plot, and their
+TEXT: H          data is interpolated onto a linear time scale.  If one
+TEXT: H          or more vectors are named, only those vectors are
+TEXT: H          copied.   The variable Gpolydegree Hdetermines how the
+TEXT: H          interpolation is done.  Note that this command is only
+TEXT: H          available in GspiceH, and the current plot must
+TEXT: H          correspond to the current circuit (otherwise the wrong
+TEXT: H          values for the start, step, and stop times may be
+TEXT: H          used).
+TEXT: H
+TEXT: 
+
+SUBJECT: load
+TITLE: load
+TEXT: 
+TEXT:      Gload H[ _f_i_l_e_n_a_m_e ] ...
+TEXT: H          Loads the data in either binary or ascii format from
+TEXT: H          the files named. The default filename is GrawspiceH, or
+TEXT: H          the argument to the G-r Hcommand line option if one was
+TEXT: H          given.  The last plot in the file becomes the current
+TEXT: H          plot.  A description of the rawfile format is given in
+TEXT: H          the manual page for GsconvertH.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:write
+
+SUBJECT: oldhelp
+TITLE: oldhelp
+TEXT:      help [ all ] [ _c_o_m_m_a_n_d_n_a_m_e ] ...
+TEXT:           A brief helpful message is printed, followed by one-
+TEXT:           line descriptions of all the commands named, or all
+TEXT:           commands if all was given.  If there are no arguments
+TEXT:           only a few useful commands are described.  This command
+TEXT:           is available in case for some reason the documentation
+TEXT:           browser is broken.
+TEXT: 
+SEEALSO: NUTMEG:help
+
+SUBJECT: plot
+TITLE: plot
+TEXT: 
+TEXT:      Gplot [ _e_x_p_r ... [ Gvs H_x-_e_x_p_r ] ] H[ _o_p_t_i_o_n_s ] ...
+TEXT: H          Plot the values of the expressions on the graphics dev-
+TEXT: H          ice, if there is one.  For each set of expressions that
+TEXT: H          is followed by a Gvs H_x-_e_x_p_r clause, all those vectors
+TEXT: H          are plotted with the _x-_e_x_p_r for a scale.  Multiple sets
+TEXT: H          of expressions with different x-scales may be given in
+TEXT: H          this manner.  The available options are listed below.
+TEXT: H          Note that options must appear after expressions.
+TEXT: H
+TEXT: 
+SUBTOPIC: NUTMEG:combplot NUTMEG:lingrid NUTMEG:linplot
+SUBTOPIC: NUTMEG:loglog NUTMEG:nogrid NUTMEG:nointerp
+SUBTOPIC: NUTMEG:pointplot NUTMEG:samep
+SUBTOPIC: NUTMEG:title NUTMEG:xcompress
+SUBTOPIC: NUTMEG:xdelta NUTMEG:xindices NUTMEG:xlabel
+SUBTOPIC: NUTMEG:xlimit NUTMEG:xlog NUTMEG:ydelta
+SUBTOPIC: NUTMEG:ylabel NUTMEG:ylimit NUTMEG:ylog
+
+SEEALSO: NUTMEG:hardcopy
+SEEALSO: NUTMEG:asciiplot
+SEEALSO: NUTMEG:expressions
+SEEALSO: NUTMEG:graphics
+SEEALSO: NUTMEG:device
+SEEALSO: NUTMEG:term
+SEEALSO: NUTMEG:color
+SEEALSO: NUTMEG:geometry
+SEEALSO: NUTMEG:dontplot
+
+SUBJECT: combplot
+TITLE: combplot
+TEXT: 
+TEXT:      Gcombplot
+TEXT: H          HUse a comb plot instead of connected points.  Each
+TEXT: H          point is connected to the bottom of the screen by a
+TEXT: H          line.
+TEXT: H
+TEXT: 
+
+SUBJECT: lingrid
+TITLE: lingrid
+TEXT: 
+TEXT:      Glingrid
+TEXT: H          HUse a linear grid.  This is the default grid type.
+TEXT: H
+TEXT: 
+
+SUBJECT: linplot
+TITLE: linplot
+TEXT: 
+TEXT:      Glinplot
+TEXT: H          HPlot data as points connected by lines.  This is the
+TEXT: H          default.
+TEXT: H
+TEXT: 
+
+SUBJECT: loglog
+TITLE: loglog
+TEXT: 
+TEXT:      Gloglog
+TEXT: H          HUse a log-log grid.
+TEXT: H
+TEXT: 
+
+SUBJECT: nogrid
+TITLE: nogrid
+TEXT:      nogrid
+TEXT:           Don't plot a grid.  The data will be plotted on a
+TEXT:           linear scale and only the border lines at the bottom
+TEXT:           and left sides of the screen will be drawn.
+TEXT: 
+
+SUBJECT: nointerp
+TITLE: nointerp
+TEXT:      nointerp
+TEXT:           Normally asciiplot interpolates data onto a linear
+TEXT:           scale before plotting it.  If this option is given this
+TEXT:           won't be done - each line will correspond to one data
+TEXT:           point as generated by the simulation.
+TEXT: 
+SEEALSO: NUTMEG:asciiplot
+
+SUBJECT: pointplot
+TITLE: pointplot
+TEXT: 
+TEXT:      Gpointplot
+TEXT: H          HPlot data points as unconnected points.  Each sucessive
+TEXT: H          expression is plotted with a different character to
+TEXT: H          mark the points.  The characters used may be changed by
+TEXT: H          setting the variable GpointcharsH.
+TEXT: H
+TEXT: 
+
+SUBJECT: polar
+TITLE: polar
+TEXT: 
+TEXT:      Gpolar
+TEXT: H          HUse a polar grid instead of a rectangular grid.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:smith
+
+SUBJECT: samep
+TITLE: samep
+TEXT: 
+TEXT:      Gsamep
+TEXT: H          HIf this option appears anywhere on the command line,
+TEXT: H          all the options used in the last Gplot Hcommand are used
+TEXT: H          for the current one, overriding options on the current
+TEXT: H          line if they appear on both lines.
+TEXT: H
+TEXT: 
+
+SUBJECT: smith
+TITLE: smith
+TEXT: 
+TEXT:      Gsmith
+TEXT: H          HUse a smith grid instead of a rectangular or polar
+TEXT: H          grid.  There are a few problems, the major ones being
+TEXT: H          that the grid is centered around the x-axis, and that
+TEXT: H          too few labels are printed on the perimeter of the plot
+TEXT: H          area.
+TEXT: H
+TEXT: 
+
+SUBJECT: title
+TITLE: title
+TEXT: 
+TEXT:      Gtitle H_s_t_r_i_n_g
+TEXT: H          The string will be used as the title printed near the
+TEXT: H          bottom of the screen instead of the title of the plot
+TEXT: H          that includes the first vector mentioned on the line
+TEXT: H          that has one.
+TEXT: H
+TEXT: 
+
+SUBJECT: xcompress
+TITLE: xcompress
+TEXT: 
+TEXT:      Gxcompress H_v_a_l_u_e
+TEXT: H          Plot only one out of every _v_a_l_u_e points in each of the
+TEXT: H          vectors.
+TEXT: H
+TEXT: 
+
+SUBJECT: xdelta
+TITLE: xdelta
+TEXT: 
+TEXT:      Gxdelta H_v_a_l_u_e
+TEXT: H          This value is used as the spacing between grid lines on
+TEXT: H          the x-axis.
+TEXT: H
+TEXT: 
+
+SUBJECT: xindices
+TITLE: xindices
+TEXT: 
+TEXT:      Gxindices H_l_o_w_e_r _u_p_p_e_r
+TEXT: H          Only data points with indices between _l_o_w_e_r and _u_p_p_e_r
+TEXT: H          are plotted.  _u_p_p_e_r must be greater or equal to _l_o_w_e_r.
+TEXT: H
+TEXT: 
+
+SUBJECT: xlabel
+TITLE: xlabel
+TEXT: 
+TEXT:      Gxlabel H_s_t_r_i_n_g
+TEXT: H          The string is used as the label for the x-axis, instead
+TEXT: H          of the name of the first scale used.
+TEXT: H
+TEXT: 
+
+SUBJECT: xlimit
+TITLE: xlimit
+TEXT: 
+TEXT:      Gxlimit H_l_o_w_e_r _u_p_p_e_r
+TEXT: H          The plot area in the x-direction is restricted to lie
+TEXT: H          between _l_o_w_e_r and _u_p_p_e_r.  The area actually used may be
+TEXT: H          somewhat larger to provide nicely spaced grid lines,
+TEXT: H          however.
+TEXT: H
+TEXT: 
+
+SUBJECT: xlog
+TITLE: xlog
+TEXT: 
+TEXT:      Gxlog HUse a log scale for the x-axis and a linear scale for
+TEXT: H          the y-axis.
+TEXT: H
+TEXT: 
+
+SUBJECT: ydelta
+TITLE: ydelta
+TEXT: 
+TEXT:      Gydelta H_v_a_l_u_e
+TEXT: H          Use the _v_a_l_u_e as the spacing between the grid lines on
+TEXT: H          the y-axis.
+TEXT: H
+TEXT: 
+
+SUBJECT: ylabel
+TITLE: ylabel
+TEXT: 
+TEXT:      Gylabel H_s_t_r_i_n_g
+TEXT: H          Use the _s_t_r_i_n_g as the label for the y-axis.  (By
+TEXT: H          default none is printed.)
+TEXT: H
+TEXT: 
+
+SUBJECT: ylimit
+TITLE: ylimit
+TEXT: 
+TEXT:      Gylimit H_l_o_w_e_r _u_p_p_e_r
+TEXT: H          Limit the plot area in the y-direction to lie between
+TEXT: H          _l_o_w_e_r and _u_p_p_e_r.  It may be expanded slightly to allow
+TEXT: H          for nicely spaced grid lines.
+TEXT: H
+TEXT: 
+
+SUBJECT: ylog
+TITLE: ylog
+TEXT: 
+TEXT:      Gylog HUse a log scale for the y-axis and a linear scale for
+TEXT: H          the x-axis.
+TEXT: H
+TEXT: 
+
+SUBJECT: print
+TITLE: print
+TEXT: 
+TEXT:      Gprint H[ Gcol H] [ Gline H] [ _e_x_p_r ] ...
+TEXT: H          Print the values of the given expressions to the stan-
+TEXT: H          dard output.  If Gcol His specified, print the values in
+TEXT: H          columns, with the scale in the leftmost column on each
+TEXT: H          page.  If Gline His specified, print the value of each
+TEXT: H          expression on one line (or more if needed). If all
+TEXT: H          expressions have a length of 1, the default style is
+TEXT: H          GlineH, otherwise Gcol His the default.
+TEXT: H
+TEXT: 
+
+SUBJECT: quit
+TITLE: quit
+TEXT: 
+TEXT:      Gquit HExit the program.  If there are circuits that are in
+TEXT: H          the middle of a simulation, or plots that have not been
+TEXT: H          saved in a file, the user is reminded of this and asked
+TEXT: H          to confirm.  (The variable Gnoaskquit Hdisables this.)
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:noaskquit
+
+SUBJECT: rehash
+TITLE: rehash
+TEXT: 
+TEXT:      Grehash
+TEXT: H          HRecalculate the internal hash tables used when looking
+TEXT: H          up UNIX commands, and make all UNIX commands in the
+TEXT: H          user's PATH available for command completion.  This is
+TEXT: H          a no-op unless you have the Gunixcom Hvariable set.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:unixcomcomm
+SEEALSO: NUTMEG:unixcom
+
+SUBJECT: repeat
+TITLE: repeat
+TEXT: 
+TEXT:      Grepeat H[ _n_u_m_b_e_r ]
+TEXT: H          Execute the statements in the block defined by this
+TEXT: H          line and the corresponding Gend Hstatement _n_u_m_b_e_r times,
+TEXT: H          or indefinitely if no _n_u_m_b_e_r is given.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:proglang
+
+SUBJECT: rusage
+TITLE: rusage
+TEXT: 
+TEXT:      Grusage H[ Gall H] [ _r_e_s_o_u_r_c_e ] ...
+TEXT: H          Print out various resource usage statistics.  If Gall His
+TEXT: H          given as an argument, all the information available is
+TEXT: H          printed.  If no arguments are given, only total time
+TEXT: H          and space usage are printed.  Otherwise, information
+TEXT: H          corresponding to each of the arguments is printed.  The
+TEXT: H          resource types recognised are given below.  Note that
+TEXT: H          many of them are available only with GspiceH, and some
+TEXT: H          only available with UNIX.
+TEXT: H
+TEXT: 
+SUBTOPIC: NUTMEG:accept NUTMEG:elapsed NUTMEG:faults
+SUBTOPIC: NUTMEG:loadtime NUTMEG:lutime NUTMEG:rejected
+SUBTOPIC: NUTMEG:solvetime NUTMEG:space NUTMEG:time
+SUBTOPIC: NUTMEG:totaltime NUTMEG:totiter NUTMEG:traniter
+SUBTOPIC: NUTMEG:tranpoints NUTMEG:transolvetime NUTMEG:trantime
+
+
+SUBJECT: accept
+TITLE: accept
+TEXT: 
+TEXT:      Gaccept
+TEXT: H          HThe number of accepted time points.
+TEXT: H
+TEXT: 
+
+SUBJECT: elapsed
+TITLE: elapsed
+TEXT: 
+TEXT:      Gelapsed
+TEXT: H          HThe total amount of time elapsed since the last Grusage
+TEXT: H          elapsed Hcommand.
+TEXT: H
+TEXT: 
+
+SUBJECT: faults
+TITLE: faults
+TEXT: 
+TEXT:      Gfaults
+TEXT: H          HThe number of page faults caused by the program so far.
+TEXT: H
+TEXT: 
+
+SUBJECT: loadtime
+TITLE: loadtime
+TEXT: 
+TEXT:      Gloadtime
+TEXT: H          HThe amount of time spent loading the matrix.
+TEXT: H
+TEXT: 
+
+SUBJECT: lutime
+TITLE: lutime
+TEXT: 
+TEXT:      Glutime
+TEXT: H          HThe amount of time spent doing transient L-U decomposi-
+TEXT: H          tion.
+TEXT: H
+TEXT: 
+
+SUBJECT: rejected
+TITLE: rejected
+TEXT: 
+TEXT:      Grejected
+TEXT: H          HThe number of rejected time points.
+TEXT: H
+TEXT: 
+
+SUBJECT: solvetime
+TITLE: solvetime
+TEXT: 
+TEXT:      Gsolvetime
+TEXT: H          HThe amount of time spent solving the matrix.
+TEXT: H
+TEXT: 
+
+SUBJECT: space
+TITLE: space
+TEXT: 
+TEXT:      Gspace
+TEXT: H          HThe amount of data space currently used by the program.
+TEXT: H
+TEXT: 
+
+SUBJECT: time
+TITLE: time
+TEXT: 
+TEXT:      Gtime HThe amount of time spent so far doing the current
+TEXT: H          analysis.
+TEXT: H
+TEXT: 
+
+SUBJECT: totaltime
+TITLE: totaltime
+TEXT: 
+TEXT:      Gtotaltime
+TEXT: H          HThe total amount of time spent by the program since it
+TEXT: H          was started.
+TEXT: H
+TEXT: 
+
+SUBJECT: totiter
+TITLE: totiter
+TEXT: 
+TEXT:      Gtotiter
+TEXT: H          HThe total number of iterations.
+TEXT: H
+TEXT: 
+
+SUBJECT: traniter
+TITLE: traniter
+TEXT: 
+TEXT:      Gtraniter
+TEXT: H          HThe number of transient iterations.
+TEXT: H
+TEXT: 
+
+SUBJECT: tranpoints
+TITLE: tranpoints
+TEXT: 
+TEXT:      Gtranpoints
+TEXT: H          HThe number of transient time points.
+TEXT: H
+TEXT: 
+
+SUBJECT: transolvetime
+TITLE: transolvetime
+TEXT: 
+TEXT:      Gtransolvetime
+TEXT: H          HThe amount transient solve time.
+TEXT: H
+TEXT: 
+
+SUBJECT: trantime
+TITLE: trantime
+TEXT: 
+TEXT:      Gtrantime
+TEXT: H          HThe total transient time so far.
+TEXT: H
+TEXT: 
+
+SUBJECT: set
+TITLE: set
+TEXT: 
+TEXT:      Gset H[ _v_a_r_n_a_m_e [ G= H_v_a_l_u_e ] ] ...
+TEXT: H          The Gset Hcommand allows the user to examine and set
+TEXT: H          variables.  In the first form, the names and values of
+TEXT: H          all the variables are printed.  Some may be prefixed
+TEXT: H          with a '*', which means that they are associated with
+TEXT: H          the current plot, and will change when the current plot
+TEXT: H          changes.  Others may be prefixed by a '+', which means
+TEXT: H          that they are associated with the current circuit.  If
+TEXT: H          a variable is defined which has the same name as one
+TEXT: H          associated with the current plot or circuit, it takes
+TEXT: H          precedence for printing with the Gset Hcommand and $
+TEXT: H          expansion, but it will not change the value used by the
+TEXT: H          circuit.  Some variables are read-only and may not be
+TEXT: H          changed by the user.  This is not indicated by the Gset
+TEXT: H          Hcommand, however.
+TEXT: H
+TEXT:           In the second form, where a _v_a_r_n_a_m_e is given, that
+TEXT: H          variable is either set (with a 'true' boolean value),
+TEXT: H          or given the _v_a_l_u_e specified.  A value may be a number,
+TEXT: H          a string, or a list of values.  A string is anything
+TEXT: H          which isn't a list or parsable as a number, and a list
+TEXT: H          is surrounded by parentheses.  The variables which have
+TEXT: H          any meaning to Gnutmeg Hor Gspice Hare listed in the GVARI-
+TEXT: H          ABLES Hsection of the manual.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:unset
+SEEALSO: NUTMEG:variables
+SEEALSO: NUTMEG:variablesub
+
+SUBJECT: setplot
+TITLE: setplot
+TEXT: 
+TEXT:      Gsetplot H[ _p_l_o_t_n_a_m_e ]
+TEXT: H          Set the current plot to the plot with the given name,
+TEXT: H          or if no name is given, prompt the user with a menu.
+TEXT: H          Note that Gsetplot His a command script - it is possible
+TEXT: H          to change the current plot by setting the variable Gcur-
+TEXT: H          plotH.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:curplot
+SEEALSO: NUTMEG:plotvars
+
+SUBJECT: settype
+TITLE: settype
+TEXT: 
+TEXT:      Gsettype H_t_y_p_e [ _v_e_c_t_o_r ] ...
+TEXT: H          Change the type of the named vectors to _t_y_p_e.  Type
+TEXT: H          names can be found in the manual page for GsconvertH, or
+TEXT: H          they may be defined with the Gdeftype Hcommand.
+TEXT: H
+TEXT: 
+
+SUBJECT: shell
+TITLE: shell
+TEXT: 
+TEXT:      Gshell H[ _c_o_m_m_a_n_d ] ...
+TEXT: H          Fork a shell, or execute the arguments as a command to
+TEXT: H          the shell.  This command works with both UNIX and VMS.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:unixcom
+
+SUBJECT: shift
+TITLE: shift
+TEXT: 
+TEXT:      Gshift H[ _v_a_r_n_a_m_e ] [ _n_u_m_b_e_r ]
+TEXT: H          If _v_a_r_n_a_m_e is the name of a list variable, it is
+TEXT: H          shifted to the left by _n_u_m_b_e_r elements. (I.e, the
+TEXT: H          _n_u_m_b_e_r leftmost elements are removed.)  The default
+TEXT: H          _v_a_r_n_a_m_e is GargvH, and the default _n_u_m_b_e_r is 1.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:variables
+
+SUBJECT: show
+TITLE: show
+TEXT: 
+TEXT:      Gshow H[ _d_e_v_n_a_m_e ] ... G: H[ _p_a_r_m_n_a_m_e ] ...
+TEXT: H          Print the named device parameters of the requested dev-
+TEXT: H          ices.  Either the device name list or the parameter
+TEXT: H          name list may be GallH, and the device names may contain
+TEXT: H          the G*, ?, Hand G[] Hwildcard characters.  For lists of the
+TEXT: H          parameters that the various devices recognise, see the
+TEXT: H          SPICE3 User's Guide.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:alter
+
+SUBJECT: source
+TITLE: source
+TEXT: 
+TEXT:      Gsource H_f_i_l_e_n_a_m_e ...
+TEXT: H          The Gsource Hcommand has two functions - it loads a cir-
+TEXT: H          cuit description from a file or set of files, and it
+TEXT: H          reads commands to be executed from a file.  Since com-
+TEXT: H          mands may be imbedded in circuit files, the two are
+TEXT: H          treated in the same manner.  Command lines must be sur-
+TEXT: H          rounded by the lines G.control Hand G.endc Hin the file, or
+TEXT: H          prefixed by G*# Hin order to be recognised as commands.
+TEXT: H          (The exception to this rule is the file G.spiceinitH,
+TEXT: H          which is known to contain only commands.)  In either
+TEXT: H          case, the first line in the file is ignored, so a com-
+TEXT: H          mand script must begin with a blank line and then a
+TEXT: H          G.control Hline.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:sourcepath
+
+SUBJECT: state
+TITLE: state
+TEXT: 
+TEXT:      Gstate
+TEXT: H          HIt's not clear what this command should do.  Currently
+TEXT: H          it prints the name and status of the current curcuit.
+TEXT: H
+TEXT: 
+
+SUBJECT: status
+TITLE: status
+TEXT: 
+TEXT:      Gstatus
+TEXT: H          HPrint out a summary of all the Gtrace, stop, save, Hand
+TEXT: H          Giplot Hcommands that are active.  The numbers given may
+TEXT: H          be used with the Gdelete Hcommand to de-activate the
+TEXT: H          trace.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:delete
+SEEALSO: SPICE:step
+SEEALSO: SPICE:iplot
+SEEALSO: SPICE:stop
+
+SUBJECT: step
+TITLE: step
+TEXT: 
+TEXT:      Gstep H[ _n_u_m_b_e_r ]
+TEXT: H          Single-step the simulation, or let it run for _n_u_m_b_e_r
+TEXT: H          time steps if a _n_u_m_b_e_r is given.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:iplot
+SEEALSO: SPICE:stop
+SEEALSO: NUTMEG:status
+SEEALSO: SPICE:delete
+
+SUBJECT: stop
+TITLE: stop
+TEXT: 
+TEXT:      Gstop H[ Gafter H_n_u_m ] [ Gwhen H_v_a_l_1 _o_p _v_a_l_2 ] ...
+TEXT: H          Create a breakpoint.  If an Gafter Hclause is given, the
+TEXT: H          simulation will stop after _n_u_m points.  If a Gwhen
+TEXT: H          Hclause is included, at each point, the _v_a_l_1 _o_p _v_a_l_2
+TEXT: H          condition will be checked, and if it is true, the simu-
+TEXT: H          lation will stop.  If more than one Gwhen Hor Gafter
+TEXT: H          Hclause is put on one line, the conjunction of the con-
+TEXT: H          ditions is checked.  The _v_a_ls may be either constants
+TEXT: H          or node names.  The possible _o_ps are:
+TEXT: H             Geq   Hor   G=    H(equal to)
+TEXT: H             Gne   Hor   G<>   H(not equal to)
+TEXT: H             Ggt   Hor   G>    H(greater than)
+TEXT: H             Glt   Hor   G<    H(less than)
+TEXT: H             Gge   Hor   G>=   H(greater than or equal to)
+TEXT: H             Gle   Hor   G<=   H(less than or equal to)
+TEXT: H
+TEXT:           Note that for this command, < and > do not denote IO
+TEXT: H          redirection.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:step
+SEEALSO: SPICE:iplot
+SEEALSO: SPICE:delete
+SEEALSO: NUTMEG:status
+
+SUBJECT: strcmp
+TITLE: strcmp
+TEXT: 
+TEXT:      Gstrcmp H_v_a_r_n_a_m_e _s_t_r_i_n_g_1 _s_t_r_i_n_g_2
+TEXT: H          The value of _v_a_r_n_a_m_e is set to a number that is greater
+TEXT: H          than, equal to, or less than 0 according as _s_t_r_i_n_g_1 is
+TEXT: H          lexically before, equal to, or after _s_t_r_i_n_g_2.  This
+TEXT: H          command is a very bad thing, but there seems to be no
+TEXT: H          other way to do string comparisons given the restric-
+TEXT: H          tions of the Gnutmeg Hcommand language.
+TEXT: H
+TEXT: 
+
+SUBJECT: unalias
+TITLE: unalias
+TEXT: 
+TEXT:      Gunalias H[ _w_o_r_d ] ...
+TEXT: H          Removes any aliases associated with all the _w_o_r_ds.  The
+TEXT: H          argument may be "*", in which case all aliases are
+TEXT: H          deleted.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:alias
+SEEALSO: NUTMEG:aliases
+
+SUBJECT: undefine
+TITLE: undefine
+TEXT: 
+TEXT:      Gundefine H[ _w_o_r_d ] ...
+TEXT: H          Remove all the macro functions defined for the _w_o_r_ds.
+TEXT: H          If the argument is "*", then all macro functions are
+TEXT: H          deleted.  Note that all functions with the given names
+TEXT: H          are removed, so there is no way to delete a function
+TEXT: H          with a particular arity without deleting all functions
+TEXT: H          with that name.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:define
+SEEALSO: NUTMEG:expressions
+
+SUBJECT: unlet
+TITLE: unlet
+TEXT: 
+TEXT:      Gunlet H[ _v_e_c_n_a_m_e ] ...
+TEXT: H          All the named vectors are removed from the current
+TEXT: H          plot.  If you Gunlet Ha vector which is the default scale
+TEXT: H          (e.g. GTIMEH), a random remaining vector will become the
+TEXT: H          default scale.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:let
+
+SUBJECT: unset
+TITLE: unset
+TEXT: 
+TEXT:      Gunset H[ _v_a_r_n_a_m_e ] ...
+TEXT: H          All the named variables are unset.  The argument may be
+TEXT: H          "*", in which case all variables are unset (although
+TEXT: H          this is usually not something that you would want to
+TEXT: H          do).
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:set
+SEEALSO: NUTMEG:variablesub
+SEEALSO: NUTMEG:variables
+
+SUBJECT: version
+TITLE: version
+TEXT: 
+TEXT:      Gversion H[ _v_e_r_s_i_o_n _n_a_m_e ]
+TEXT: H          With no arguments, this command prints out the current
+TEXT: H          version of GspiceH.  If there are arguments, it compares
+TEXT: H          the current version with the given version and prints a
+TEXT: H          warning if they differ.  A Gversion Hcommand is usually
+TEXT: H          included in the rawfile.
+TEXT: H
+TEXT: 
+
+SUBJECT: while
+TITLE: while
+TEXT: 
+TEXT:      Gwhile H_c_o_n_d_i_t_i_o_n
+TEXT: H          This command defines a block which is executed while
+TEXT: H          the condition is true.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:proglang
+
+SUBJECT: write
+TITLE: write
+TEXT: 
+TEXT:      Gwrite H[ _f_i_l_e [ _e_x_p_r ] ... ]
+TEXT: H          Writes out the _e_x_p_rs to the file.  First vectors are
+TEXT: H          grouped together by plots, and written out as such.
+TEXT: H          (E.g, if the expression list contained three vectors
+TEXT: H          from one plot and two from another, then two plots will
+TEXT: H          be written, one with three vectors and one with two.)
+TEXT: H          Additionally, if the scale for a vector isn't present,
+TEXT: H          it is automatically written out as well.  The default
+TEXT: H          format is GasciiH, but this may be changed with Gset file-
+TEXT: H          typeH.  The default filename is GrawspiceH, or the argu-
+TEXT: H          ment to the G-r Hflag on the command line, if there was
+TEXT: H          one, and the default expression list is GallH.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:load
+SEEALSO: NUTMEG:expressions
+
+SUBJECT: cshstuff
+TITLE: C-shell Like Features
+TEXT: 
+TEXT:      Various features are available in the Gnutmeg Hparser which
+TEXT: H     are derived from the user interface of the C-Shell.  These
+TEXT: H     include IO redirection, history substitution, aliases, glo-
+TEXT: H     bal substitution, and command completion.
+TEXT: H
+TEXT: 
+SUBTOPIC: NUTMEG:aliases NUTMEG:ccom NUTMEG:glob
+SUBTOPIC: NUTMEG:historysub NUTMEG:io NUTMEG:quoting
+SUBTOPIC: NUTMEG:semi NUTMEG:unixcomcomm NUTMEG:variablesub
+
+
+SUBJECT: aliases
+TITLE: Aliases
+TEXT: 
+TEXT:      After history expansion, if the first word on the command
+TEXT: H     line has been defined as an alias, the text for which it is
+TEXT: H     an alias for is substituted.  The alias may contain refer-
+TEXT: H     ences to the arguments provided on the command line, in
+TEXT: H     which case the appropriate arguments are substituted in.  If
+TEXT: H     there are no such references, any arguments given are
+TEXT: H     appended to the end of the alias text.
+TEXT: H
+TEXT:      In the body if the alias text, any strings of the form
+TEXT: H     G!:H_n_u_m_b_e_r are replaced with the _n_u_m_b_e_r'th argument of the
+TEXT: H     actual command line.  Note that when the alias is defined
+TEXT: H     with the Galias Hcommand, these strings must be quoted to
+TEXT: H     prevent history substitution from replacing the G!H's before
+TEXT: H     the Galias Hcommand can get to them.
+TEXT: H
+TEXT:      Thus the command
+TEXT: H
+TEXT:           Galias Hfoo Gecho H'!:2' '!:1'
+TEXT: H
+TEXT:      Causes "foo bar baz" to be replaced with "echo baz bar".
+TEXT: H     Other G!  Hmodifiers as described in the section on history
+TEXT: H     substitution may also be used, always refering to the actual
+TEXT: H     command line arguments given.
+TEXT: H
+TEXT:      If a command line starts with a backslash (`\') any alias
+TEXT: H     substitution is inhibited.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:alias
+SEEALSO: NUTMEG:unalias
+
+SUBJECT: ccom
+TITLE: Command Completion
+TEXT: 
+TEXT:      With BSD UNIX, Tenex-style command completion is available.
+TEXT: H     If GEOF H(control-D) is typed after the first character on the
+TEXT: H     line, a list of the commands or possible arguments is
+TEXT: H     printed. (If a control-D is typed as the first character on
+TEXT: H     a line it will exit the program.) If an escape is typed,
+TEXT: H     then the program will try to complete the word being typed
+TEXT: H     based on the choices available, or if there is more than one
+TEXT: H     posibility, it will complete as much as it can.  Command
+TEXT: H     completion knows about commands, most keywords, variable and
+TEXT: H     vector names, file names, and several other types of argu-
+TEXT: H     ments.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:dashq
+
+SUBJECT: glob
+TITLE: Global Substitution
+TEXT: 
+TEXT:      The characters `~', `{', and `}' have the same effects as
+TEXT: H     they do in the C-Shell, i.e., home directory and alternative
+TEXT: H     expansion.  The string ~_u_s_e_r at the beginning of a word is
+TEXT: H     replaced by the given user's home directory, or if the first
+TEXT: H     component of the pathname is simply ~, the current user's
+TEXT: H     directory is used.  The string
+TEXT: H     _S_t_u_f_fG{H_S_t_r_i_n_g_1,_S_t_r_i_n_g_2,..._S_t_r_i_n_g_NG}H_M_o_r_e_s_t_u_f_f is replaced by
+TEXT: H     the list of words _S_t_u_f_f_S_t_r_i_n_g_1_M_o_r_e_s_t_u_f_f
+TEXT: H     _S_t_u_f_f_S_t_r_i_n_g_2_M_o_r_e_s_t_u_f_f ...  _S_t_u_f_f_S_t_r_i_n_g_N_M_o_r_e_s_t_u_f_f.  Curly
+TEXT: H     braces may be nested.  It is possible to use the wildcard
+TEXT: H     characters G`*'H, G`?'H, G`['H, and G`]' Hto match filenames, where
+TEXT: H     G`*' Hdenotes 0 or more characters, G`?' Hdenotes one character,
+TEXT: H     and G[] Hdenotes a range of characters, but only if you Gunset
+TEXT: H     noglob Hfirst. This makes them rather useless for typing
+TEXT: H     algebraic expressions, so you should Gset noglob Hagain after
+TEXT: H     you are done with wildcard expansion. Note that the pattern
+TEXT: H     G[^abc] Hwill match all characters _e_x_c_e_p_t G`a', `b', Hand G`c'.
+TEXT: H     HIdeally the parser should know which commands require
+TEXT: H     filename arguments in which positions, and so glob expansion
+TEXT: H     for those words only.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:noglob
+
+SUBJECT: historysub
+TITLE: History Substitution
+TEXT: 
+TEXT:      History substitutions are prefixed by the character G!H, or at
+TEXT: H     the beginning of a line, the character G^H. Briefly, the
+TEXT: H     string G!! His replaced by the previous command, the string
+TEXT: H     G!H_p_r_e_f_i_x is replaced by the last command with that prefix,
+TEXT: H     the string G!?H_p_a_t_t_e_r_n is replaced by the last command con-
+TEXT: H     taining that pattern, the string G!H_n_u_m_b_e_r is replaced by the
+TEXT: H     event with that number, and G^H_o_l_d_p_a_t_t_e_r_nG^H_n_e_w_p_a_t_t_e_r_n is
+TEXT: H     replaced by the previous command with _n_e_w_p_a_t_t_e_r_n substituted
+TEXT: H     for _o_l_d_p_a_t_t_e_r_n.
+TEXT: H
+TEXT:      Additionally, a G!H_s_t_r_i_n_g sequence may be followed by a modif-
+TEXT: H     ier prefixed with a G:H.  This modifier may select one or more
+TEXT: H     words from the event - :_1 selects the first word, :_2-_5
+TEXT: H     selects the second through the fifth word, :$ selects the
+TEXT: H     last word, and :$-_0 selects all of the words but reverses
+TEXT: H     their order.
+TEXT: H
+TEXT:      Two other G: Hmodifiers are supported: :_p will cause the com-
+TEXT: H     mand to be printed but not executed, and :_s^_o_l_d^_n_e_w will
+TEXT: H     replace the pattern _o_l_d with the pattern _n_e_w.  (The sequence
+TEXT: H     ^_o_l_d^_n_e_w is synonymous with !!:_s^_o_l_d^_n_e_w.)
+TEXT: H
+TEXT:      All the commands typed by the user are saved on the _h_i_s_t_o_r_y
+TEXT: H     _l_i_s_t.  This may be examined with the Ghistory Hcommand, and
+TEXT: H     its maximum length changed by changing the value of the Ghis-
+TEXT: H     tory Hvariable.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:historyvar
+
+SUBJECT: io
+TITLE: I/O Redirection
+TEXT: 
+TEXT:      The input to or output from commands may be changed from the
+TEXT: H     terminal to a file by including an IO redirection on the
+TEXT: H     command line.  The possible redirections are:
+TEXT: H
+TEXT:      > _f_i_l_e
+TEXT: H          Sends the output of the command into the _f_i_l_e.
+TEXT: H
+TEXT:      >> _f_i_l_e
+TEXT: H          Appends output to the _f_i_l_e or creates it if it doesn't
+TEXT: H          exist.
+TEXT: H
+TEXT:      >& _f_i_l_e
+TEXT: H          Sends both the output and the error messages to the
+TEXT: H          _f_i_l_e.
+TEXT: H
+TEXT:      >>& _f_i_l_e
+TEXT: H          Appends both the output and the error messages to the
+TEXT: H          _f_i_l_e.
+TEXT: H
+TEXT:      < _f_i_l_e
+TEXT: H          Reads input from the _f_i_l_e.
+TEXT: H
+TEXT:      Both an input redirection and an output redirection may be
+TEXT: H     present on a command line.  More than one of each may not be
+TEXT: H     present, however.  IO redirections must be at the end of the
+TEXT: H     command line.
+TEXT: H
+TEXT: 
+
+SUBJECT: quoting
+TITLE: Quoting
+TEXT: 
+TEXT:      Words may be quoted with the characters " (double quote), '
+TEXT: H     (single quote), and ` (back quote).   A word enclosed by any
+TEXT: H     of these quotes may contain white space.  A string enclosed
+TEXT: H     by double quotes may have further special-character substi-
+TEXT: H     tutions done on it, but it will be considered one word by
+TEXT: H     the program.  A number so quoted is considered a string.  A
+TEXT: H     string enclosed by single quotes also has all its special
+TEXT: H     characters protected.  Thus no glob expansion (*, ?, etc),
+TEXT: H     variable expansion ($), or history substitution (^, !) will
+TEXT: H     be done.  Numbers are still considered numbers though.  A
+TEXT: H     string enclosed by backquotes is considered a command to the
+TEXT: H     shell and is executed, and the output of the command
+TEXT: H     repalaces the text.  Obviously the command should not gen-
+TEXT: H     erate too much output.  This only works on UNIX systems.
+TEXT: H
+TEXT: 
+
+SUBJECT: semi
+TITLE: Multiple Commands
+TEXT: 
+TEXT:      More than one command may be put on one line, seperated by
+TEXT: H     semicolins (;).  The semicolins must be isolated by white
+TEXT: H     space, however.  Thus a multi-command alias might be written
+TEXT: H     _a_l_i_a_s _w_o_r_d '_c_o_m_m_a_n_d_1 ; _c_o_m_m_a_n_d_2 ; ...'.
+TEXT: H
+TEXT: 
+
+SUBJECT: unixcomcomm
+TITLE: UNIX Commands
+TEXT: 
+TEXT:      If the variable Gunixcom His set and the operating system is
+TEXT: H     BSD UNIX, commands which are not built-ins are considered
+TEXT: H     UNIX commands and executed as if the program were a shell.
+TEXT: H     However, using this option increases the start-up time of
+TEXT: H     the program a lot.  Probably Gspice Hshould not be used as a
+TEXT: H     login shell.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:unixcom
+SEEALSO: NUTMEG:commands
+
+SUBJECT: variablesub
+TITLE: Variable Substitution
+TEXT: 
+TEXT:      The values of variables may be used in commands by writing
+TEXT: H     G$varname Hwhere the value of the variable is to appear.  The
+TEXT: H     special variables $$ and $< refer to the process ID of the
+TEXT: H     program and a line of input which is read from the terminal
+TEXT: H     when the variable is evaluated, respectively.  If a variable
+TEXT: H     has a name of the form $&_w_o_r_d, then _w_o_r_d is considered a
+TEXT: H     vector, and its value is taken to be the value of the vari-
+TEXT: H     able.  If $_f_o_o is a valid variable, and is of type GlistH,
+TEXT: H     then the expression $_f_o_o[_l_o_w-_h_i_g_h] represents a range of
+TEXT: H     elements.  Either the upper index or the lower may be left
+TEXT: H     out, and the reverse of a list may be obtained with
+TEXT: H     $_f_o_o[_l_e_n-_0].  Also, the notation $?_f_o_o evaluates to 1 if the
+TEXT: H     variable _f_o_o is defined, 0 otherwise, and $#_f_o_o evaluates to
+TEXT: H     the number of elements in _f_o_o if it is a list, 1 if it is a
+TEXT: H     number or string, and 0 if it is a boolean variable.
+TEXT: H
+TEXT: 
+
+SUBJECT: expressions
+TITLE: Expressions
+TEXT: 
+TEXT:      An expression is an algebraic combination of already defined
+TEXT: H     vectors, constants, operations, and functions.  The func-
+TEXT: H     tions may be pre-defined functions or user-defined macros.
+TEXT: H
+TEXT:      A vector must either be defined in the Gcurrent plot Hor be
+TEXT: H     defined in the Gconstant plotH, a set of constants which are
+TEXT: H     described below.  A Gplot His a group of vectors that come
+TEXT: H     from the same simulation or otherwise belong together.  The
+TEXT: H     current plot can be changed by the Gsetplot Hcommand, and is
+TEXT: H     generally the results of the last simulation run or the con-
+TEXT: H     tents of the last Grawfile Hloaded in.  If no other plots are
+TEXT: H     defined, the current plot is the constant plot.
+TEXT: H
+TEXT:      The case of alphabetic characters in a vector name is not
+TEXT: H     significant.
+TEXT: H
+TEXT:      To reference vectors in a plot that is not the _c_u_r_r_e_n_t _p_l_o_t
+TEXT: H     (see the Gsetplot Hcommand, below), the notation
+TEXT: H     Gplotname.vecname Hcan be used.  Either a plotname or a vector
+TEXT: H     name may be the wildcard GallH.  If the plotname is GallH,
+TEXT: H     matching vectors from all plots are specified, and if the
+TEXT: H     vector name is GallH, all vectors in the specified plots are
+TEXT: H     referenced.  (The Gconstant plot His never matched by a plot
+TEXT: H     wildcard, however.) Note that you may not use binary opera-
+TEXT: H     tions on expressions involving wildcards - it is not obvious
+TEXT: H     what Gall + all Hshould denote, for instance.
+TEXT: H
+TEXT:      In GspiceH, a vector name beginning with the `@' symbol is
+TEXT: H     considered a reference to an internal device or model param-
+TEXT: H     eter, or a circuit parameter.  If the vector name is of the
+TEXT: H     form G@H_n_a_m_eG[H_p_a_r_a_mG]H, this denotes the parameter _p_a_r_a_m of the
+TEXT: H     device or model named _n_a_m_e.  Of course, there must be a dev-
+TEXT: H     ice or model with that name defined for the current circuit
+TEXT: H     and _p_a_r_a_m must be a valid parameter name for that device or
+TEXT: H     model type.  See the SPICE3 User's Guide for a listing of
+TEXT: H     the parameters available.  If the vector name is of the form
+TEXT: H     G@H_p_a_r_a_m, this refers to a parameter of the circuit with the
+TEXT: H     name _p_a_r_a_m.  Currently, the only parameters available are
+TEXT: H     the resource variables described under the Grusage Hcommand.
+TEXT: H     These vectors may be used as arguments to Gtrace, save, Hand
+TEXT: H     Giplot Hin addition to GprintH.
+TEXT: H
+TEXT:      A detailed description of the format a number may be written
+TEXT: H     in can be found in the SPICE3 User's Guide - examples are
+TEXT: H     G14.6MEG Hand G-1.231E-4H. Note that you can either use scien-
+TEXT: H     tific notation or one of the abbreviations like _M_E_G or _G,
+TEXT: H     but not both.  A number may have trailing alphabetic charac-
+TEXT: H     ters after it.
+TEXT: H
+TEXT:      Vector names may be of the form _s_t_r_i_n_g(_s_o_m_e_t_h_i_n_g), if the
+TEXT: H     _s_t_r_i_n_g is not the name of a built-in or user-defined func-
+TEXT: H     tion.
+TEXT: H
+TEXT:      Some examples of expressions are:
+TEXT: H
+TEXT:           GcosH(TIME) + GdbH(v(3))
+TEXT: H
+TEXT:           GsinH(GcosH(GlogH(10)))
+TEXT: H
+TEXT:           TIME * GrndH(v(9)) - 15 * GcosH(vin#branch) ^ 7.9e5
+TEXT: H
+TEXT:           Gnot H((ac3.FREQ[32] G& Htran1.TIME[10]) Ggt H3)
+TEXT: H
+TEXT: 
+SUBTOPIC: NUTMEG:constants NUTMEG:functions NUTMEG:operators
+
+SEEALSO: NUTMEG:plot
+SEEALSO: NUTMEG:print
+
+SUBJECT: constants
+TITLE: Constants
+TEXT: 
+TEXT:      The following values are defined in a plot called the Gcon-
+TEXT: H     stant Hplot.  This is the default plot if no rawfile has been
+TEXT: H     loaded and no simulation has been run.  Note that these con-
+TEXT: H     stants are visible no matter what the current plot is, but
+TEXT: H     they are overridden by a vector with the same name in the
+TEXT: H     current plot.  These values are in MKS units.
+TEXT: H
+TEXT: 
+SUBTOPIC: NUTMEG:boltz NUTMEG:c NUTMEG:e
+SUBTOPIC: NUTMEG:echarge NUTMEG:false NUTMEG:i
+SUBTOPIC: NUTMEG:kelvin NUTMEG:no NUTMEG:pi
+SUBTOPIC: NUTMEG:planck NUTMEG:true NUTMEG:yes
+
+
+SUBJECT: boltz
+TITLE: boltz
+TEXT: 
+TEXT:      Gboltz
+TEXT: H          HBoltzman's constant (1.38062e-23 joules/degree kelvin).
+TEXT: H
+TEXT: 
+
+SUBJECT: c
+TITLE: c
+TEXT: 
+TEXT:      Gc    HThe speed of light (2.997925e8 meters/second).
+TEXT: H
+TEXT: 
+
+SUBJECT: e
+TITLE: e
+TEXT: 
+TEXT:      Ge    HThe base of natural logarithms
+TEXT: H          (2.71828182844590452353).
+TEXT: H
+TEXT: 
+
+SUBJECT: echarge
+TITLE: echarge
+TEXT: 
+TEXT:      Gecharge
+TEXT: H          HThe charge on an electron (1.60219e-19 coulombs).
+TEXT: H
+TEXT: 
+
+SUBJECT: false
+TITLE: false
+TEXT: 
+TEXT:      Gfalse
+TEXT: H          HDefined as 0.
+TEXT: H
+TEXT: 
+
+SUBJECT: i
+TITLE: i
+TEXT: 
+TEXT:      Gi    HThe square root of -1.  In our expression syntax, this
+TEXT: H          may also be written as G(0,1)H.
+TEXT: H
+TEXT: 
+
+SUBJECT: kelvin
+TITLE: kelvin
+TEXT: 
+TEXT:      Gkelvin
+TEXT: H          HAbsolute zero in centagrade (-273.15 degrees).
+TEXT: H
+TEXT: 
+
+SUBJECT: no
+TITLE: no
+TEXT: 
+TEXT:      Gno   HDefined as 0.
+TEXT: H
+TEXT: 
+
+SUBJECT: pi
+TITLE: pi
+TEXT: 
+TEXT:      Gpi   HPi (3.14159265358979323846).
+TEXT: H
+TEXT: 
+
+SUBJECT: planck
+TITLE: planck
+TEXT: 
+TEXT:      Gplanck
+TEXT: H          HPlanck's constant (6.62620e-34 joule-seconds).
+TEXT: H
+TEXT: 
+
+SUBJECT: true
+TITLE: true
+TEXT: 
+TEXT:      Gtrue HDefined as 1.
+TEXT: H
+TEXT: 
+
+SUBJECT: yes
+TITLE: yes
+TEXT: 
+TEXT:      Gyes  HDefined as 1.
+TEXT: H
+TEXT: 
+
+SUBJECT: functions
+TITLE: Functions
+TEXT: 
+TEXT:      The pre-defined functions available are listed below.  In
+TEXT: H     general, all operations and functions will work on either
+TEXT: H     real or complex values.  Operations such as the logarithm of
+TEXT: H     a negative number will yield errors, however.
+TEXT: H
+TEXT:      Note that all functions and operations operate pointwise on
+TEXT: H     their arguments unless otherwise described.
+TEXT: H
+TEXT: 
+SUBTOPIC: NUTMEG:abs NUTMEG:atan NUTMEG:cos
+SUBTOPIC: NUTMEG:db NUTMEG:exp NUTMEG:im
+SUBTOPIC: NUTMEG:interpolate NUTMEG:j NUTMEG:length
+SUBTOPIC: NUTMEG:ln NUTMEG:log NUTMEG:mag
+SUBTOPIC: NUTMEG:mean NUTMEG:norm NUTMEG:ph
+SUBTOPIC: NUTMEG:pos NUTMEG:re NUTMEG:rnd
+SUBTOPIC: NUTMEG:sin NUTMEG:sqrt NUTMEG:tan
+SUBTOPIC: NUTMEG:unitvec NUTMEG:vector
+
+SUBJECT: abs
+TITLE: abs
+TEXT: 
+TEXT:      Gabs  HAbsolute value.  This is actually the same function as
+TEXT: H          GmagH.
+TEXT: H
+TEXT: 
+
+SUBJECT: atan
+TITLE: atan
+TEXT: 
+TEXT:      Gatan HArc tangent.  This function (and all the trig func-
+TEXT: H          tions) treat their arguments as radians unless the
+TEXT: H          Gunits Hvariable is set to GdegreesH.
+TEXT: H
+TEXT: 
+
+SUBJECT: cos
+TITLE: cos
+TEXT: 
+TEXT:      Gcos  HThe cosine of the argument.
+TEXT: H
+TEXT: 
+
+SUBJECT: db
+TITLE: db
+TEXT: 
+TEXT:      Gdb   HDecibels (20.0 * log base 10 of the argument).
+TEXT: H
+TEXT: 
+
+SUBJECT: exp
+TITLE: exp
+TEXT: 
+TEXT:      Gexp  HE to the power of the argument.
+TEXT: H
+TEXT: 
+
+SUBJECT: im
+TITLE: im
+TEXT: 
+TEXT:      Gim   HThe imaginary part of the argument.
+TEXT: H
+TEXT: 
+
+SUBJECT: interpolate
+TITLE: interpolate
+TEXT: 
+TEXT:      Ginterpolate
+TEXT: H          HThis function takes its data and interpolates it onto a
+TEXT: H          grid which is determined by the scale of the currently
+TEXT: H          active plot.  The degree is determined by the Gpolyde-
+TEXT: H          gree Hvariable.  This is especially useful if the argu-
+TEXT: H          ment belongs to a plot which is not the current one.
+TEXT: H          Some restrictions are that the current scale, the old
+TEXT: H          scale, and the argument must be real, and that either
+TEXT: H          both scales must be strictly increasing or strictly
+TEXT: H          decreasing.
+TEXT: H
+TEXT: 
+
+SUBJECT: j
+TITLE: j
+TEXT: 
+TEXT:      Gj    HThe argument multiplied by the square root of -1.
+TEXT: H
+TEXT: 
+
+SUBJECT: length
+TITLE: length
+TEXT: 
+TEXT:      Glength
+TEXT: H          HThe length of the argument.
+TEXT: H
+TEXT: 
+
+SUBJECT: ln
+TITLE: ln
+TEXT: 
+TEXT:      Gln   HThe natural logarithm of the argument.
+TEXT: H
+TEXT: 
+
+SUBJECT: log
+TITLE: log
+TEXT: 
+TEXT:      Glog  HThe logarithm base 10 of the argument.
+TEXT: H
+TEXT: 
+
+SUBJECT: mag
+TITLE: mag
+TEXT: 
+TEXT:      Gmag  HThe magnitude of the argument.
+TEXT: H
+TEXT: 
+
+SUBJECT: mean
+TITLE: mean
+TEXT: 
+TEXT:      Gmean HThe mean value of the elements in the argument.  This
+TEXT: H          returns a vector of length 1.
+TEXT: H
+TEXT: 
+
+SUBJECT: norm
+TITLE: norm
+TEXT: 
+TEXT:      Gnorm HThe elements of the argument are all multiplied by the
+TEXT: H          magnitude of the inverse of the largest argument.
+TEXT: H
+TEXT: 
+
+SUBJECT: ph
+TITLE: ph
+TEXT: 
+TEXT:      Gph   HThe phase of the argument (expressed in radians).
+TEXT: H
+TEXT: 
+
+SUBJECT: pos
+TITLE: pos
+TEXT: 
+TEXT:      Gpos  HThis function returns a vector which is 1 if the
+TEXT: H          corresponding element of the argument has a non-0 real
+TEXT: H          part, and 0 otherwise.
+TEXT: H
+TEXT: 
+
+SUBJECT: re
+TITLE: re
+TEXT: 
+TEXT:      Gre   HThe real part of the argument.
+TEXT: H
+TEXT: 
+
+SUBJECT: rnd
+TITLE: rnd
+TEXT: 
+TEXT:      Grnd  HThis function returns a vector which contains random
+TEXT: H          values between 0 and the corresponding element of the
+TEXT: H          argument.  If the argument is complex then the random
+TEXT: H          value is also complex.
+TEXT: H
+TEXT: 
+
+SUBJECT: sin
+TITLE: sin
+TEXT: 
+TEXT:      Gsin  HThe sine of the argument.
+TEXT: H
+TEXT: 
+
+SUBJECT: sqrt
+TITLE: sqrt
+TEXT: 
+TEXT:      Gsqrt HThe square root of the argument.
+TEXT: H
+TEXT: 
+
+SUBJECT: tan
+TITLE: tan
+TEXT: 
+TEXT:      Gtan  HThe tangent of the argument.
+TEXT: H
+TEXT: 
+
+SUBJECT: unitvec
+TITLE: unitvec
+TEXT: 
+TEXT:      Gunitvec
+TEXT: H          HThis function returns a vector consisting of all 1's,
+TEXT: H          with length equal to the magnitute of its argument.
+TEXT: H
+TEXT: 
+
+SUBJECT: vector
+TITLE: vector
+TEXT: 
+TEXT:      Gvector
+TEXT: H          HThis function returns a vector consisting of the
+TEXT: H          integers from 0 up to the magnitude of its argument.
+TEXT: H          This function and the Gunitvec Hfunction both examine
+TEXT: H          only the first element of their arguments.
+TEXT: H
+TEXT: 
+
+SUBJECT: operators
+TITLE: Operators
+TEXT: 
+TEXT:      The operations available are described below.  They all take
+TEXT: H     two operands, except for unary minus and unary negation (G~H).
+TEXT: H
+TEXT: 
+SUBTOPIC: NUTMEG:and NUTMEG:comma NUTMEG:divide
+SUBTOPIC: NUTMEG:eq NUTMEG:ge NUTMEG:gt
+SUBTOPIC: NUTMEG:ind NUTMEG:le NUTMEG:lt
+SUBTOPIC: NUTMEG:minus NUTMEG:mod NUTMEG:ne
+SUBTOPIC: NUTMEG:not NUTMEG:or NUTMEG:plus
+SUBTOPIC: NUTMEG:power NUTMEG:ran NUTMEG:times
+
+
+SUBJECT: and
+TITLE: and
+TEXT: 
+TEXT:      Gand Hor G&
+TEXT: H          H1 if both operands are non-zero, 0 otherwise.
+TEXT: H
+TEXT: 
+
+SUBJECT: comma
+TITLE: comma
+TEXT: 
+TEXT:      G, H(comma)
+TEXT: H          The notation _a G, H_b refers to the complex number with
+TEXT: H          real part _a and imaginary part _b.  Such a construction
+TEXT: H          may not be used in the argument list to a macro func-
+TEXT: H          tion, however, since commas are used to seperate the
+TEXT: H          arguments and parentheses may be ignored.  The expres-
+TEXT: H          sion _a G+ j(H_bG) His equivalent.
+TEXT: H
+TEXT: 
+
+SUBJECT: divide
+TITLE: divide
+TEXT: 
+TEXT:      G/    HThe first operand divided by the second.
+TEXT: H
+TEXT: 
+
+SUBJECT: eq
+TITLE: eq
+TEXT: 
+TEXT:      Geq Hor G=
+TEXT: H          H1 if both operands are equal, 0 otherwise.
+TEXT: H
+TEXT: 
+
+SUBJECT: ge
+TITLE: ge
+TEXT: 
+TEXT:      Gge Hor G>=
+TEXT: H          H1 if the first operand is greater than or equal to the
+TEXT: H          second, 0 otherwise.
+TEXT: H
+TEXT: 
+
+SUBJECT: gt
+TITLE: gt
+TEXT: 
+TEXT:      Ggt Hor G>
+TEXT: H          H1 if the first operand is greater than the second, 0
+TEXT: H          otherwise.
+TEXT: H
+TEXT: 
+
+SUBJECT: ind
+TITLE: ind
+TEXT: 
+TEXT:      _v_a_l_u_eG[H_i_n_d_e_xG] Hor _v_a_l_u_eG[H_l_o_w, _h_i_g_hG]
+TEXT: H          HThe first notation refers to the _i_n_d_e_x'th element of
+TEXT: H          _v_a_l_u_e.  The second notation refers to all of the ele-
+TEXT: H          ments of _v_a_l_u_e which fall between the _h_i_g_h'th and the
+TEXT: H          _l_o_w'th element, inclusive.  If _h_i_g_h is less than _l_o_w,
+TEXT: H          the order of the elements in the result is reversed.
+TEXT: H          Note that a complex _i_n_d_e_x will have the same effect as
+TEXT: H          using the real part for the lower value and the ima-
+TEXT: H          ginary part for the upper, since this is the way the
+TEXT: H          parser reads this expression.
+TEXT: H
+TEXT: 
+
+SUBJECT: le
+TITLE: le
+TEXT: 
+TEXT:      Gle Hor G<=
+TEXT: H          H1 if the first argument is less than or equal to the
+TEXT: H          second, 0 otherwise.
+TEXT: H
+TEXT: 
+
+SUBJECT: lt
+TITLE: lt
+TEXT: 
+TEXT:      Glt Hor G<
+TEXT: H          H1 if the first argument is less than the second, 0 oth-
+TEXT: H          erwise.
+TEXT: H
+TEXT: 
+
+SUBJECT: minus
+TITLE: minus
+TEXT: 
+TEXT:      G-    HThe first argument minus the second.  Also may be used
+TEXT: H          as unary minus.
+TEXT: H
+TEXT: 
+
+SUBJECT: mod
+TITLE: mod
+TEXT: 
+TEXT:      G%    HThe modulo operation.  The result is the remainder when
+TEXT: H          the first number is divided by the second.  Note that
+TEXT: H          both arguments are rounded down to the nearest integer
+TEXT: H          before the operation is performed.
+TEXT: H
+TEXT: 
+
+SUBJECT: ne
+TITLE: ne
+TEXT: 
+TEXT:      Gne Hor G<>
+TEXT: H          H1 if the two operands are not equal, 0 otherwise.
+TEXT: H
+TEXT: 
+
+SUBJECT: not
+TITLE: not
+TEXT: 
+TEXT:      Gnot Hor G~
+TEXT: H          H1 if the operand is 0, 0 otherwise.
+TEXT: H
+TEXT: 
+
+SUBJECT: or
+TITLE: or
+TEXT: 
+TEXT:      Gor Hor G|
+TEXT: H          H1 if either of the two operands is 1, 0 otherwise.
+TEXT: H
+TEXT: 
+
+SUBJECT: plus
+TITLE: plus
+TEXT: 
+TEXT:      G+    HThe plus operation.
+TEXT: H
+TEXT: 
+
+SUBJECT: power
+TITLE: power
+TEXT: 
+TEXT:      G^    HThe first operand raised to the power of the second.
+TEXT: H          Note that if the base is less than 0, the exponent must
+TEXT: H          be an integer.
+TEXT: H
+TEXT: 
+
+SUBJECT: ran
+TITLE: ran
+TEXT: 
+TEXT:      _v_a_l_u_e_1G[[H_v_a_l_u_e_2G]] Hor _v_a_l_u_eG[[H_l_o_w, _h_i_g_hG]]
+TEXT: H          HThe first notation refers to all the elements of _v_a_l_u_e_1
+TEXT: H          for which the element of the corresponding scale equals
+TEXT: H          _v_a_l_u_e_2.  The second notation refers to all of the ele-
+TEXT: H          ments of _v_a_l_u_e for which the corresponding elements of
+TEXT: H          the scale fall between _h_i_g_h and _l_o_w, inclusive.  If
+TEXT: H          _h_i_g_h is less than _l_o_w, the order of the elements in the
+TEXT: H          result is reversed.
+TEXT: H
+TEXT: 
+
+SUBJECT: times
+TITLE: times
+TEXT: 
+TEXT:      G*    HThe multiplication operation.
+TEXT: H
+TEXT: 
+
+SUBJECT: graphics
+TITLE: Graphics
+TEXT: 
+TEXT:      GNutmeg Hcan make use of a number of graphics systems to
+TEXT: H     display data for the Gplot Hand Ghardcopy Hcommands.  Currently
+TEXT: H     the X graphics system is the best supported and prefered
+TEXT: H     interface, and MFB (Model Frame Buffer) is used for graphics
+TEXT: H     terminals.  The file format used by the Ghardcopy Hcommand is
+TEXT: H     the UNIX _p_l_o_t(_5) format.
+TEXT: H
+TEXT:      If the UNIX environment variable GDISPLAY His defined, it is
+TEXT: H     assumed that an X workstation is available.  Also, if the
+TEXT: H     variable Gdisplay His set the value will be used as the name
+TEXT: H     of the display to try to open.  If neither of these is set,
+TEXT: H     or if the program was not compiled with X, MFB is used for
+TEXT: H     graphics.
+TEXT: H
+TEXT: 
+SUBTOPIC: NUTMEG:X
+SEEALSO: NUTMEG:plot
+
+SUBJECT: X
+TITLE: X
+TEXT: 
+TEXT:      When a plot is requested and X is available, a plot window
+TEXT: H     is opened.  If the variable Gmaxwins His set and there are
+TEXT: H     already that many plot windows available, the oldest one is
+TEXT: H     re-used.  If the window being opened is the _nth window, and
+TEXT: H     the variable GgeometryH_n is defined, then this string is used
+TEXT: H     as the window's geometry (see the X documentation for a
+TEXT: H     description of geometry specifications).  Otherwise the user
+TEXT: H     is prompted for the window's size and position: as usual,
+TEXT: H     the left button will create the window with the default size
+TEXT: H     and position, the middle button allows the user to drag the
+TEXT: H     window open, and the right button allows the user to create
+TEXT: H     a window of the default size at any location.  The defaults
+TEXT: H     are such that the window will be 1/3 the height and width of
+TEXT: H     the screen, positioned in the center.
+TEXT: H
+TEXT:      After the window is created and the data is plotted, the
+TEXT: H     buttons have various functions.  The left button causes a
+TEXT: H     new plot command to be issued, with the limits on the x- and
+TEXT: H     y-axis roughly 4 times the size of those in the first window
+TEXT: H     (i.e, zoom out).  The middle button causes the window to
+TEXT: H     disappear.  The right button allows the user to drag open a
+TEXT: H     box (or circle), and then creates a new window which zooms
+TEXT: H     in on this area.
+TEXT: H
+TEXT:      If the cursor is positioned in a plot window and characters
+TEXT: H     are typed on the keyboard, they will appear as text in the
+TEXT: H     window in the same font as the other text.  The cursor will
+TEXT: H     move to the right as text is added, but due to the way X
+TEXT: H     windows are handled by GnutmegH, text must be typed slowly so
+TEXT: H     the cursor can keep up with it.  This allows one to add text
+TEXT: H     to a window or remove it with spaces before sending it to a
+TEXT: H     printer with a window-dump program.
+TEXT: H
+TEXT:      If a Ghardcopy Hcommand with no expressions is given, the user
+TEXT: H     will be prompted to select a window which will be dumped
+TEXT: H     into the file.
+TEXT: H
+TEXT:      If a Ghelp Hwindow is also on the screen, all updates
+TEXT: H     (refreshes, etc) in plot windows will be delayed until the
+TEXT: H     help window is exited.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:help
+
+SUBJECT: hpux
+TITLE: HP-UX Notes
+TEXT: 
+TEXT:      GNutmeg Hruns on the HP series 9000 computers.
+TEXT: H
+TEXT: 
+
+SUBJECT: input
+TITLE: Circuit Input Format
+TEXT: 
+TEXT:                The input format for SPICE is of the free format  type.
+TEXT: H          Fields  on  a  line  are  separated by one or more blanks, a
+TEXT: H          comma, an equal (=) sign, or a left  or  right  parenthesis;
+TEXT: H          extra spaces are ignored.  A line may be continued by enter-
+TEXT: H          ing a + (plus) in column 1 of the following line; SPICE con-
+TEXT: H          tinues reading beginning with column 2.
+TEXT: H
+TEXT:                A name field must begin with a letter (A through Z) and
+TEXT: H          cannot contain any delimiters.  SPICE is not case-sensitive.
+TEXT: H
+TEXT:                A number field may be an integer  field  (12,  -44),  a
+TEXT: H          floating  point field (3.14159), either an integer or float-
+TEXT: H          ing point number followed by  an  integer  exponent  (1E-14,
+TEXT: H          2.65E3),  or  either  an  integer or a floating point number
+TEXT: H          followed by one of the following scale factors:
+TEXT: H
+TEXT:           T = 1E12   G = 1E9    MEG = 1E6   K = 1E3     MIL = 25.4E-6
+TEXT: H          M = 1E-3   U = 1E-6   N = 1E-9    P = 1E-12   F = 1E-15
+TEXT: H
+TEXT: 
+TEXT:                Letters immediately following a  number  that  are  not
+TEXT: H          scale factors are ignored, and letters immediately following
+TEXT: H          a scale factor are ignored.  Hence, 10,  10V,  10VOLTS,  and
+TEXT: H          10HZ  all  represent  the  same number, and M, MA, MSEC, and
+TEXT: H          MMHOS all represent  the  same  scale  factor.   Thus  1000,
+TEXT: H          1000.0,  1000HZ,  1E3, 1.0E3, 1KHZ, and 1K all represent the
+TEXT: H          same number.
+TEXT: H
+TEXT:                The circuit to be analyzed is described to SPICE  by  a
+TEXT: H          set  of _e_l_e_m_e_n_t _l_i_n_e_s, which define the circuit topology and
+TEXT: H          element values, and a set of control lines, which define the
+TEXT: H          model  parameters  and  the run controls.  The first line in
+TEXT: H          the input file must be a title line, and the last line  must
+TEXT: H          be  a  G.END Hline.  The order of the remaining lines is arbi-
+TEXT: H          trary (except,  of  course,  that  continuation  lines  must
+TEXT: H          immediately  follow  the  line  being continued, and element
+TEXT: H          lines belonging to a subcircuit must be between the  G.SUBCKT
+TEXT: H          Hand G.ENDS Hlines for that subcircuit).
+TEXT: H
+TEXT:                Each element in the circuit is specified by an  element
+TEXT: H          line  that  contains  the element name, the circuit nodes to
+TEXT: H          which the element is connected, and the values of the param-
+TEXT: H          eters  that  determine the electrical characteristics of the
+TEXT: H          element.  The first letter of the element name specifies the
+TEXT: H          element  type.   The  format  for the SPICE element types is
+TEXT: H          given in what follows.  The strings  XXXXXXX,  YYYYYYY,  and
+TEXT: H          ZZZZZZZ denote arbitrary alphanumeric strings.  For example,
+TEXT: H          a resistor name must begin with the letter `R' and can  con-
+TEXT: H          tain  one  or more characters.  Hence, R, R1, RSE, ROUT, and
+TEXT: H          R3AC2ZY are valid resistor names.
+TEXT: H
+TEXT: 
+TEXT:                Data fields that are enclosed in less than and  greater
+TEXT: H          than  signs  '<  >' are optional.  All indicated punctuation
+TEXT: H          (parentheses, equal signs,  etc.)  is  optional  and  merely
+TEXT: H          indicate  the presence of any delimiter.  A consistent style
+TEXT: H          such as that shown here will make the input easier to under-
+TEXT: H          stand.   With respect to branch voltages and currents, SPICE
+TEXT: H          uniformly uses the associated reference convention  (current
+TEXT: H          flows in the direction of voltage drop).
+TEXT: H
+TEXT:                Nodes names may be arbitrary  character  strings.   The
+TEXT: H          datum  (ground)  node must be named '0'.  The circuit cannot
+TEXT: H          contain a loop of voltage sources and/or inductors and  can-
+TEXT: H          not  contain  a cutset of current sources and/or capacitors.
+TEXT: H          Each node in the circuit must have  a  dc  path  to  ground.
+TEXT: H          Every  node  must  have  at least two connections except for
+TEXT: H          transmission line nodes (to permit unterminated transmission
+TEXT: H          lines)  and  MOSFET substrate nodes (which have two internal
+TEXT: H          connections anyway).
+TEXT: H
+TEXT: 
+SUBTOPIC: NUTMEG:comment NUTMEG:endcard NUTMEG:ic
+SUBTOPIC: NUTMEG:include NUTMEG:nodeset NUTMEG:option
+SUBTOPIC: NUTMEG:subckts NUTMEG:titlecard
+SEEALSO: NUTMEG:source
+
+SUBJECT: comment
+TITLE: Comment Lines
+TEXT: 
+TEXT:                An asterisk in the first  column  indicates  that  this
+TEXT: H          line  is  a  comment line.  Comment lines may be placed any-
+TEXT: H          where in the circuit description.
+TEXT: H
+TEXT:           GGeneral Form:
+TEXT: H
+TEXT:               * H_a_r_b_i_t_r_a_r_y _t_e_x_t
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:               * HRF=1K      GAIN SHOULD BE 100
+TEXT: H              G* HMAY THE FORCE BE WITH MY CIRCUIT
+TEXT: H
+TEXT: 
+
+SUBJECT: endcard
+TITLE: End Line
+TEXT: 
+TEXT:                This line must always be the last  line  in  the  input
+TEXT: H          file.  Note that the period is an integral part of the name.
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:                H.GEND
+TEXT: H
+TEXT: 
+
+SUBJECT: ic
+TITLE: IC Line
+TEXT: 
+TEXT:           GGeneral form:
+TEXT: H
+TEXT:                .IC HV(_N_O_D_N_U_M)=_V_A_L V(_N_O_D_N_U_M)=_V_A_L ...
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:                .IC HV(11)=5 V(4)=-5 V(2)=2.2
+TEXT: H
+TEXT: 
+TEXT:                This line is for setting transient initial  conditions.
+TEXT: H          It  has  two different interpretations, depending on whether
+TEXT: H          the GUIC Hparameter is specified on the G.TRAN Hline.  Also, one
+TEXT: H          should  not  confuse  this line with the G.NODESET Hline.  The
+TEXT: H          G.NODESET Hline is only to help dc convergence, and  does  not
+TEXT: H          affect  final  bias  solution  (except for multi-stable cir-
+TEXT: H          cuits).  The two interpretations of this line  are  as  fol-
+TEXT: H          lows:
+TEXT: H
+TEXT:           1.   When the GUIC Hparameter is specified on the G.TRAN  Hline,
+TEXT: H               then  the  node  voltages specified on the G.IC Hline are
+TEXT: H               used to compute the capacitor, diode,  BJT,  JFET,  and
+TEXT: H               MOSFET  initial  conditions.   This  is  equivalent  to
+TEXT: H               specifying the GICH=... parameter on  each  device  line,
+TEXT: H               but  is much more convenient.  The GICH=... parameter can
+TEXT: H               still be specified and will take  precedence  over  the
+TEXT: H               G.IC Hvalues.  Since no dc bias (initial transient) solu-
+TEXT: H               tion is computed before  the  transient  analysis,  one
+TEXT: H               should  take  care to specify all dc source voltages on
+TEXT: H               the G.IC Hline if they are to be used to  compute  device
+TEXT: H               initial conditions.
+TEXT: H
+TEXT:           2.   When the GUIC Hparameter is not specified  on  the  G.TRAN
+TEXT: H               Hline,  the dc bias (initial transient) solution will be
+TEXT: H               computed before the transient analysis.  In this  case,
+TEXT: H               the node voltages specified on the Gbias solution.  Dur-
+TEXT: H               ing transient analysis, the constraint  on  these  node
+TEXT: H               voltages is removed.
+TEXT: H
+TEXT: 
+
+SUBJECT: include
+TITLE: INCLUDE Line
+TEXT: 
+TEXT:           GGeneral form:
+TEXT: H
+TEXT:                .INCLUDE H_F_I_L_E_N_A_M_E
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:                .INCLUDE HMODELS.DEF
+TEXT: H
+TEXT: 
+TEXT:                This line causes the named file to be interpolated into
+TEXT: H          the  circuit at the point it appears.  Included files may be
+TEXT: H          nested arbitrarily.  Comments are inserted into the  circuit
+TEXT: H          at the beginning and end of the included segments.
+TEXT: H
+TEXT: 
+
+SUBJECT: nodeset
+TITLE: Nodeset Line
+TEXT: 
+TEXT:           GGeneral form:
+TEXT: H
+TEXT:                .NODESET HV(_N_O_D_N_U_M)=_V_A_L V(_N_O_D_N_U_M)=_V_A_L ...
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:                .NODESET HV(12)=4.5 V(4)=2.23
+TEXT: H
+TEXT: 
+TEXT:                This line helps the program  find  the  dc  or  initial
+TEXT: H          transient  solution  by  making  a preliminary pass with the
+TEXT: H          specified nodes held to the given voltages.  The restriction
+TEXT: H          is  then  released  and  the iteration continues to the true
+TEXT: H          solution.  A G.NODESET Hline may be necessary for  convergence
+TEXT: H          on  bistable  or  astable  circuits.   In general, this line
+TEXT: H          should not be necessary.
+TEXT: H
+TEXT: 
+
+SUBJECT: option
+TITLE: Option Line
+TEXT: 
+TEXT:           GGeneral form:
+TEXT: H
+TEXT:                .OPTIONS H_O_P_T_1 _O_P_T_2 ... (or _O_P_T=_O_P_T_V_A_L ...)
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:                .OPTIONS HRELTOL=.005 TRTOL=8
+TEXT: H
+TEXT: 
+TEXT:                This line allows the user to reset program control  and
+TEXT: H          user options for specific simulation purposes.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:set
+
+SUBJECT: pc
+TITLE: MS-DOS Notes
+TEXT: 
+TEXT:      GNutmeg Hruns on the IBM PC.
+TEXT: H
+TEXT: 
+
+SUBJECT: proglang
+TITLE: The Command Language
+TEXT: 
+TEXT:      Gnutmeg Hcommands include constructs for looping, conditional
+TEXT: H     execution, etc. Thus simple programs may be written and exe-
+TEXT: H     cuted as scripts.  As a programming language it is quite
+TEXT: H     simple, however, and line oriented (all blocks must begin
+TEXT: H     with some sort of control statement, like _i_f, and end with
+TEXT: H     the _e_n_d statement).  Because of GnutmegH's numeric orienta-
+TEXT: H     tion, string variables are only minimally supported and are
+TEXT: H     quite awkward to deal with.  (See the Gstrcmp Hcommand.)
+TEXT: H
+TEXT:      The following control structures are available:
+TEXT: H
+TEXT: 
+TEXT: H          Gwhile H_c_o_n_d_i_t_i_o_n
+TEXT: H               _s_t_a_t_e_m_e_n_t
+TEXT: H               ...
+TEXT: H          Gend
+TEXT: H
+TEXT:      HWhile _c_o_n_d_i_t_i_o_n, an arbitrary algebraic expression, is true,
+TEXT: H     execute the _s_t_a_t_e_m_e_n_ts.
+TEXT: H
+TEXT: 
+TEXT: H          Grepeat H[_n_u_m_b_e_r]
+TEXT: H               _s_t_a_t_e_m_e_n_t
+TEXT: H               ...
+TEXT: H          Gend
+TEXT: H
+TEXT:      HExecute the _s_t_a_t_e_m_e_n_ts _n_u_m_b_e_r times, or forever if no argu-
+TEXT: H     ment is given.
+TEXT: H
+TEXT: 
+TEXT: H          Gdowhile H_c_o_n_d_i_t_i_o_n
+TEXT: H               _s_t_a_t_e_m_e_n_t
+TEXT: H               ...
+TEXT: H          Gend
+TEXT: H
+TEXT:      HThe same as GwhileH, except that the _c_o_n_d_i_t_i_o_n is tested after
+TEXT: H     the _s_t_a_t_e_m_e_n_ts are executed.
+TEXT: H
+TEXT: 
+TEXT: H          Gforeach H_v_a_r _v_a_l_u_e ...
+TEXT: H               _s_t_a_t_e_m_e_n_t
+TEXT: H               ...
+TEXT: H          Gend
+TEXT: H
+TEXT:      HThe _s_t_a_t_e_m_e_n_ts are executed once for each of the _v_a_l_u_es,
+TEXT: H     each time with the variable _v_a_r set to the current one.
+TEXT: H     (_v_a_r can be accessed by the $_v_a_r notation - see below).
+TEXT: H
+TEXT: 
+TEXT: H          Gif H_c_o_n_d_i_t_i_o_n
+TEXT: H               _s_t_a_t_e_m_e_n_t
+TEXT: H               ...
+TEXT: H          Gelse
+TEXT: H               H_s_t_a_t_e_m_e_n_t
+TEXT: H               ...
+TEXT: H          Gend
+TEXT: H
+TEXT:      HIf the _c_o_n_d_i_t_i_o_n is non-zero then the first set of _s_t_a_t_e_-
+TEXT: H     _m_e_n_ts are executed, otherwise the second set.  The Gelse Hand
+TEXT: H     the second set of _s_t_a_t_e_m_e_n_ts may be omitted.
+TEXT: H
+TEXT:           Glabel H_w_o_r_d
+TEXT: H
+TEXT:      If a _s_t_a_t_e_m_e_n_t of the form Ggoto H_w_o_r_d is encountered, control
+TEXT: H     is transfered to this point, otherwise this is a no-op.
+TEXT: H
+TEXT:           Ggoto H_w_o_r_d
+TEXT: H
+TEXT:      If a statement of the form Glabel H_w_o_r_d is present in the
+TEXT: H     block or an enclosing block, control is transfered there.
+TEXT: H     Note that if the label is at the top level, it _m_u_s_t be
+TEXT: H     before the Ggoto Hstatement (i.e, a forward Ggoto Hmay occur
+TEXT: H     only within a block).
+TEXT: H
+TEXT:           Gcontinue H[ _n_u_m_b_e_r ]
+TEXT: H
+TEXT:      If there is a Gwhile, dowhile, Hor Gforeach Hblock enclosing
+TEXT: H     this statement, control passes to the test, or in the case
+TEXT: H     of GforeachH, the next value is taken.  Otherwise an error
+TEXT: H     results.  If a _n_u_m_b_e_r is given, that many surrounding blocks
+TEXT: H     are continued.  If there are not that many blocks, an error
+TEXT: H     results.
+TEXT: H
+TEXT:           Gbreak H[ _n_u_m_b_e_r ]
+TEXT: H
+TEXT:      If there is a Gwhile, dowhile, Hor Gforeach Hblock enclosing
+TEXT: H     this statement, control passes out of the block. Otherwise
+TEXT: H     an error results.  If a _n_u_m_b_e_r is given, that many surround-
+TEXT: H     ing blocks are continued.  If there are not that many
+TEXT: H     blocks, an error results.
+TEXT: H
+TEXT:      Control structures may be nested.  When a block is entered
+TEXT: H     and the input is the terminal, the prompt becomes a number
+TEXT: H     of >'s equalling the number of blocks the user has entered.
+TEXT: H     The current control structures may be examined with the
+TEXT: H     debugging command GcdumpH.
+TEXT: H
+TEXT:      There are predefined aliases Gendif, endwhileH, and so on for
+TEXT: H     all the above control statements if you prefer them over
+TEXT: H     GendH.
+TEXT: H
+TEXT:      If a word is typed as a command, and there is no built-in
+TEXT: H     command with that name, the directories in the _s_o_u_r_c_e_p_a_t_h
+TEXT: H     list are searched in order for the file.  If it is found, it
+TEXT: H     is read in as a command file (as if it were GsourceH'd).
+TEXT: H     Before it is read, however, the variables _a_r_g_c and _a_r_g_v are
+TEXT: H     set to the number of words following the filename on the
+TEXT: H     command line, and a list of those words respectively.  After
+TEXT: H     the file is finished, these variables are GunsetH.  Note that
+TEXT: H     if one command file calls another, it must save its _a_r_g_v and
+TEXT: H     _a_r_g_c since they will be altered.  Also, command files should
+TEXT: H     not be re-entrant since there are no local variables.  (Of
+TEXT: H     course, the procedures may explicitly manipulate a global
+TEXT: H     stack.) This way one can write scripts analogous to shell
+TEXT: H     scripts for Gnutmeg Hand Gspice  HNote that for the script to
+TEXT: H     work with GspiceH, it must begin with a blank line (or what-
+TEXT: H     ever you like, since it will be thrown away) and then a line
+TEXT: H     with G.control Hon it.  This is an unfortunate result of the
+TEXT: H     Gsource Hcommand being used for both circuit input and command
+TEXT: H     file execution.  Note also that this allows the user to
+TEXT: H     merely type the name of a circuit file as a command, and it
+TEXT: H     will be automatically loaded.
+TEXT: H
+TEXT:      For examples of Gnutmeg H"programs", check the scripts pro-
+TEXT: H     vided in the _s_c_r_i_p_t_s directory in the SPICE3 library.  (This
+TEXT: H     may be found in ~_c_a_d/_l_i_b/_s_p_i_c_e_3 on Berkeley machines.)
+TEXT: H     Currently only the Gsetplot Hcommand is implemented as a
+TEXT: H     script.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:commands
+SEEALSO: NUTMEG:unixcomcomm
+
+SUBJECT: refs
+TITLE: References
+TEXT: 
+TEXT:           [1] A. Vladimirescu and  S.  Liu,  "The  Simulation  of  MOS
+TEXT: H          Integrated  Circuits  Using SPICE2", ERL Memo No. ERL M80/7,
+TEXT: H          Electronics Research Laboratory, University  of  California,
+TEXT: H          Berkeley, Oct. 1980.
+TEXT: H
+TEXT:           [2] B. J. Sheu, D. L. Scharfetter, and  P.  K.  Ko,  "SPICE2
+TEXT: H          Implementation of BSIM" ERL Memo No. ERL M85/42, Electronics
+TEXT: H          Research Laboratory, University of California, Berkeley, May
+TEXT: H          1985.
+TEXT: H
+TEXT:           [3] J. R. Pierret, "A MOS Parameter Extraction  Program  for
+TEXT: H          the  BSIM Model" ERL Memo Nos. ERL M84/99 and M84/100, Elec-
+TEXT: H          tronics  Research  Laboratory,  University  of   California,
+TEXT: H          Berkeley, Nov. 1984.
+TEXT: H
+TEXT:           [4] H.Statz et al.,"GaAs FET Device and  Circuit  Simulation
+TEXT: H          in  SPICE", Internal memorandum, Raytheon Research Division,
+TEXT: H          Lexington, Mass. ,1985.
+TEXT: H
+TEXT: 
+
+SUBJECT: sconvert
+TITLE: sconvert
+TEXT: 
+TEXT: GNAME
+TEXT: H     Hsconvert - convert spice formats
+TEXT: H
+TEXT: GSYNOPSIS
+TEXT: H     sconvert fromtype fromfile totype tofile
+TEXT: H     sconvert fromtype totype
+TEXT: H     sconvert
+TEXT: H
+TEXT: DESCRIPTION
+TEXT: H     Sconvert Htranslates spice output files among three formats:
+TEXT: H     the old binary format, a new binary format, and a new ascii
+TEXT: H     format.  The formats are specified by the Gfromtype Hand
+TEXT: H     Gtotype Harguments: `o' for the old format, `b' for the new
+TEXT: H     binary format, and `a' for the new ascii format.  GFromtype
+TEXT: H     Hspecifies the format to be read, and Gtotype Hspecifies the
+TEXT: H     format to be written.  If Gfromfile Hand Gtofile Hare given,
+TEXT: H     then they are used as the input and output, otherwise stan-
+TEXT: H     dard input and output are used.  (Note that this second
+TEXT: H     option is only available on UNIX systems - on VMS and other
+TEXT: H     systems you must supply the filenames.) If no arguments are
+TEXT: H     given, the parameters are prompted for.
+TEXT: H
+TEXT:      Binary format is the preferred format for general use, as it
+TEXT: H     is the most economical in terms of space and speed of
+TEXT: H     access, and ascii is provided to make it easy to modify data
+TEXT: H     files and transfer them between machines with different
+TEXT: H     floating-point formats.  The old format is provided only for
+TEXT: H     backward compatibility.
+TEXT: H
+TEXT:      The ascii format consists of lines or sets of lines intro-
+TEXT: H     duced by a keyword.  The GTitle Hand GDate Hlines should be the
+TEXT: H     first in the file and should occus only once.  There may be
+TEXT: H     any number of _p_l_o_t_s in the file, each one beginning with the
+TEXT: H     GPlotnameH, GFlagsH, GNo. VariablesH, GNo. PointsH, GVariablesH, and
+TEXT: H     GValues Hlines.  GCommand Hand GOption Hlines are optional and may
+TEXT: H     occur anywhere between the GPlotname Hand GValues Hlines.  Note
+TEXT: H     that after the GVariables Hkeyword there must be _n_u_m_v_a_r_s
+TEXT: H     "declarations" of outputs, and after the GValues Hkeyword,
+TEXT: H     there must be _n_u_m_p_o_i_n_t_s lines, each consisting of _n_u_m_v_a_r_s
+TEXT: H     values.  (If this is confusing just create an ascii rawfile
+TEXT: H     with Gnutmeg Hand look at it...)
+TEXT: H      GLine name       Description
+TEXT: H      HTitle           An arbitrary string describing the circuit
+TEXT: H      Date            A free-format date string
+TEXT: H      Plotname        A string describing the analysis type -
+TEXT: H                      see the description for the Gdeftype
+TEXT: H                      nutmeg Hcommand
+TEXT: H      Flags           Currently, either Gcomplex Hor Greal
+TEXT: H      HNo. Variables   The number of variables (_n_u_m_v_a_r_s)
+TEXT: H      No. Points      The number of points (_n_u_m_p_o_i_n_t_s)
+TEXT: H      Command         An arbitrary nutmeg command
+TEXT: H      Option          Gnutmeg Hvariables
+TEXT: H      Variables       A number of variable lines (see below)
+TEXT: H      Values          A number of data lines (see below)
+TEXT: H
+TEXT:      Any text on a GCommand Hline is executed when the file is
+TEXT: H     loaded as if it were typed as a command.  By default, Gspice
+TEXT: H     Hputs a Gversion Hcommand into every rawfile it creates.
+TEXT: H
+TEXT:      Text on a GOption Hline is parsed as if it were the arguments
+TEXT: H     to a Gnutmeg set Hcommand.  The variables set are then avail-
+TEXT: H     able normally, except that they are read only and are asso-
+TEXT: H     ciated with the plot (see the Gnutmeg Hdocumentation).
+TEXT: H
+TEXT:      A variable line looks like _n_u_m_b_e_r _n_a_m_e _t_y_p_e_n_a_m_e [ _p_a_r_m=_v_a_l_u_e
+TEXT: H     ] ....  The _n_u_m_b_e_rs are irrelevant, the _n_a_m_e is the name by
+TEXT: H     which this quantity will be refered to by GnutmegH, the
+TEXT: H     Gtypename Hmay either a pre-defined type or one defined with
+TEXT: H     the Gdeftype Hcommand, and the _p_a_r_m's are listed below.
+TEXT: H                         GPredefined Types
+TEXT: H
+TEXT: H     HName           Description            SPICE2 Numeric Code
+TEXT: H
+TEXT: H     notype         Dimensionless value    0
+TEXT: H     time           Time                   1
+TEXT: H     frequency      Frequency              2
+TEXT: H     voltage        Voltage                3
+TEXT: H     Current        Current                4
+TEXT: H     output-noise   SPICE2 .noise result   5
+TEXT: H     input-noise    SPICE2 .noise result   6
+TEXT: H     HD2            SPICE2 .disto result   7
+TEXT: H     HD3            SPICE2 .disto result   8
+TEXT: H     DIM2           SPICE2 .disto result   9
+TEXT: H     SIM2           SPICE2 .disto result   10
+TEXT: H     DIM3           SPICE2 .disto result   11
+TEXT: H     pole           SPICE3 pz result       12
+TEXT: H     zero           SPICE3 pz result       13
+TEXT: H                                 GParameters
+TEXT: H
+TEXT: H     HName    Description
+TEXT: H
+TEXT: H     min     Minimum significant value for this output
+TEXT: H     max     Maximum significant value for this output
+TEXT: H     color   The name of a color to use for this value
+TEXT: H     scale   The name of another output to use as the scale for this one
+TEXT: H     grid    The type of grid to use - numeric codes are:
+TEXT: H               0  Linear grid
+TEXT: H               1  Log-log grid
+TEXT: H               2  X-log/Y-linear grid
+TEXT: H               3  X-linear/Y-log grid
+TEXT: H               4  Polar grid
+TEXT: H               5  Smith grid
+TEXT: H     plot    The plotting style to use - numeric codes are:
+TEXT: H               0  Connected points
+TEXT: H               1  "Comb" style
+TEXT: H               2  Unconnected points
+TEXT: H     dims    The dimensions of this vector - not yet fully supported
+TEXT: H
+TEXT:      If one of the flags is _c_o_m_p_l_e_x, the points look like r,i
+TEXT: H     where r and i are floating point (in %e format). Otherwise
+TEXT: H     they are in %e format. Only one of _r_e_a_l and _c_o_m_p_l_e_x should
+TEXT: H     appear.
+TEXT: H
+TEXT:      The lines are guaranteed to be less than 80 columns wide
+TEXT: H     (unless the plot title or variable names are very long, or a
+TEXT: H     large number of variable options are given), so this format
+TEXT: H     is safe to mail between systems that enforce 80 character
+TEXT: H     lines.
+TEXT: H
+TEXT:      The binary format is similar to the ascii format in organi-
+TEXT: H     zation, except that it is not readable (strings are NULL
+TEXT: H     terminated instead of newline terminated) and the values are
+TEXT: H     in the machine's double precision floating point format
+TEXT: H     instead of in ascii.  This makes it much easier to read and
+TEXT: H     write and makes the file smaller.
+TEXT: H
+TEXT:      The circuit title, date, and analysis type name in that
+TEXT: H     order are at the start of the plot, each terminated by a
+TEXT: H     NULL byte.  Then the flags field (a _s_h_o_r_t, which is 1 for
+TEXT: H     real data and 2 for complex data), the number of outputs,
+TEXT: H     and the number of points (both _i_n_t_e_g_e_rs) are present.  Fol-
+TEXT: H     lowing this is a list of NULL-terminated strings which are
+TEXT: H     command lines.  This list is terminated by an extra NULL
+TEXT: H     byte.  Then come the options, which consist of the name,
+TEXT: H     followed by the type and the value in binary.  The output
+TEXT: H     "declarations" consist of the name, type code, flags, color,
+TEXT: H     grid type, plot type, and dimension information in that
+TEXT: H     order.  Next come the values, which are either doubles or
+TEXT: H     pairs of doubles in the case of complex data.
+TEXT: H
+TEXT:      The old format (which is used by SPICE2 with the -r option)
+TEXT: H     is as follows:
+TEXT: H                                 GOld
+TEXT: H
+TEXT: H             HField(s)          Size in Bytes
+TEXT: H
+TEXT: H             title             80
+TEXT: H             date              8
+TEXT: H             time              8
+TEXT: H             numoutputs        2
+TEXT: H             the integer 4     2
+TEXT: H             output names      8 for each output
+TEXT: H             types of output   2 for each output
+TEXT: H             node index        2 for each output
+TEXT: H             plot title        24
+TEXT: H             data              numpoints * numoutputs * 8
+TEXT: H
+TEXT:      The data is in the form of double-precision numbers, or
+TEXT: H     pairs of single-precision numbers if the data is complex.
+TEXT: H
+TEXT:      The values recognised for the "types of output" fields are
+TEXT: H     described in the GPredefined Values Htable above.
+TEXT: H
+TEXT: GSEE ALSO
+TEXT: H     Hnutmeg(1), spice(1), writedata(3)
+TEXT: H
+TEXT: GAUTHOR
+TEXT: H     HWayne Christopher (faustus@cad.berkeley.edu)
+TEXT: H
+TEXT: GBUGS
+TEXT: H     HIf variable names and the title and plotname strings have
+TEXT: H     trailing blanks in them they will be stripped off when the
+TEXT: H     file is read, if it is in ascii format.
+TEXT: H
+TEXT:      If a plot title begins with "Title:" Gnutmeg Hwill be fooled
+TEXT: H     into thinking that this is an ascii format file. GSconvert
+TEXT: H     Halways requires the type to be specified, however.
+TEXT: H
+TEXT:      The binary format is not well-designed and may be changed in
+TEXT: H     the future.
+TEXT: H
+TEXT: 
+
+SUBJECT: variables
+TITLE: Variables
+TEXT: 
+TEXT:      There are many variables that have special meaning to the
+TEXT: H     program.  (Note the difference between a _v_a_r_i_a_b_l_e and a _v_e_c_-
+TEXT: H     _t_o_r - a _v_a_r_i_a_b_l_e is manipulated with the commands _s_e_t and
+TEXT: H     _u_n_s_e_t, and may be substituted in a command line with the $
+TEXT: H     notation.  A _v_e_c_t_o_r is a datum which can be plotted, manipu-
+TEXT: H     lated algebraicly, and so forth.)
+TEXT: H
+TEXT:      A variable may also be set with the G.option Hline in the
+TEXT: H     input file.  A variable set in this manner is not specific
+TEXT: H     to the circuit it appears in, however.
+TEXT: H
+TEXT:      While any variable may be GsetH, only the following ones will
+TEXT: H     have any significance to Gnutmeg Hor the simulator.  In addi-
+TEXT: H     tion to those described here, all circuit variables
+TEXT: H     described in the GOptions Hsection of the SPICE3 User's Guide
+TEXT: H     may be set in this manner.
+TEXT: H
+TEXT: 
+SUBTOPIC: NUTMEG:booleans NUTMEG:lists NUTMEG:numerics
+SUBTOPIC: NUTMEG:plotvars NUTMEG:strings
+SEEALSO: NUTMEG:set
+SEEALSO: NUTMEG:unset
+SEEALSO: NUTMEG:variablesub
+SEEALSO: NUTMEG:options
+
+SUBJECT: booleans
+TITLE: Booleans
+TEXT: 
+TEXT:      The following variables take boolean values (either are set
+TEXT: H     or aren't).
+TEXT: H
+TEXT: 
+SUBTOPIC: NUTMEG:acct NUTMEG:appendwrite NUTMEG:cpdebug
+SUBTOPIC: NUTMEG:dontplot NUTMEG:ignoreeof NUTMEG:list
+SUBTOPIC: NUTMEG:noasciiplotvalue NUTMEG:noaskquit NUTMEG:nobjthack
+SUBTOPIC: NUTMEG:nobreak NUTMEG:noclobber NUTMEG:node
+SUBTOPIC: NUTMEG:noglob NUTMEG:nogridvar NUTMEG:nomoremode
+SUBTOPIC: NUTMEG:nonomatch NUTMEG:nopage NUTMEG:noparse
+SUBTOPIC: NUTMEG:noprintscale NUTMEG:nosort NUTMEG:nosubckt
+SUBTOPIC: NUTMEG:opts NUTMEG:renumber NUTMEG:slowplot
+SUBTOPIC: NUTMEG:strictnumparse NUTMEG:ticmarks NUTMEG:unixcom
+
+
+SUBJECT: acct
+TITLE: acct
+TEXT: 
+TEXT:      Gacct HWhen Gspice His run in batch mode, print out accounting
+TEXT: H          information at the end of the run.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:rusage
+
+SUBJECT: appendwrite
+TITLE: appendwrite
+TEXT: 
+TEXT:      Gappendwrite
+TEXT: H          HAppend to the file when a Gwrite Hcommand is issued, if
+TEXT: H          the file already exists.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:write
+
+SUBJECT: cpdebug
+TITLE: cpdebug
+TEXT: 
+TEXT:      Gcpdebug
+TEXT: H          HTurn on debugging in the C-shell parser.
+TEXT: H
+TEXT: 
+
+SUBJECT: dontplot
+TITLE: dontplot
+TEXT: 
+TEXT:      Gdontplot
+TEXT: H          HWhen a Gplot Hcommand is given, don't actually do any
+TEXT: H          graphics operations.  This is useful for debugging plot
+TEXT: H          routines with a MFB device.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:plot
+
+SUBJECT: ignoreeof
+TITLE: ignoreeof
+TEXT: 
+TEXT:      Gignoreeof
+TEXT: H          HDon't exit the program when an EOF (control-D) is typed
+TEXT: H          at the beginning of a line.
+TEXT: H
+TEXT: 
+
+SUBJECT: list
+TITLE: list
+TEXT: 
+TEXT:      Glist HWhen Gspice His run in batch mode, list the circuit
+TEXT: H          before running the simulation.  This may be set with
+TEXT: H          G.option list Hin the input file.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:listing
+
+SUBJECT: noasciiplotvalue
+TITLE: noasciiplotvalue
+TEXT: 
+TEXT:      Gnoasciiplotvalue
+TEXT: H          HDon't print the value of the first variable plotted
+TEXT: H          with Gasciiplot Hon the left side of the graph.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:asciiplot
+
+SUBJECT: noaskquit
+TITLE: noaskquit
+TEXT: 
+TEXT:      Gnoaskquit
+TEXT: H          HDon't ask the user if he really wants to quit when he
+TEXT: H          has simulations in progress or unsaved data.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:quit
+
+SUBJECT: nobjthack
+TITLE: nobjthack
+TEXT: 
+TEXT:      Gnobjthack
+TEXT: H          HDon't allow BJT's with only 3 nodes.  (This only
+TEXT: H          affects subcircuit expansion.)
+TEXT: H
+TEXT: 
+
+SUBJECT: nobreak
+TITLE: nobreak
+TEXT: 
+TEXT:      Gnobreak
+TEXT: H          HDon't add page breaks when doing an Gasciiplot Hor a
+TEXT: H          Gprint colH.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:asciiplot
+SEEALSO: NUTMEG:print
+
+SUBJECT: noclobber
+TITLE: noclobber
+TEXT: 
+TEXT:      Gnoclobber
+TEXT: H          HWhen output is redirected with >, etc, don't overwrite
+TEXT: H          an existing file.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:io
+
+SUBJECT: node
+TITLE: node
+TEXT: 
+TEXT:      Gnode HCauses the node table to be printed when Gspice His run
+TEXT: H          in batch mode.  This is currently unimplemented.
+TEXT: H
+TEXT: 
+
+SUBJECT: noglob
+TITLE: noglob
+TEXT: 
+TEXT:      Gnoglob
+TEXT: H          HDon't expand the characters G*H, G?H, G[H, and G] Hin an input
+TEXT: H          line to match filenames.  This is generally a good idea
+TEXT: H          if you want to use G* Hfor arithmetic expressions.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:glob
+
+SUBJECT: nogridvar
+TITLE: nogrid
+TEXT: 
+TEXT:      Gnogrid
+TEXT: H          HDon't print a grid when plotting data.  This should be
+TEXT: H          a keyword for the Gplot Hcommand.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:plot
+
+SUBJECT: nomoremode
+TITLE: nomoremode
+TEXT:      nomoremode
+TEXT:           When more output is generated by a single command than
+TEXT:           will fit on the screen, pause and wait for the user to
+TEXT:           type a carriage return.  The following commands are
+TEXT:           also recognised:
+TEXT: 
+TEXT:              q   Discard the rest of the output.
+TEXT:              c   Print the rest of the output without pausing.
+TEXT:              ?   Print a help message.
+TEXT: 
+TEXT:           Note that setting this variable will turn off _m_o_r_e
+TEXT:           _m_o_d_e, _a_n_d _a_l_l _o_u_t_p_u_t _w_i_l_l _b_e _p_r_i_n_t_e_d _w_i_t_h_o_u_t _a_n_y
+TEXT:           _p_a_u_s_e_s.
+TEXT: 
+
+SUBJECT: nonomatch
+TITLE: nonomatch
+TEXT: 
+TEXT:      Gnonomatch
+TEXT: H          HDon't complain when a glob expression (one containing
+TEXT: H          G*H, G?H, G[H, or G]H) doesn't match anything.  The unexpanded
+TEXT: H          expression is left unchanged.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:glob
+
+SUBJECT: nopage
+TITLE: nopage
+TEXT: 
+TEXT:      Gnopage
+TEXT: H          HThis is the same as the Gnobreak Hoption.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:nobreak
+
+SUBJECT: noparse
+TITLE: noparse
+TEXT: 
+TEXT:      Gnoparse
+TEXT: H          HDon't parse a circuit when loading it.  The circuit
+TEXT: H          cannot be simulated if it isn't parsed.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:source
+
+SUBJECT: noprintscale
+TITLE: noprintscale
+TEXT: 
+TEXT:      Gnoprintscale
+TEXT: H          HWhen doing a Gprint colH, don't print the scale in the
+TEXT: H          leftmost column of each page.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:print
+
+SUBJECT: nosort
+TITLE: nosort
+TEXT: 
+TEXT:      Gnosort
+TEXT: H          HDon't sort alphabetically when doing a Gdisplay Hcommand.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:display
+
+SUBJECT: nosubckt
+TITLE: nosubckt
+TEXT: 
+TEXT:      Gnosubckt
+TEXT: H          HDon't expand subcircuits.  A circuit with subcircuits
+TEXT: H          cannot be parsed if this is set.
+TEXT: H
+TEXT: 
+
+SUBJECT: opts
+TITLE: opts
+TEXT: 
+TEXT:      Gopts HWhen Gspice His run in batch mode, print out all the
+TEXT: H          variables set and their values.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:set
+SEEALSO: NUTMEG:variables
+SEEALSO: NUTMEG:batchmode
+
+SUBJECT: renumber
+TITLE: renumber
+TEXT: 
+TEXT:      Grenumber
+TEXT: H          HAfter expanding subcircuits, renumber all the lines
+TEXT: H          sequentially.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:listing
+
+SUBJECT: slowplot
+TITLE: slowplot
+TEXT: 
+TEXT:      Gslowplot
+TEXT: H          HPause after plotting each value and wait for the user
+TEXT: H          to type a carriage return.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:plot
+
+SUBJECT: strictnumparse
+TITLE: strictnumparse
+TEXT: 
+TEXT:      Gstrictnumparse
+TEXT: H          HDon't allow trailing characters after a number, unless
+TEXT: H          they are seperated from the number with an underscore
+TEXT: H          (`_').  This may prevent some errors like writing
+TEXT: H          G1meter Hand expecting it to have a value of 1.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:expressions
+
+SUBJECT: ticmarks
+TITLE: ticmarks
+TEXT: 
+TEXT:      Gticmarks
+TEXT: H          HPrint an 'x' every ten points for each curve plotted.
+TEXT: H          This variable may also be set to a number, which is the
+TEXT: H          number of points between each tic mark.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:plot
+
+SUBJECT: unixcom
+TITLE: unixcom
+TEXT: 
+TEXT:      Gunixcom
+TEXT: H          HIf a command is given which is not a built-in command,
+TEXT: H          try to execute it as a UNIX command.  Setting this
+TEXT: H          option increases the start-up time of the program a
+TEXT: H          great deal, since all commands in the user's path are
+TEXT: H          added to the command completion data structures, which
+TEXT: H          are rather slow to update.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:unixcomcomm
+
+SUBJECT: lists
+TITLE: Lists
+TEXT: 
+TEXT:      The following variables take on lists as values.  A list is
+TEXT: H     surrounded by parentheses, and may contain any variable
+TEXT: H     types as elements.
+TEXT: H
+TEXT: 
+SUBTOPIC: NUTMEG:debug NUTMEG:plots NUTMEG:sourcepath
+
+
+SUBJECT: debug
+TITLE: debug
+TEXT: 
+TEXT:      Gdebug
+TEXT: H          HThis variable may be a boolean, in which case all
+TEXT: H          debugging is turned on, a string, in which case the
+TEXT: H          string specifies which part of the program for which to
+TEXT: H          turn on debugging, or a list of these strings, which
+TEXT: H          turns on any combination of debuggings.  The possible
+TEXT: H          values are:
+TEXT: H
+TEXT:              Gsiminterface   HThe interface to the simulator.
+TEXT: H             Gcshpar         HThe C-shell pre-processor and parser.
+TEXT: H             Gparser         HThe parser for expressions.
+TEXT: H             Geval           HThe expression evaluation routines.
+TEXT: H             Gvecdb          HThe vector database.
+TEXT: H             Ggraf           HThe plotting routines.
+TEXT: H             Gginterface     HGraphics package interface routines.
+TEXT: H             Gcontrol        HThe control structure code.
+TEXT: H             Gasync          HThe Gaspice Hand Grspice Hcode.
+TEXT: H
+TEXT: 
+
+SUBJECT: plots
+TITLE: plots
+TEXT: 
+TEXT:      Gplots
+TEXT: H          HThis variable is read-only, and contains the names of
+TEXT: H          the plots available.  The variable Gcurplot Hmay be set
+TEXT: H          to any of these, or the word GnewH, in which case it
+TEXT: H          creates a new, empty plot.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:curplot
+
+SUBJECT: sourcepath
+TITLE: sourcepath
+TEXT: 
+TEXT:      Gsourcepath
+TEXT: H          HThe set of directories that will be searched when a
+TEXT: H          Gsource Hcommand or a command that may be the invocation
+TEXT: H          of a script is given.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:source
+
+SUBJECT: numerics
+TITLE: Numerics
+TEXT: 
+TEXT:      The following variables take numeric values.  No distinction
+TEXT: H     is made at the user level between floating point numbers and
+TEXT: H     integers.
+TEXT: H
+TEXT: 
+SUBTOPIC: NUTMEG:abstol NUTMEG:cptime NUTMEG:fourgridsize
+SUBTOPIC: NUTMEG:gridsize NUTMEG:height NUTMEG:helpxpos
+SUBTOPIC: NUTMEG:helpypos NUTMEG:historyvar NUTMEG:maxwins
+SUBTOPIC: NUTMEG:nfreqs NUTMEG:numdgt NUTMEG:polydegree
+SUBTOPIC: NUTMEG:polysteps NUTMEG:rawfileprec NUTMEG:reltol
+SUBTOPIC: NUTMEG:vntol NUTMEG:width NUTMEG:xbrushheight
+SUBTOPIC: NUTMEG:xbrushwidth
+
+SUBJECT: abstol
+TITLE: abstol
+TEXT: 
+TEXT:      Gabstol
+TEXT: H          HThe absolute tolerance used by the Gdiff Hcommand.  Also
+TEXT: H          the Gspice Hoption described in the SPICE3 User's Guide.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:diff
+SEEALSO: NUTMEG:abstol
+
+SUBJECT: cptime
+TITLE: cptime
+TEXT: 
+TEXT:      Gcptime
+TEXT: H          HThe total amount of CPU time to allow for a simulation.
+TEXT: H
+TEXT: 
+
+SUBJECT: fourgridsize
+TITLE: fourgridsize
+TEXT: 
+TEXT:      Gfourgridsize
+TEXT: H          HWhen a Gfourier Hcommand is given, the data is first
+TEXT: H          interpolated onto a linear grid.  The size of the grid
+TEXT: H          is given by this variable.  The default is 200.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:fourier
+
+SUBJECT: gridsize
+TITLE: gridsize
+TEXT: 
+TEXT:      Ggridsize
+TEXT: H          HIf this variable is set, it causes all data plotted to
+TEXT: H          be interpolated onto a grid of this size.  The degree
+TEXT: H          of the interpolation is given by the variable Gpolyde-
+TEXT: H          greeH.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:plot
+SEEALSO: NUTMEG:polydegree
+
+SUBJECT: height
+TITLE: height
+TEXT: 
+TEXT:      Gheight
+TEXT: H          HThe height of a page to use when printing the output of
+TEXT: H          Gasciiplot Hor Gprint colH.  The default is 60.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:asciiplot
+SEEALSO: NUTMEG:print
+
+SUBJECT: helpxpos
+TITLE: helpxpos
+TEXT:      helpxpos
+TEXT:           The starting X-position of the top-level help window.
+TEXT:           The default is with the upper left corner at (100,
+TEXT:           100).
+TEXT: 
+SEEALSO: NUTMEG:help
+SEEALSO: NUTMEG:helpypos
+
+SUBJECT: helpypos
+TITLE: helpypos
+TEXT:      helpxpos
+TEXT:           The starting Y-position of the top-level help window.
+TEXT:           The default is with the upper left corner at (100,
+TEXT:           100).
+TEXT: 
+SEEALSO: NUTMEG:help
+SEEALSO: NUTMEG:helpxpos
+
+SUBJECT: historyvar
+TITLE: history variable
+TEXT: 
+TEXT:      Ghistory
+TEXT: H          HThe number of events to save on the history list.  The
+TEXT: H          default is 1000.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:historycomm
+SEEALSO: NUTMEG:historyvar
+
+SUBJECT: maxwins
+TITLE: maxwins
+TEXT: 
+TEXT:      Gmaxwins
+TEXT: H          HThe maximum number of X windows to create.  If this
+TEXT: H          many windows are already on the screen and another is
+TEXT: H          requested, the oldest one is re-used.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:X
+SEEALSO: NUTMEG:plot
+
+SUBJECT: nfreqs
+TITLE: nfreqs
+TEXT: 
+TEXT:      Gnfreqs
+TEXT: H          HHow many multiples of the fundamental frequency to
+TEXT: H          print in the Gfourier Hcommand.  The default is 10.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:fourier
+
+SUBJECT: numdgt
+TITLE: numdgt
+TEXT: 
+TEXT:      Gnumdgt
+TEXT: H          HHow many significant digits to print for GfourierH, Gprint
+TEXT: H          colH, etc output.  The default is 6.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:print
+SEEALSO: NUTMEG:fourier
+
+SUBJECT: polydegree
+TITLE: polydegree
+TEXT: 
+TEXT:      Gpolydegree
+TEXT: H          HThis variable determines the degree of the polynomial
+TEXT: H          that is fit to points when a plot is done.  If it is
+TEXT: H          not set or set to 1, then the points are connected by
+TEXT: H          lines.  If it is greater than 1, then a polynomial
+TEXT: H          curve is fit to the points.  If the value of Gpolydegree
+TEXT: H          His _n, then for each _n + 1 adjacent points, a _nth degree
+TEXT: H          curve is fit.  If this is not possible (due to the fact
+TEXT: H          that the points aren't monotonic), the curve is rotated
+TEXT: H          90 degrees and another attempt is made.  If is is still
+TEXT: H          unsucessful, _n is decreased by 1 and the process is
+TEXT: H          repeated.  Thus four points in the shape of a diamond
+TEXT: H          may be fit with quadratics to approximate a circle.
+TEXT: H          (Although it's not clear that this situation comes up
+TEXT: H          often in circuit simulation.)  The variable Ggridsize
+TEXT: H          Hdetermines the size of the grid on which the curve is
+TEXT: H          fit (if the data is monotonic).
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:plot
+
+SUBJECT: polysteps
+TITLE: polysteps
+TEXT: 
+TEXT:      Gpolysteps
+TEXT: H          HThe number of intermediate points to plot between each
+TEXT: H          actual point used for interpolation.  The default is
+TEXT: H          10.  Note that if interpolation is used for plotting,
+TEXT: H          the Gticmarks Hfeature is disabled.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:plot
+
+SUBJECT: rawfileprec
+TITLE: rawfileprec
+TEXT: 
+TEXT:      Grawfileprec
+TEXT: H          HThe number of digits to use in the ascii rawfile for-
+TEXT: H          mat.  The default is 15, which should be enough.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:write
+
+SUBJECT: reltol
+TITLE: reltol
+TEXT: 
+TEXT:      Greltol
+TEXT: H          HThe relative tolerance used by the Gdiff Hcommand.  See
+TEXT: H          the SPICE3 User's Guide.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:diff
+SEEALSO: NUTMEG:reltol
+
+SUBJECT: vntol
+TITLE: vntol
+TEXT: 
+TEXT:      Gvntol
+TEXT: H          HThe absolute voltage tolerance used for the Gdiff Hcom-
+TEXT: H          mand.  See the SPICE3 User's Guide.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:diff
+SEEALSO: NUTMEG:vntol
+
+SUBJECT: width
+TITLE: width
+TEXT: 
+TEXT:      Gwidth
+TEXT: H          HThe width of a page to use when printing the output of
+TEXT: H          Gasciiplot Hor Gprint colH.  The default is 130.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:print
+SEEALSO: NUTMEG:asciiplot
+
+SUBJECT: xbrushheight
+TITLE: xbrushheight
+TEXT: 
+TEXT:      Gxbrushheight
+TEXT: H          HThe height of the "brush" used by X to plot data.  The
+TEXT: H          default is 1.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:X
+SEEALSO: NUTMEG:plot
+
+SUBJECT: xbrushwidth
+TITLE: xbrushwidth
+TEXT: 
+TEXT:      Gxbrushwidth
+TEXT: H          HThe width of the "brush" used by X to plot data.  The
+TEXT: H          default is 1.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:plot
+SEEALSO: NUTMEG:X
+
+SUBJECT: plotvars
+TITLE: Plot-specific Variables
+TEXT: 
+TEXT:      The following variables are specific to each plot.  When the
+TEXT: H     current plot changes, these variables take on new values,
+TEXT: H     and they cannot be altered by the user.  In addition to
+TEXT: H     these variables, any variables defined in the rawfile on a
+TEXT: H     GOption: Hline are associated with the plot and are read-only,
+TEXT: H     but variables defined by a GCommand: set ... Hline are not.
+TEXT: H
+TEXT: 
+SUBTOPIC: NUTMEG:curplot NUTMEG:curplotdate NUTMEG:curplotname
+SUBTOPIC: NUTMEG:curplottitle
+
+SUBJECT: curplot
+TITLE: curplot
+TEXT: 
+TEXT:      Gcurplot
+TEXT: H          HThe name of the currently active plot.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:plots
+SEEALSO: NUTMEG:setplot
+
+SUBJECT: curplotdate
+TITLE: curplotdate
+TEXT: 
+TEXT:      Gcurplotdate
+TEXT: H          HThe date associated with the currently active plot.
+TEXT: H          This is generally the date of the simulation.
+TEXT: H
+TEXT: 
+
+SUBJECT: curplotname
+TITLE: curplotname
+TEXT: 
+TEXT:      Gcurplotname
+TEXT: H          HThe type name of the currently active plot.  Note that
+TEXT: H          this is Gnot Hthe name used by GsetplotH, but rather an
+TEXT: H          English description of the type of simulation done.
+TEXT: H
+TEXT: 
+
+SUBJECT: curplottitle
+TITLE: curplottitle
+TEXT: 
+TEXT:      Gcurplottitle
+TEXT: H          HThe title of the circuit associated with the currently
+TEXT: H          active plot.
+TEXT: H
+TEXT: 
+
+SUBJECT: strings
+TITLE: Strings
+TEXT: 
+TEXT:      These variables take on strings as values.
+TEXT: H
+TEXT: 
+SUBTOPIC: NUTMEG:color NUTMEG:device NUTMEG:xdisplay
+SUBTOPIC: SPICE:editor NUTMEG:filetype NUTMEG:geometry
+SUBTOPIC: NUTMEG:gridstyle NUTMEG:hbfont NUTMEG:hbstyle
+SUBTOPIC: NUTMEG:hcopydev NUTMEG:helpboldfont NUTMEG:helpitalicfont
+SUBTOPIC: NUTMEG:helpregfont NUTMEG:helptitlefont NUTMEG:modelcard
+SUBTOPIC: NUTMEG:plotstyle NUTMEG:pointchars NUTMEG:program
+SUBTOPIC: NUTMEG:prompt NUTMEG:rawfile NUTMEG:rhost
+SUBTOPIC: NUTMEG:rprogram NUTMEG:spicepath NUTMEG:subend
+SUBTOPIC: NUTMEG:subinvoke NUTMEG:substart NUTMEG:term
+SUBTOPIC: NUTMEG:units NUTMEG:xfont
+
+SUBJECT: color
+TITLE: color
+TEXT: 
+TEXT:      GcolorH_n_u_m_b_e_r
+TEXT: H          If a variable with the name GcolorH_n_u_m_b_e_r is set to the
+TEXT: H          name of a color recognised by X (see the file
+TEXT: H          G/usr/lib/rgb.txt Hfor a list of such colors), the
+TEXT: H          _n_u_m_b_e_r'th value plotted in a window will have this
+TEXT: H          color.  Gcolor0 Hdenotes the background color and Gcolor1
+TEXT: H          Hdenotes the grid and text color.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:X
+SEEALSO: NUTMEG:plot
+
+SUBJECT: device
+TITLE: device
+TEXT: 
+TEXT:      Gdevice
+TEXT: H          HThe path name of the graphics device for MFB to use for
+TEXT: H          plotting, or the display name for X to use.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:plot
+
+SUBJECT: xdisplay
+TITLE: display
+TEXT: 
+TEXT:      Gdisplay
+TEXT: H          HThe display name for X to use for plotting, generally
+TEXT: H          of the form _h_o_s_t:_n_u_m_b_e_r.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:X
+SEEALSO: NUTMEG:plot
+
+SUBJECT: filetype
+TITLE: filetype
+TEXT: 
+TEXT:      Gfiletype
+TEXT: H          HThe type of rawfile that the Gwrite Hcommand should
+TEXT: H          create.  Currently the only types supported are Gascii
+TEXT: H          Hand GbinaryH.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:write
+
+SUBJECT: geometry
+TITLE: geometry
+TEXT: 
+TEXT:      Ggeometry
+TEXT: H          HThe X geometry specification to use for creating win-
+TEXT: H          dows.  This is of the form
+TEXT: H          G=H_h_e_i_g_h_tGxH_w_i_d_t_hG+H_x_o_f_f_s_e_tG+H_y_o_f_f_s_e_t.  Note that the G= Hmust be
+TEXT: H          included in the string.  Also, variables of the form
+TEXT: H          GgeometryH_n_u_m_b_e_r may be set, which determine the geometry
+TEXT: H          to use for the _n_u_m_b_e_rth window created.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:X
+SEEALSO: NUTMEG:plot
+
+SUBJECT: gridstyle
+TITLE: gridstyle
+TEXT:      gridstyle
+TEXT:           This variable is used to determine the style of grid
+TEXT:           used by the commands plot, hardcopy, and asciiplot, if
+TEXT:           no grid style keywords are given on the command line.
+TEXT:           Possible values are:
+TEXT:     lingrid   Use a linear grid
+TEXT:     loglog    Use a log scales for both axes
+TEXT:     xlog      Use a log scale for the X axis
+TEXT:     ylog      Use a log scale for the Y axis
+TEXT:     nogrid    Don't draw any grid (but draw the data on a linear scale)
+TEXT: 
+SEEALSO: NUTMEG:plot
+
+SUBJECT: hbfont
+TITLE: helpbuttonfont
+TEXT:      helpbuttonfont
+TEXT:           The name of the X font to use for the labels in the
+TEXT:           buttons in the help system.  The default is "6x10".
+TEXT: 
+
+SUBJECT: hbstyle
+TITLE: helpbuttonstyle
+TEXT:      helpbuttonstyle
+TEXT:           This option controls the style of layout that the help
+TEXT:           system will use for formatting sub-topic and see-also
+TEXT:           buttons.  If it is left, buttons in a column will be
+TEXT:           aligned on their left sides.  If it is center, columns
+TEXT:           of buttons will be centered around their midlines.  If
+TEXT:           it is unif, buttons in a column will all be the same
+TEXT:           size and the text will be centered within each button.
+TEXT:           The default is left.
+TEXT: 
+SEEALSO: NUTMEG:help
+
+SUBJECT: hcopydev
+TITLE: hcopydev
+TEXT: 
+TEXT:      Ghcopydev
+TEXT: H          HIf this variable is set to the name of a printer (the
+TEXT: H          name used in the G-P Hoption to GlprH), it directs the
+TEXT: H          Ghardcopy Hcommand to immediately send the raster file to
+TEXT: H          this printer.  This works only on UNIX.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:hardcopy
+
+SUBJECT: helpboldfont
+TITLE: helpboldfont
+TEXT:      helpboldfont
+TEXT:           The name of the X font to use for bold characters in
+TEXT:           the help system.  The default is "timrom12b".   Note
+TEXT:           that this font should have the same height as the regu-
+TEXT:           lar and italic fonts.
+TEXT: 
+
+SUBJECT: helpitalicfont
+TITLE: helpitalicfont
+TEXT:      helpitalicfont
+TEXT:           The name of the X font to use for italic characters in
+TEXT:           the help system.  The default is "timrom12i".   Note
+TEXT:           that this font should have the same height as the regu-
+TEXT:           lar and bold fonts.
+TEXT: 
+
+SUBJECT: helpregfont
+TITLE: helpregfont
+TEXT:      helpregfont
+TEXT:           The name of the X font to use for regular characters in
+TEXT:           the help system.  The default is "timrom12".   Note
+TEXT:           that this font should have the same height as the bold
+TEXT:           and italic fonts.
+TEXT: 
+
+SUBJECT: helptitlefont
+TITLE: helptitlefont
+TEXT:      helptitlefont
+TEXT:           The name of the X font to use for titles in the help
+TEXT:           system.  The default is "accordb".
+TEXT: 
+
+SUBJECT: modelcard
+TITLE: modelcard
+TEXT: 
+TEXT:      Gmodelcard
+TEXT: H          HThe name of the line used to introduce a model, gen-
+TEXT: H          erally G.modelH.
+TEXT: H
+TEXT: 
+
+SUBJECT: plotstyle
+TITLE: plotstyle
+TEXT:      plotstyle
+TEXT:           This variable is used to determine the plot style if no
+TEXT:           plotstyle keyword is given on the command line for the
+TEXT:           commands plot, hardcopy, and asciiplot.  Its value may
+TEXT:           be one of:
+TEXT:             linplot     Connect points with line segments
+TEXT:             combplot    Connect each point to the X-axis
+TEXT:             pointplot   Plot each point as a discrete character
+TEXT: 
+SEEALSO: NUTMEG:plot
+
+SUBJECT: pointchars
+TITLE: pointchars
+TEXT: 
+TEXT:      Gpointchars
+TEXT: H          HThe characters in this string are used to plot suces-
+TEXT: H          sive data values if the Gpointplot Hkeyword is given in a
+TEXT: H          Gplot Hcommand.  The default is
+TEXT: H          "oxabcdefhgijklmnpqrstuvwyz".
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:plot
+
+SUBJECT: program
+TITLE: program
+TEXT: 
+TEXT:      Gprogram
+TEXT: H          HThe full path name of the current program.
+TEXT: H
+TEXT: 
+
+SUBJECT: prompt
+TITLE: prompt
+TEXT: 
+TEXT:      Gprompt
+TEXT: H          HThe prompt that the command interpreter should use.  In
+TEXT: H          this string, the character `!' is replaced by the
+TEXT: H          current command number.  If the program is reading
+TEXT: H          lines which form a part of a control block, the prompt
+TEXT: H          becomes a set of `>' characters, one for each level of
+TEXT: H          control structure.  The default prompt is "G$H_p_r_o_g_r_a_m G!
+TEXT: H          -> H".
+TEXT: H
+TEXT: 
+
+SUBJECT: rawfile
+TITLE: rawfile
+TEXT: 
+TEXT:      Grawfile
+TEXT: H          HThe name of the rawfile to use as a default for the
+TEXT: H          Gwrite Hcommand, or for batch mode.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:write
+SEEALSO: NUTMEG:load
+
+SUBJECT: rhost
+TITLE: rhost
+TEXT: 
+TEXT:      Grhost
+TEXT: H          HThe name of the machine to run remote simulations on.
+TEXT: H          This machine must have a spice daemon running.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:rspice
+
+SUBJECT: rprogram
+TITLE: rprogram
+TEXT: 
+TEXT:      Grprogram
+TEXT: H          HThe name of the program to run when an Grspice Hcommand
+TEXT: H          is given.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:rspice
+
+SUBJECT: spicepath
+TITLE: spicepath
+TEXT: 
+TEXT:      Gspicepath
+TEXT: H          HThe filename to execute when an Gaspice Hcommand is
+TEXT: H          given.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:aspice
+
+SUBJECT: subend
+TITLE: subend
+TEXT: 
+TEXT:      Gsubend
+TEXT: H          HThe name of the subcircuit-ending line, generally
+TEXT: H          G.endsH.
+TEXT: H
+TEXT: 
+
+SUBJECT: subinvoke
+TITLE: subinvoke
+TEXT: 
+TEXT:      Gsubinvoke
+TEXT: H          HThe prefix used to call up an instance of a subcircuit,
+TEXT: H          generally "GxH".
+TEXT: H
+TEXT: 
+
+SUBJECT: substart
+TITLE: substart
+TEXT: 
+TEXT:      Gsubstart
+TEXT: H          HThe name of the line used to start a subcircuit defini-
+TEXT: H          tion, generally
+TEXT: H
+TEXT: 
+
+SUBJECT: term
+TITLE: term
+TEXT: 
+TEXT:      Gterm HThe name of the terminal type for MFB.  Note that these
+TEXT: H          names are often not the same as the ones that _t_e_r_m_c_a_p
+TEXT: H          recognises, so the value of the environment variable
+TEXT: H          TERM may not work (but it will be used if this variable
+TEXT: H          is not set).  See the beginning of the file
+TEXT: H          "spice3/lib/mfbcap" for descriptions of the terminals
+TEXT: H          supported.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:plot
+
+SUBJECT: units
+TITLE: units
+TEXT: 
+TEXT:      Gunits
+TEXT: H          HIf this variable is set to GdegreesH, all trig functions
+TEXT: H          will use degrees instead of radians for the units of
+TEXT: H          their arguments.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:sin
+SEEALSO: NUTMEG:cos
+SEEALSO: NUTMEG:tan
+
+SUBJECT: xfont
+TITLE: xfont
+TEXT: 
+TEXT:      Gxfont
+TEXT: H          HThe name of the font to use in an X window.  This may
+TEXT: H          be a proportional font.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:X
+SEEALSO: NUTMEG:plot
+
+SUBJECT: vms
+TITLE: VAX-VMS Notes
+TEXT: 
+TEXT:      GNutmeg Hcan be run under VAX/VMS. Some features like command,
+TEXT: H     etc completion, expansion of `*', `?', and [], backquote
+TEXT: H     substitution, the shell command, and so forth do not work.
+TEXT: H
+TEXT:      GNutmeg Hwill look for start-up commands in the file _s_p_i_c_e._r_c
+TEXT: H     in the current directory.
+TEXT: H
+TEXT:      The standard suffix for rawspice files in VMS is ".raw".
+TEXT: H
+TEXT:      You will have to respond to the -_m_o_r_e- prompt during Gplot
+TEXT: H     Hwith a carriage return instead of any key as you can do with
+TEXT: H     UNIX.
+TEXT: H
+TEXT: 
+

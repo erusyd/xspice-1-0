@@ -1,0 +1,7 @@
+# Modify this file to specify your configuration.
+
+# This file is included in all shell scripts in the XSPICE system.
+
+
+ROOT=/usr/local/xspice-1-0
+

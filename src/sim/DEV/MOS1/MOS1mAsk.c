@@ -1,0 +1,116 @@
+/*
+ * Copyright (c) 1987 Thomas L. Quarles
+ */
+
+#include "prefix.h"
+#include <stdio.h>
+#include "CONST.h"
+#include "IFsim.h"
+#include "CKTdefs.h"
+#include "DEVdefs.h"
+#include "MOS1defs.h"
+#include "SPerror.h"
+#include "suffix.h"
+
+RCSID("MOS1mAsk.c $Revision: 1.1 $ on $Date: 90/10/11 12:44:27 $")
+
+/*ARGSUSED*/
+int
+MOS1mAsk(ckt,inst,which,value)
+    CKTcircuit *ckt;
+    GENmodel *inst;
+    int which;
+    IFvalue *value;
+{
+    MOS1model *model = (MOS1model *)inst;
+    switch(which) {
+        case MOS1_MOD_TNOM:
+            value->rValue = model->MOS1tnom-CONSTCtoK;
+            return(OK);
+        case MOS1_MOD_VTO:
+            value->rValue = model->MOS1vt0;
+            return(OK);
+        case MOS1_MOD_KP:
+            value->rValue = model->MOS1transconductance;
+            return(OK);
+        case MOS1_MOD_GAMMA:
+            value->rValue = model->MOS1gamma;
+            return(OK);
+        case MOS1_MOD_PHI:
+            value->rValue = model->MOS1phi;
+            return(OK);
+        case MOS1_MOD_LAMBDA:
+            value->rValue = model->MOS1lambda;
+            return(OK);
+        case MOS1_MOD_RD:
+            value->rValue = model->MOS1drainResistance;
+            return(OK);
+        case MOS1_MOD_RS:
+            value->rValue = model->MOS1sourceResistance;
+            return(OK);
+        case MOS1_MOD_CBD:
+            value->rValue = model->MOS1capBD;
+            return(OK);
+        case MOS1_MOD_CBS:
+            value->rValue = model->MOS1capBS;
+            return(OK);
+        case MOS1_MOD_IS:
+            value->rValue = model->MOS1jctSatCur;
+            return(OK);
+        case MOS1_MOD_PB:
+            value->rValue = model->MOS1bulkJctPotential;
+            return(OK);
+        case MOS1_MOD_CGSO:
+            value->rValue = model->MOS1gateSourceOverlapCapFactor;
+            return(OK);
+        case MOS1_MOD_CGDO:
+            value->rValue = model->MOS1gateDrainOverlapCapFactor;
+            return(OK);
+        case MOS1_MOD_CGBO:
+            value->rValue = model->MOS1gateBulkOverlapCapFactor;
+            return(OK);
+        case MOS1_MOD_CJ:
+            value->rValue = model->MOS1bulkCapFactor;
+            return(OK);
+        case MOS1_MOD_MJ:
+            value->rValue = model->MOS1bulkJctBotGradingCoeff;
+            return(OK);
+        case MOS1_MOD_CJSW:
+            value->rValue = model->MOS1sideWallCapFactor;
+            return(OK);
+        case MOS1_MOD_MJSW:
+            value->rValue = model->MOS1bulkJctSideGradingCoeff;
+            return(OK);
+        case MOS1_MOD_JS:
+            value->rValue = model->MOS1jctSatCurDensity;
+            return(OK);
+        case MOS1_MOD_TOX:
+            value->rValue = model->MOS1oxideThickness;
+            return(OK);
+        case MOS1_MOD_LD:
+            value->rValue = model->MOS1latDiff;
+            return(OK);
+        case MOS1_MOD_RSH:
+            value->rValue = model->MOS1sheetResistance;
+            return(OK);
+        case MOS1_MOD_U0:
+            value->rValue = model->MOS1surfaceMobility;
+            return(OK);
+        case MOS1_MOD_FC:
+            value->rValue = model->MOS1fwdCapDepCoeff;
+            return(OK);
+        case MOS1_MOD_NSUB:
+            value->rValue = model->MOS1substrateDoping;
+            return(OK);
+        case MOS1_MOD_TPG:
+            value->iValue = model->MOS1gateType;
+            return(OK);
+        case MOS1_MOD_NSS:
+            value->rValue = model->MOS1surfaceStateDensity;
+            return(OK);
+        default:
+            return(E_BADPARM);
+    }
+    /* NOTREACHED */
+}
+

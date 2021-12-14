@@ -1,0 +1,10 @@
+# Modify this file to specify your compiler (e.g. cc, gcc, or acc).
+
+# This file is included in all make files in the XSPICE system.
+
+CC = cc
+
+ROOT = /usr/local/xspice-1-0
+BINDIR = $(ROOT)/bin
+
+

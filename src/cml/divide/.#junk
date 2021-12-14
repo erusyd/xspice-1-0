@@ -1,0 +1,19 @@
+0a1
+> #include <math.h>
+41c42
+<     if (denominator < threshold_upper) {  /* Need to limit den...*/
+---
+>     if ((denominator < threshold_upper) && (denominator >= 0)) {  /* Need to limit den...*/
+49a51,62
+>             den_partial = 0.0;        
+>         }
+>     }
+> 	else
+>     if ((denominator > -threshold_upper) && (denominator < 0)) {  /* Need to limit den...*/
+>         if (denominator < -threshold_lower)   /* Parabolic Region */
+>             cm_parabola(denominator,-den_lower_limit,
+>                         -den_lower_limit,den_domain,0.0,1.0,
+>                         &limited_den,&den_partial);
+> 
+>         else {                            /* Hard-Limited Region */
+>             limited_den = -den_lower_limit;

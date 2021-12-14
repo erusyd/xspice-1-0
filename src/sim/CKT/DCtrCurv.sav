@@ -1,0 +1,336 @@
+/*
+ * Copyright (c) 1985 Thomas L. Quarles
+ */
+
+#include "prefix.h"
+#include <stdio.h>
+#include "VSRCdefs.h"
+#include "ISRCdefs.h"
+#include "CKTdefs.h"
+#include "util.h"
+#include "SPerror.h"
+
+/* gtri - add - wbk - 12/19/90 - Add headers */
+#include "MIF.h"
+#include "EVTproto.h"
+#include "sim_ipc_tiein.h"
+/* gtri - end - wbk */
+
+#include "suffix.h"
+void bcopy();   /* shouldn't need this, but not defined in a sys. header file */
+
+RCSID("DCtrCurv.c $Revision: 1.3 $ on $Date: 91/08/16 14:59:26 $")
+
+int
+DCtrCurv(ckt,restart) 
+CKTcircuit *ckt;
+int restart;    /* forced restart flag */
+{
+    register TRCV* cv = (TRCV*)ckt->CKTcurJob;
+    int i;
+    double *temp;
+    int converged;
+    int vcode;
+    int icode;
+    int j;
+    int error;
+    long save;
+    int senmode;
+    GENERIC *plot;
+    IFuid varUid;
+    IFuid *nameList;
+    int numNames;
+    int firstTime=1;
+
+#ifdef SENSDEBUG
+    if(ckt->CKTsenInfo && (ckt->CKTsenInfo->SENmode&DCSEN) ){
+        printf("\nDC Sensitivity Results\n\n");
+        CKTsenPrint(ckt);
+    }
+#endif /* SENSDEBUG */
+
+
+
+    vcode = CKTtypelook("Vsource");
+    icode = CKTtypelook("Isource");
+    if(!restart && cv->TRCVnestState >= 0) {
+        /* continuing */
+        i = cv->TRCVnestState;
+        goto resume;
+    }
+    ckt->CKTtime = 0;
+    ckt->CKTdelta = cv->TRCVvStep[0];
+    ckt->CKTmode = (ckt->CKTmode & MODEUIC) | MODEDCTRANCURVE | MODEINITJCT ;
+    ckt->CKTorder=1;
+
+    for(i=0;i<7;i++) {
+        ckt->CKTdeltaOld[i]=ckt->CKTdelta;
+    }
+    for(i=0;i<=cv->TRCVnestLevel;i++) {
+        if(vcode >= 0) {
+            /* voltage sources are in this version, so use them */
+            register VSRCinstance *here;
+            register VSRCmodel *model;
+            for(model = (VSRCmodel *)ckt->CKThead[vcode];model != NULL;
+                    model=model->VSRCnextModel){
+                for(here=model->VSRCinstances;here!=NULL;
+                        here=here->VSRCnextInstance) {
+                    if(here->VSRCname == cv->TRCVvName[i]) {
+                        cv->TRCVvElt[i] = (GENinstance *)here;
+                        cv->TRCVvSave[i]=here->VSRCdcValue;
+                        here->VSRCdcValue = cv->TRCVvStart[i];
+                        cv->TRCVvType[i]=vcode;
+                        goto found;
+                    }
+                }
+            }
+        }
+        if(icode >= 0 ) {
+            /* current sources are in this version, so use them */
+            register ISRCinstance *here;
+            register ISRCmodel *model;
+
+            for(model= (ISRCmodel *)ckt->CKThead[icode];model != NULL;
+                    model=model->ISRCnextModel){
+                for(here=model->ISRCinstances;here!=NULL;
+                        here=here->ISRCnextInstance) {
+                    if(here->ISRCname == cv->TRCVvName[i]) {
+                        cv->TRCVvElt[i]= (GENinstance *)here;
+                        cv->TRCVvSave[i]=here->ISRCdcValue;
+                        here->ISRCdcValue = cv->TRCVvStart[i];
+                        cv->TRCVvType[i]=icode;
+                        goto found;
+                    }
+                }
+            }
+        }
+        (*(SPfrontEnd->IFerror))(ERR_FATAL, 
+                "DCtrCurv: source %s not in circuit", &(cv->TRCVvName[i]));
+        return(E_NODEV);
+found:;
+    }
+
+/* gtri - add - wbk - 12/19/90 - Add IPC stuff and anal_init and anal_type */
+
+        /* Tell the beginPlot routine what mode we're in */
+        g_ipc.anal_type = IPC_ANAL_DCTRCURVE;
+
+        /* Tell the code models what mode we're in */
+        g_mif_info.circuit.anal_type = MIF_DC;
+
+        g_mif_info.circuit.anal_init = MIF_TRUE;
+
+/* gtri - end - wbk */
+
+    error = CKTnames(ckt,&numNames,&nameList);
+    if(error) return(error);
+    (*(SPfrontEnd->IFnewUid))((GENERIC *)ckt,&varUid,(IFuid )NULL,
+            "sweep", UID_OTHER, (GENERIC **)NULL);
+    (*(SPfrontEnd->OUTpBeginPlot))((GENERIC *)ckt,(GENERIC*)ckt->CKTcurJob,
+            ckt->CKTcurJob->JOBname,varUid,IF_REAL,numNames,nameList,
+            IF_REAL,&plot);
+    /* now have finished the initialization - can start doing hard part */
+    i = 0;
+resume:
+    for(;;) {
+
+        temp = ckt->CKTstates[ckt->CKTmaxOrder+1];
+        for(j=ckt->CKTmaxOrder;j>=0;j--) {
+            ckt->CKTstates[j+1] = ckt->CKTstates[j];
+        }
+        ckt->CKTstate0 = temp;
+
+        if(cv->TRCVvType[i]==vcode) { /* voltage source */
+            if((((VSRCinstance*)(cv->TRCVvElt[i]))->VSRCdcValue)*
+                    SIGN(1.,cv->TRCVvStep[i]) > 
+                    SIGN(1.,cv->TRCVvStep[i]) *
+                    cv->TRCVvStop[i])
+                { 
+                    i++ ; 
+                    firstTime=1;
+                    ckt->CKTmode = (ckt->CKTmode & MODEUIC) | 
+                            MODEDCTRANCURVE | MODEINITJCT ;
+                    if (i > cv->TRCVnestLevel ) break ; 
+                    goto nextstep;
+                }
+        } else if(cv->TRCVvType[i]==icode) { /* current source */
+            if((((ISRCinstance*)(cv->TRCVvElt[i]))->ISRCdcValue)*
+                    SIGN(1.,cv->TRCVvStep[i]) >
+                    SIGN(1.,cv->TRCVvStep[i]) *
+                    cv->TRCVvStop[i])
+                { 
+                    i++ ; 
+                    firstTime=1;
+                    ckt->CKTmode = (ckt->CKTmode & MODEUIC) | 
+                            MODEDCTRANCURVE | MODEINITJCT ;
+                    if (i > cv->TRCVnestLevel ) break ; 
+                    goto nextstep;
+                }
+        } /* else  not possible */
+        while (i > 0) { 
+            /* init(i); */
+            i--; 
+            if(cv->TRCVvType[i]==vcode) { /* voltage source */
+                ((VSRCinstance *)(cv->TRCVvElt[i]))->VSRCdcValue =
+                        cv->TRCVvStart[i];
+            } else if(cv->TRCVvType[i]==icode) { /* current source */
+                ((ISRCinstance *)(cv->TRCVvElt[i]))->ISRCdcValue =
+                        cv->TRCVvStart[i];
+            } /* else not possible */
+        }
+
+        /* do operation */
+/* gtri - begin - wbk - Do EVTop if event instances exist */
+    if(ckt->evt->counts.num_insts == 0) {
+        /* If no event-driven instances, do what SPICE normally does */
+        converged = NIiter(ckt,ckt->CKTdcTrcvMaxIter);
+        if(converged != 0) {
+            converged = CKTop(ckt,
+                (ckt->CKTmode&MODEUIC)|MODEDCTRANCURVE | MODEINITJCT,
+                (ckt->CKTmode&MODEUIC)|MODEDCTRANCURVE | MODEINITFLOAT,
+                ckt->CKTdcMaxIter);
+            if(converged != 0) {
+                return(converged);
+            }
+        }
+    }
+    else {
+        /* else do new algorithm */
+
+        /* first get the current step in the analysis */
+        if(cv->TRCVvType[0] == vcode) {
+            g_mif_info.evt_step = ((VSRCinstance *)(cv->TRCVvElt[i]))
+                    ->VSRCdcValue ;
+        } else if(cv->TRCVvType[0] == icode) {
+            g_mif_info.evt_step = ((ISRCinstance *)(cv->TRCVvElt[i]))
+                    ->ISRCdcValue ;
+        }
+
+        /* if first time through, call EVTop immediately and save event results */
+        if(firstTime) {
+            converged = EVTop(ckt,
+                        (ckt->CKTmode & MODEUIC) | MODEDCTRANCURVE | MODEINITJCT,
+                        (ckt->CKTmode & MODEUIC) | MODEDCTRANCURVE | MODEINITFLOAT,
+                        ckt->CKTdcMaxIter,
+                        MIF_TRUE);
+            EVTop_save(ckt, MIF_FALSE, g_mif_info.evt_step);
+            if(converged != 0)
+                return(converged);
+        }
+        /* else, call NIiter first with mode = MODEINITPRED */
+        /* to attempt quick analog solution.  Then call all hybrids and call */
+        /* EVTop only if event outputs have changed, or if non-converged */
+        else {
+            converged = NIiter(ckt,ckt->CKTdcTrcvMaxIter);
+            EVTcall_hybrids(ckt);
+            if((converged != 0) || (ckt->evt->queue.output.num_changed != 0)) {
+                converged = EVTop(ckt,
+                            (ckt->CKTmode & MODEUIC) | MODEDCTRANCURVE | MODEINITJCT,
+                            (ckt->CKTmode & MODEUIC) | MODEDCTRANCURVE | MODEINITFLOAT,
+                            ckt->CKTdcMaxIter,
+                            MIF_FALSE);
+                EVTop_save(ckt, MIF_FALSE, g_mif_info.evt_step);
+                if(converged != 0)
+                    return(converged);
+            }
+        }
+    }
+/* gtri - end - wbk - Do EVTop if event instances exist */
+
+
+        ckt->CKTmode = (ckt->CKTmode&MODEUIC) | MODEDCTRANCURVE | MODEINITPRED ;
+        if(cv->TRCVvType[0] == vcode) {
+            ckt->CKTtime = ((VSRCinstance *)(cv->TRCVvElt[i]))
+                    ->VSRCdcValue ;
+        } else if(cv->TRCVvType[0] == icode) {
+            ckt->CKTtime = ((ISRCinstance *)(cv->TRCVvElt[i]))
+                    ->ISRCdcValue ;
+        }
+
+/* gtri - add - wbk - 12/19/90 - Add IPC stuff */
+
+        /* If first time through, call CKTdump to output Operating Point info */
+        /* for Mspice compatibility */
+
+        if(g_ipc.enabled && firstTime) {
+            ipc_send_dcopb();
+            CKTdump(ckt,(double) 0,plot);
+            ipc_send_enddcop();
+        }
+
+/* gtri - end - wbk */
+
+/*
+        if(!ckt->CKTsenInfo) printf("sensitivity structure does not exist\n");
+    */
+        if(ckt->CKTsenInfo && (ckt->CKTsenInfo->SENmode&DCSEN) ){
+
+#ifdef SENSDEBUG
+            if(cv->TRCVvType[i]==vcode) { /* voltage source */
+                printf("Voltage Source Value : %.5e V\n",
+                        ((VSRCinstance*) (cv->TRCVvElt[i]))->VSRCdcValue);
+            }
+            if(cv->TRCVvType[i]==icode) { /* current source */
+                printf("Current Source Value : %.5e A\n",
+                        ((ISRCinstance*)(cv->TRCVvElt[i]))->ISRCdcValue);
+            }
+#endif /* SENSDEBUG */
+
+            senmode = ckt->CKTsenInfo->SENmode;
+            save = ckt->CKTmode;
+            ckt->CKTsenInfo->SENmode = DCSEN;
+            if(error = CKTsenDCtran(ckt)) return (error);
+            ckt->CKTmode = save;
+            ckt->CKTsenInfo->SENmode = senmode;
+
+        }
+
+
+/* gtri - modify - wbk - 12/19/90 - Send IPC delimiters */
+
+        if(g_ipc.enabled)
+            ipc_send_datab(ckt->CKTtime);
+
+        CKTdump(ckt,ckt->CKTtime,plot);
+
+        if(g_ipc.enabled)
+            ipc_send_enddata();
+
+/* gtri - end - wbk */
+
+        if(firstTime) {
+            firstTime=0;
+            bcopy((char *)ckt->CKTstate0,(char *)ckt->CKTstate1,
+                    ckt->CKTnumStates*sizeof(double));
+        }
+
+nextstep:;
+        if(cv->TRCVvType[i]==vcode) { /* voltage source */
+            ((VSRCinstance*)(cv->TRCVvElt[i]))->VSRCdcValue +=
+                    cv->TRCVvStep[i];
+        } else if(cv->TRCVvType[i]==icode) { /* current source */
+            ((ISRCinstance*)(cv->TRCVvElt[i]))->ISRCdcValue +=
+                    cv->TRCVvStep[i];
+        } /* else not possible */
+        if( (*(SPfrontEnd->IFpauseTest))() ) {
+            /* user asked us to pause, so save state */
+            cv->TRCVnestState = i;
+            return(E_PAUSE);
+        }
+    }
+
+    /* all done, lets put everything back */
+
+    for(i=0;i<=cv->TRCVnestLevel;i++) {
+        if(cv->TRCVvType[i] == vcode) {   /* voltage source */
+            ((VSRCinstance*)(cv->TRCVvElt[i]))->VSRCdcValue = 
+                    cv->TRCVvSave[i];
+        } else if(cv->TRCVvType[i] == icode) {    /* current source */
+            ((ISRCinstance*)(cv->TRCVvElt[i]))->ISRCdcValue = 
+                    cv->TRCVvSave[i];
+        } /* else not possible */
+    }
+    (*(SPfrontEnd->OUTendPlot))(plot);
+
+    return(OK);
+}

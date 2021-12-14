@@ -1,0 +1,2400 @@
+SUBJECT: dashb
+TITLE: -b
+TEXT: 
+TEXT:      G-b   HRun in batch mode.  Instead of prompting the user
+TEXT: H          interactively, Gspice Hwill execute the source files
+TEXT: H          given on the line, or if there are none, it will read
+TEXT: H          from the standard input.  (Gspice Honly)
+TEXT: H
+TEXT: 
+
+SUBJECT: dashi
+TITLE: -i
+TEXT: 
+TEXT:      G-i   HRun in interactive (as opposed to batch) mode.  This is
+TEXT: H          the default.  (Gspice Honly)
+TEXT: H
+TEXT: 
+
+SUBJECT: dashq
+TITLE: -q
+TEXT: 
+TEXT:      G-b   HRun in batch mode.  Instead of prompting the user
+TEXT: H          interactively, Gspice Hwill execute the source files
+TEXT: H          given on the line, or if there are none, it will read
+TEXT: H          from the standard input.  (Gspice Honly)
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:ccom
+
+SUBJECT: spice
+TITLE: SPICE3 Summary
+TEXT: 
+TEXT:                SPICE is a general-purpose circuit  simulation  program
+TEXT: H          for  nonlinear  dc,  nonlinear transient, and linear ac ana-
+TEXT: H          lyses.  Circuits may contain resistors,  capacitors,  induc-
+TEXT: H          tors,  mutual  inductors,  independent  voltage  and current
+TEXT: H          sources,  four  types  of  dependent  sources,  transmission
+TEXT: H          lines, switches, and the five most common semiconductor dev-
+TEXT: H          ices:  diodes, BJTs, JFETs, MESFETs, and MOSFETs.
+TEXT: H
+TEXT:                The SPICE3 version is based  directly  on  SPICE  2G.6.
+TEXT: H          While  SPICE3 is being developed to include new features, it
+TEXT: H          will continue to support those capabilities and models which
+TEXT: H          remain in extensive use in the SPICE2 program.
+TEXT: H
+TEXT:                SPICE has built-in models for  the  semiconductor  dev-
+TEXT: H          ices,  and  the  user  need specify only the pertinent model
+TEXT: H          parameter values.  The model for the BJT  is  based  on  the
+TEXT: H          integral  charge  model of Gummel and Poon;  however, if the
+TEXT: H          Gummel- Poon parameters are not specified, the model reduces
+TEXT: H          to  the  simpler  Ebers-Moll  model.  In either case, charge
+TEXT: H          storage effects, ohmic resistances, and a  current-dependent
+TEXT: H          output  conductance may be included.  The diode model can be
+TEXT: H          used for either junction diodes or Schottky barrier  diodes.
+TEXT: H          The  JFET  model  is  based on the FET model of Shichman and
+TEXT: H          Hodges.   Four  MOSFET  models  are  implemented:  MOS1   is
+TEXT: H          described  by a square-law I-V characteristic, MOS2[1] is an
+TEXT: H          analytical model, while MOS3[1] is a  semi-empirical  model,
+TEXT: H          and  MOS4[2,3] is the new BSIM (Berkeley Short-channel IGFET
+TEXT: H          Model).  MOS2, MOS3, and MOS4 include  second-order  effects
+TEXT: H          such  as channel length modulation, subthreshold conduction,
+TEXT: H          scattering limited velocity saturation, small-size  effects,
+TEXT: H          and charge-controlled capacitances.
+TEXT: H
+TEXT: 
+
+SUBJECT: aspice
+TITLE: aspice
+TEXT: 
+TEXT:      Gaspice H_i_n_f_i_l_e [ _o_u_t_f_i_l_e ]
+TEXT: H          Run SPICE3 asynchronously with _i_n_f_i_l_e as an input cir-
+TEXT: H          cuit.  If _o_u_t_f_i_l_e is given, the output is saved in this
+TEXT: H          file.  After this command is issued, the job is started
+TEXT: H          in the background, and you may continue using the
+TEXT: H          invoking program interactively.  When the job is fin-
+TEXT: H          ished, the rawfile is loaded and becomes the current
+TEXT: H          plot, and the output generated is printed.  You may
+TEXT: H          specify the pathname of the program to be run with the
+TEXT: H          Gspicepath Hvariable.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:jobs
+SEEALSO: SPICE:rspice
+
+SUBJECT: rspice
+TITLE: rspice
+TEXT: 
+TEXT:      Grspice H[ _i_n_p_u_t_f_i_l_e ] ...
+TEXT: H          Runs a Gspice Hjob remotely, using the _i_n_p_u_t_f_i_l_es as
+TEXT: H          input, or the current circuit if no argument is given.
+TEXT: H          The program waits for the job to complete, and passes
+TEXT: H          output from the remote job to the user's standard out-
+TEXT: H          put. When the job is finished the data is loaded in as
+TEXT: H          with GaspiceH. If the variable Grhost His set, Grspice Hwill
+TEXT: H          connect to this host instead of the default remote
+TEXT: H          server machine.  If the variable Grprogram His set, then
+TEXT: H          Grspice Hwill use this as the pathname to the program to
+TEXT: H          run.  Note that this command will work only if your
+TEXT: H          system administrator has set up a Gspice Hdaemon on one
+TEXT: H          of your machines.  (See the README file in the distri-
+TEXT: H          bution directory for details on how to do this.) If the
+TEXT: H          daemon thinks the remote machine is too loaded already,
+TEXT: H          it may tell the user to try another machine or to try
+TEXT: H          again later.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:aspice
+SEEALSO: NUTMEG:rhost
+SEEALSO: NUTMEG:rprogram
+
+SUBJECT: reset
+TITLE: reset
+TEXT: 
+TEXT:      Greset
+TEXT: H          HThrow away the internal data structures associated with
+TEXT: H          the current circuit and re-parse the input listing.
+TEXT: H          This command should be obsolete, since this is done
+TEXT: H          automatically by the Grun Hcommand and the other simula-
+TEXT: H          tion commands.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:run
+
+SUBJECT: resume
+TITLE: resume
+TEXT: 
+TEXT:      Gresume
+TEXT: H          HIf the current circuit is in the middle of a simula-
+TEXT: H          tion, restart the simulation from the point it was left
+TEXT: H          off.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:run
+
+SUBJECT: run
+TITLE: run
+TEXT: 
+TEXT:      Grun H[ _r_a_w_f_i_l_e ]
+TEXT: H          Run all the analyses given in the current circuit (the
+TEXT: H          default is an operating point analysis). If a _r_a_w_f_i_l_e
+TEXT: H          is given, the output is saved in this file.  Otherwise
+TEXT: H          it is made available as the current plot.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:resume
+
+SUBJECT: delete
+TITLE: delete
+TEXT: 
+TEXT:      Gdelete H[ _n_u_m_b_e_r ] ...
+TEXT: H          Remove the traces or breakpoints with the specified
+TEXT: H          _n_u_m_b_e_rs.  The Gstatus Hcommand may be used to obtain
+TEXT: H          these numbers. (Gspice Honly)
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:status
+SEEALSO: SPICE:stop
+SEEALSO: SPICE:iplot
+SEEALSO: SPICE:step
+
+SUBJECT: iplot
+TITLE: iplot
+TEXT: 
+TEXT:      Giplot H[ _n_a_m_e ] ...
+TEXT: H          Incrementally plot the values of all the _n_a_m_es given as
+TEXT: H          the simulation runs.  The values which are being traced
+TEXT: H          in this manner can be examined and removed using the
+TEXT: H          Gstatus Hand Gdelete Hcommands.  (Gspice Honly)
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:status
+SEEALSO: SPICE:delete
+SEEALSO: SPICE:step
+SEEALSO: SPICE:stop
+SEEALSO: NUTMEG:plot
+
+SUBJECT: listing
+TITLE: listing
+TEXT: 
+TEXT:      Glisting H[ Glogical H] [ Gphysical H] [ Gdeck H] [ Gexpand H]
+TEXT: H          Print a listing of the current circuit to the standard
+TEXT: H          output.  The arguments control the format of the list-
+TEXT: H          ing.  A Glogical Hlisting is one in which comments are
+TEXT: H          removed and continuation lines are appended to the end
+TEXT: H          of the continued line.  A Gphysical Hlisting is one in
+TEXT: H          which comments and continuation lines are preserved.  A
+TEXT: H          Gdeck Hlisting is one without line numbers (so as to be
+TEXT: H          acceptible to the circuit parser).  The last option,
+TEXT: H          GexpandH, is orthagonal to the previous three - it
+TEXT: H          requests that the circuit be printed after subcircuit
+TEXT: H          expansion.  Note that only in an expanded listing are
+TEXT: H          error messages associated with particular lines visi-
+TEXT: H          ble.  (Gspice Honly)
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:source
+
+SUBJECT: editor
+TITLE: editor
+TEXT: 
+TEXT:      Geditor
+TEXT: H          HThe name for the editor to use for the Gedit Hcommand.
+TEXT: H          The default is GviH.  (Gspice Honly)
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:edit
+
+SUBJECT: dashs
+TITLE: -s
+TEXT: 
+TEXT:      G-s   HRun in server mode.  This is like batch mode, and it
+TEXT: H          used by the Gspice daemonH.  GSpice Hwill read from the
+TEXT: H          standard input up to an GEOFH, and then after it is fin-
+TEXT: H          ished it will send a line consisting of one `@' and
+TEXT: H          then the contents of the rawfile to the standard out-
+TEXT: H          put.  (Gspice Honly)
+TEXT: H
+TEXT: 
+
+SUBJECT: trace
+TITLE: trace
+TEXT: 
+TEXT:      Gtrace H[ _n_o_d_e ] ...
+TEXT: H          Each time point, the value of the named nodes will be
+TEXT: H          printed to the standard output.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:step
+SEEALSO: SPICE:stop
+SEEALSO: SPICE:delete
+SEEALSO: NUTMEG:status
+SEEALSO: SPICE:iplot
+
+SUBJECT: tran
+TITLE: tran
+TEXT: 
+TEXT:      Gtran H._t_r_a_n _a_r_g_u_m_e_n_t_s
+TEXT: H          Run a transient analysis.  See the SPICE3 User's Guide
+TEXT: H          for details.  Only available in GspiceH.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:trananalysis
+
+SUBJECT: save
+TITLE: save
+TEXT: 
+TEXT:      Gsave H[ Gall H] [ _n_o_d_e_n_a_m_e ] ...
+TEXT: H          Save a set of outputs, discarding the rest. If a node
+TEXT: H          has been mentioned in a Gsave Hcommand, it will appear in
+TEXT: H          the working plot after a run has completed, or in the
+TEXT: H          rawfile if spice is run in batch mode (in this case,
+TEXT: H          the command can be given in the input file as G.save
+TEXT: H          ...H). If a node is traced or plotted it will also be
+TEXT: H          saved.  If no Gsave Hcommands are given, all nodes will
+TEXT: H          be saved.
+TEXT: H
+TEXT: 
+SEEALSO: NUTMEG:status
+
+SUBJECT: trananalysis
+TITLE: Transient Analysis
+TEXT: 
+TEXT:                The transient analysis portion of  SPICE  computes  the
+TEXT: H          transient  output  variables  as  a  function of time over a
+TEXT: H          user-specified time interval.  The  initial  conditions  are
+TEXT: H          automatically  determined  by  a  dc  analysis.  All sources
+TEXT: H          which are not time dependent (for example,  power  supplies)
+TEXT: H          are  set  to their dc value.  The transient time interval is
+TEXT: H          specified on a G.TRAN Hcontrol line.
+TEXT: H
+TEXT:           GGeneral form:
+TEXT: H
+TEXT:                .TRAN H_T_S_T_E_P _T_S_T_O_P <_T_S_T_A_R_T <_T_M_A_X>> <_U_I_C>
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:                .TRAN 1NS 100NS
+TEXT: H               .TRAN 1NS 1000NS 500NS
+TEXT: H               .TRAN 10NS 1US UIC
+TEXT: H
+TEXT: 
+TEXT:                H_T_S_T_E_P is the printing or plotting increment  for  line-
+TEXT: H          printer  output.   For use with the post-processor, _T_S_T_E_P is
+TEXT: H          the suggested computing increment.  _T_S_T_O_P is the final time,
+TEXT: H          and _T_S_T_A_R_T is the initial time.  If _T_S_T_A_R_T is omitted, it is
+TEXT: H          assumed to be zero.  The transient analysis always begins at
+TEXT: H          time  zero.   In the interval <zero, _T_S_T_A_R_T>, the circuit is
+TEXT: H          analyzed (to reach a  steady  state),  but  no  outputs  are
+TEXT: H          stored.   In  the  interval  <_T_S_T_A_R_T, _T_S_T_O_P>, the circuit is
+TEXT: H          analyzed and outputs are stored.  _T_M_A_X is the maximum  step-
+TEXT: H          size  that  SPICE  will  use (by default the program chooses
+TEXT: H          either _T_S_T_E_P or (_T_S_T_O_P-_T_S_T_A_R_T)/50.0, whichever  is  smaller.
+TEXT: H          _T_M_A_X  is  useful  when  one  wishes to guarantee a computing
+TEXT: H          interval which is smaller than the printer increment, _T_S_T_E_P.
+TEXT: H
+TEXT:                GUIC H(use initial conditions)  is  an  optional  keyword
+TEXT: H          which  indicates  that the user does not want SPICE to solve
+TEXT: H          for the quiescent operating point before beginning the tran-
+TEXT: H          sient  analysis.   If  this keyword is specified, SPICE uses
+TEXT: H          the values specified using GICH=... on the various elements as
+TEXT: H          the  initial  transient  condition  and  proceeds  with  the
+TEXT: H          analysis.  If an G.IC Hline has been given, then the node vol-
+TEXT: H          tages  on the G.IC Hline are used to compute the intitial con-
+TEXT: H          ditions for the devices.  Look at the description on the
+TEXT: H          IC line for its interpretation when UIC is not specified.
+TEXT: 
+SEEALSO: SPICE:tran
+
+SUBJECT: op
+TITLE: op
+TEXT: 
+TEXT:      Gop H._o_p _c_a_r_d _a_r_g_u_m_e_n_t_s
+TEXT: H          Perform an operating point analysis on the current cir-
+TEXT: H          cuit.  See the SPICE3 User's Guide for details.  Only
+TEXT: H          available in GspiceH.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:opanalysis
+
+SUBJECT: analyses
+TITLE: Analysis Types
+TEXT: 
+TEXT:                The  following  analyses  are  currently  available  in
+TEXT: H          SPICE3.
+TEXT: H
+TEXT: 
+SUBTOPIC: SPICE:acanalysis SPICE:dcanalysis SPICE:opanalysis
+SUBTOPIC: SPICE:pzanalysis SPICE:trananalysis
+SEEALSO: SPICE:run
+
+SUBJECT: acanalysis
+TITLE: AC Small-Signal Analysis
+TEXT: 
+TEXT:                The ac small-signal portion of SPICE  computes  the  ac
+TEXT: H          output  variables  as  a function of frequency.  The program
+TEXT: H          first computes the dc operating point  of  the  circuit  and
+TEXT: H          determines  linearized,  small-signal  models for all of the
+TEXT: H          nonlinear devices in the circuit.  The resultant linear cir-
+TEXT: H          cuit  is  then  analyzed over a user-specified range of fre-
+TEXT: H          quencies.  The desired output of an ac small-signal analysis
+TEXT: H          is  usually  a  transfer  function  (voltage  gain, transim-
+TEXT: H          pedance, etc).  If the circuit has only one ac input, it  is
+TEXT: H          convenient  to  set  that  input to unity and zero phase, so
+TEXT: H          that output variables have the same value  as  the  transfer
+TEXT: H          function of the output variable with respect to the input.
+TEXT: H
+TEXT:           GGeneral form:
+TEXT: H
+TEXT:                .AC DEC H_N_D _F_S_T_A_R_T _F_S_T_O_P
+TEXT: H               G.AC OCT H_N_O _F_S_T_A_R_T _F_S_T_O_P
+TEXT: H               G.AC LIN H_N_P _F_S_T_A_R_T _F_S_T_O_P
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:                .AC DEC H10 1 10K
+TEXT: H               G.AC DEC H10 1K 100MEG
+TEXT: H               G.AC LIN H100 1 100HZ
+TEXT: H
+TEXT: 
+TEXT:                GDEC Hstands for decade variation, and _N_D is  the  number
+TEXT: H          of  points per decade.  GOCT Hstands for octave variation, and
+TEXT: H          _N_O is the number of  points  per  octave.   GLIN  Hstands  for
+TEXT: H          linear variation, and _N_P is the number of points.  _F_S_T_A_R_T is
+TEXT: H          the starting frequency, and _F_S_T_O_P is  the  final  frequency.
+TEXT: H          If  this  line  is  included in the circuit file, SPICE will
+TEXT: H          perform an ac analysis of the  circuit  over  the  specified
+TEXT: H          frequency range.  Note that in order for this analysis to be
+TEXT: H          meaningful, at least one independent source must  have  been
+TEXT: H          specified with an ac value.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:ac
+
+SUBJECT: dcanalysis
+TITLE: DC Analysis
+TEXT: 
+TEXT:                The dc analysis portion  of  SPICE  determines  the  dc
+TEXT: H          operating  point  of  the circuit with inductors shorted and
+TEXT: H          capacitors opened.  A dc analysis is automatically performed
+TEXT: H          prior  to  a  transient  analysis to determine the transient
+TEXT: H          initial conditions, and prior to an ac small-signal analysis
+TEXT: H          to  determine  the  linearized, small-signal models for non-
+TEXT: H          linear devices.  The dc analysis can also be  used  to  gen-
+TEXT: H          erate  dc  transfer curves:  a specified independent voltage
+TEXT: H          or current source is stepped over a user-specified range and
+TEXT: H          the  dc  output  variables  are  stored  for each sequential
+TEXT: H          source value.
+TEXT: H
+TEXT:           GGeneral form:
+TEXT: H
+TEXT:                .DC H_S_R_C_N_A_M _V_S_T_A_R_T _V_S_T_O_P _V_I_N_C_R <_S_R_C_2 _S_T_A_R_T_2 _S_T_O_P_2 _I_N_C_R_2>
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:                .DC HVIN 0.25 5.0 0.25
+TEXT: H               G.DC HVDS 0 10 .5 VGS 0 5 1
+TEXT: H               G.DC HVCE 0 10 .25 IB 0 10U 1U
+TEXT: H
+TEXT: 
+TEXT:                This line defines the  dc  transfer  curve  source  and
+TEXT: H          sweep  limits.  _S_R_C_N_A_M is the name of an independent voltage
+TEXT: H          or current source.  _V_S_T_A_R_T, _V_S_T_O_P, and _V_I_N_C_R are the  start-
+TEXT: H          ing, final, and incrementing values respectively.  The first
+TEXT: H          example will cause the value of the voltage source _V_I_N to be
+TEXT: H          swept  from  0.25  Volts  to 5.0 Volts in increments of 0.25
+TEXT: H          Volts.  A second source (_S_R_C_2) may optionally  be  specified
+TEXT: H          with  associated  sweep parameters.  In this case, the first
+TEXT: H          source will be swept over its range for each  value  of  the
+TEXT: H          second source.  This option can be useful for obtaining sem-
+TEXT: H          iconductor device output characteristics.   See  the  second
+TEXT: H          example circuit in the GExamples Hsection of the guide.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:dc
+
+SUBJECT: opanalysis
+TITLE: Operating Point
+TEXT: 
+TEXT:           GGeneral form:
+TEXT: H
+TEXT:                .OP
+TEXT: H
+TEXT: 
+TEXT:                HThe inclusion of this line in an input file will  force
+TEXT: H          SPICE  to  determine  the  dc operating point of the circuit
+TEXT: H          with inductors shorted and capacitors opened.  Note:   a  dc
+TEXT: H          analysis  is  automatically  performed  prior to a transient
+TEXT: H          analysis to determine the transient initial conditions,  and
+TEXT: H          prior  to  an  ac  small-signal  analysis  to  determine the
+TEXT: H          linearized, small-signal models for nonlinear devices.
+TEXT: H
+TEXT:                SPICE performs a dc  operating  point  analysis  if  no
+TEXT: H          other analyses are requested.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:op
+
+SUBJECT: pzanalysis
+TITLE: Pole-Zero Analysis
+TEXT: 
+TEXT:                The pole-zero analysis portion of  SPICE  computes  the
+TEXT: H          poles and/or zeros in the small-signal ac transfer function.
+TEXT: H          The program first computes the dc operating point  and  then
+TEXT: H          determines  the  linearized, small-signal models for all the
+TEXT: H          nonlinear devices in the circuit. This circuit is then  used
+TEXT: H          to find the poles and zeros.
+TEXT: H
+TEXT:                Two types of transfer functions are allowed: one of the
+TEXT: H          form  (output  voltage)/(input voltage) and the other of the
+TEXT: H          form (output voltage)/(input current).  These two  types  of
+TEXT: H          transfer  functions cover all the cases and one can find the
+TEXT: H          poles/zeros of functions  like  input/output  impedance  and
+TEXT: H          voltage  gain.   The input and output ports are specified as
+TEXT: H          two pairs of nodes.
+TEXT: H
+TEXT:                The pole-zero analysis works  with  resistors,  capaci-
+TEXT: H          tors,   inductors,  linear-controlled  sources,  independent
+TEXT: H          sources, BJTs,  MOSFETs,  JFETs  and  diodes.   Transmission
+TEXT: H          lines are not supported.
+TEXT: H
+TEXT:           GGeneral forms:
+TEXT: H
+TEXT:                 .PZ H_N_O_D_E_1 _N_O_D_E_2 _N_O_D_E_3 _N_O_D_E_4 _C_U_R _P_O_L
+TEXT: H                G.PZ H_N_O_D_E_1 _N_O_D_E_2 _N_O_D_E_3 _N_O_D_E_4 _C_U_R _Z_E_R
+TEXT: H                G.PZ H_N_O_D_E_1 _N_O_D_E_2 _N_O_D_E_3 _N_O_D_E_4 _C_U_R _P_Z
+TEXT: H                G.PZ H_N_O_D_E_1 _N_O_D_E_2 _N_O_D_E_3 _N_O_D_E_4 _V_O_L _P_O_L
+TEXT: H                G.PZ H_N_O_D_E_1 _N_O_D_E_2 _N_O_D_E_3 _N_O_D_E_4 _V_O_L _Z_E_R
+TEXT: H                G.PZ H_N_O_D_E_1 _N_O_D_E_2 _N_O_D_E_3 _N_O_D_E_4 _V_O_L _P_Z
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:                .PZ 1 0 3 0 CUR POL
+TEXT: H               .PZ 2 3 5 0 VOL ZER
+TEXT: H               .PZ 4 1 4 1 CUR PZ
+TEXT: H
+TEXT: 
+TEXT:                HCUR stands for a transfer function of the type  (output
+TEXT: H          voltage)/(input  current)  while  VOL  stands for a transfer
+TEXT: H          function of the type (output voltage)/(input voltage).   POL
+TEXT: H          stands  for  pole  analysis only, ZER for zero analysis only
+TEXT: H          and PZ for both.  This feature is provided mainly because if
+TEXT: H          there  is  a nonconvergence in finding poles or zeros, then,
+TEXT: H          at least the other can be found.  Finally, NODE1  and  NODE2
+TEXT: H          are the two input nodes and NODE3 and NODE4 are the two out-
+TEXT: H          put nodes.  Thus, there is complete  freedom  regarding  the
+TEXT: H          output and input ports and the type of transfer function.
+TEXT: H
+TEXT:                In interactive mode, the command  syntax  is  the  same
+TEXT: H          except  that the first field is PZ instead of .PZ.  To print
+TEXT: H          the results, one should use the command 'print all'.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:pz
+
+SUBJECT: pz
+TITLE: pz
+TEXT: 
+TEXT:      Gpz H._p_z _c_a_r_d _o_p_t_i_o_n_s
+TEXT: H          Run a pole-zero analysis.  See the SPICE3 User's Guide
+TEXT: H          for details.  This command is only available in GspiceH.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:pzanalysis
+
+SUBJECT: setcirc
+TITLE: setcirc
+TEXT: 
+TEXT:      Gsetcirc H[ _c_i_r_c_u_i_t_n_a_m_e ]
+TEXT: H          Change the current circuit. The current circuit is the
+TEXT: H          one that is used for the simulation commands.  When a
+TEXT: H          circuit is loaded with the Gsource Hcommand, it becomes
+TEXT: H          the current circuit.  If Gsetcirc His given no arguments,
+TEXT: H          it prints a menu of the available circuits.
+TEXT: H
+TEXT: 
+
+SUBJECT: ac
+TITLE: ac
+TEXT: 
+TEXT:      Gac H._a_c _c_a_r_d _a_r_g_u_m_e_n_t_s
+TEXT: H          Do an ac analysis of the current circuit.  See the
+TEXT: H          SPICE3 User's Guide for details.  Only available in
+TEXT: H          GspiceH.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:acanalysis
+
+SUBJECT: dc
+TITLE: dc
+TEXT: 
+TEXT:      Gdc H._d_c _c_a_r_d _a_r_g_u_m_e_n_t_s
+TEXT: H          Calculate the dc transfer curve of the current circuit.
+TEXT: H          See the SPICE3 User's Guide for details.  Only avail-
+TEXT: H          able in GspiceH.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:dcanalysis
+
+SUBJECT: subckts
+TITLE: Subcircuits
+TEXT: 
+TEXT:                A subcircuit that consists of  SPICE  elements  can  be
+TEXT: H          defined  and  referenced  in  a  fashion  similar  to device
+TEXT: H          models.  The subcircuit is defined in the input  file  by  a
+TEXT: H          grouping  of  element lines;  the program then automatically
+TEXT: H          inserts the group of elements  wherever  the  subcircuit  is
+TEXT: H          referenced.   There is no limit on the size or complexity of
+TEXT: H          subcircuits, and subcircuits may contain other  subcircuits.
+TEXT: H          An example of subcircuit usage is given in Appendix A.
+TEXT: H
+TEXT:           _1._1.  ._S_U_B_C_K_T _C_a_r_d
+TEXT: H
+TEXT:           GGeneral form:
+TEXT: H
+TEXT:                .SUBCKT H_s_u_b_n_a_m _N_1 <_N_2 _N_3 ...>
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:                H.GSUBCKT HOPAMP 1 2 3 4
+TEXT: H
+TEXT: 
+TEXT:                A circuit definition is  begun  with  a  G.SUBCKT  Hline.
+TEXT: H          _S_U_B_N_A_M  is  the  subcircuit  name,  and  _N_1, _N_2, ... are the
+TEXT: H          external nodes, which cannot be zero.  The group of  element
+TEXT: H          lines  which  immediately follow the G.SUBCKT Hline define the
+TEXT: H          subcircuit.  The last line in a subcircuit definition is the
+TEXT: H          G.ENDS Hline (see below).  Control lines may not appear within
+TEXT: H          a subcircuit definition;   however,  subcircuit  definitions
+TEXT: H          may contain anything else, including other subcircuit defin-
+TEXT: H          itions, device models, and  subcircuit  calls  (see  below).
+TEXT: H          Note  that  any  device  models  or  subcircuit  definitions
+TEXT: H          included as part of a  subcircuit  definition  are  strictly
+TEXT: H          local  (i.e., such models and definitions are not known out-
+TEXT: H          side the subcircuit definition).  Also,  any  element  nodes
+TEXT: H          not  included  on  the G.SUBCKT Hline are strictly local, with
+TEXT: H          the exception of 0 (ground) which is always global.
+TEXT: H
+TEXT:           _1._2.  ._E_N_D_S _C_a_r_d
+TEXT: H
+TEXT:           GGeneral form:
+TEXT: H
+TEXT:                .ENDS H<_S_U_B_N_A_M>
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:                .ENDS HOPAMP
+TEXT: H
+TEXT: 
+TEXT:                This line must be  the  last  one  for  any  subcircuit
+TEXT: H          definition.   The  subcircuit  name,  if included, indicates
+TEXT: H          which subcircuit definition is being terminated;   if  omit-
+TEXT: H          ted, all subcircuits being defined are terminated.  The name
+TEXT: H          is needed only when nested subcircuit definitions are  being
+TEXT: H          made.
+TEXT: H
+TEXT: 
+TEXT:           _1._3.  _S_u_b_c_i_r_c_u_i_t _C_a_l_l_s
+TEXT: H
+TEXT:           GGeneral form:
+TEXT: H
+TEXT:               XH_X_Y_Y_Y_Y_Y_Y_Y _N_1 <_N_2 _N_3 ...> _S_U_B_N_A_M
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:               XH1 2 4 17 3 1 MULTI
+TEXT: H
+TEXT: 
+TEXT:                Subcircuits are used in  SPICE  by  specifying  pseudo-
+TEXT: H          elements beginning with the letter `X', followed by the cir-
+TEXT: H          cuit nodes to be used in expanding the subcircuit.
+TEXT: H
+TEXT:                Note that when a circuit is  parsed,  all  devices  and
+TEXT: H          local     nodes    in    subcircuits    are    renamed    as
+TEXT: H          _d_e_v_i_c_e_t_y_p_eG:H_s_u_b_c_k_t_n_a_m_eG:H_d_e_v_i_c_e_n_a_m_e.      Nested     subcircuit
+TEXT: H          instances  will  have  multiple  colon-seperated qualifiers.
+TEXT: H          GNutmeg Hwill also accept  subcircuit  names  with  components
+TEXT: H          seperated by periods, so long as the names do not clash with
+TEXT: H          names specifiable as _p_l_o_t_n_a_m_eG.H_v_a_l_u_e.
+TEXT: H
+TEXT: 
+
+SUBJECT: titlecard
+TITLE: Title Line
+TEXT: 
+TEXT:                This line must be the first line in the input file.  It
+TEXT: H          is printed at the top of each page of output.
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:               HPOWER AMPLIFIER CIRCUIT
+TEXT: H              TEST OF CAM CELL
+TEXT: H
+TEXT: 
+
+SUBJECT: models
+TITLE: Device Models
+TEXT: 
+TEXT:           GGeneral form:
+TEXT: H
+TEXT:                .MODEL H_M_N_A_M_E _T_Y_P_E(_P_N_A_M_E_1=_P_V_A_L_1 _P_N_A_M_E_2=_P_V_A_L_2 ... )
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:                .MODEL HMOD1 NPN (BF=50 IS=1E-13 VBF=50)
+TEXT: H
+TEXT: 
+TEXT:                The G.MODEL Hline specifies a  set  of  model  parameters
+TEXT: H          that  will  be  used  by  one or more devices.  _M_N_A_M_E is the
+TEXT: H          model name, and type is one of the following ten types:
+TEXT: H
+TEXT:                       GR      Hresistor model
+TEXT: H                      GC      Hcapacitor model
+TEXT: H                      GURC    HUniform Distributed RC model
+TEXT: H                      GD      Hdiode model
+TEXT: H                      GNPN    HNPN BJT model
+TEXT: H                      GPNP    HPNP BJT model
+TEXT: H                      GNJF    HN-channel JFET model
+TEXT: H                      GPJF    HP-channel JFET model
+TEXT: H                      GNMOS   HN-channel MOSFET model
+TEXT: H                      GPMOS   HP-channel MOSFET model
+TEXT: H                      GNMF    HN-channel MESFET model
+TEXT: H                      GPMF    HP-channel MESFET model
+TEXT: H                      GSW     Hvoltage controlled switch
+TEXT: H                      GCSW    Hcurrent controlled switch
+TEXT: H
+TEXT: 
+TEXT:                Parameter values are defined by appending the parameter
+TEXT: H          name,  as  given  below  for each model type, followed by an
+TEXT: H          equal sign and the parameter value.  Model  parameters  that
+TEXT: H          are  not given a value are assigned the default values given
+TEXT: H          below for each model type.
+TEXT: H
+TEXT: 
+SUBTOPIC: SPICE:bjt SPICE:c SPICE:d
+SUBTOPIC: SPICE:jfet SPICE:mesfet SPICE:mosfet
+SUBTOPIC: SPICE:rmodel SPICE:swmodel SPICE:urc
+
+
+SUBJECT: bjt
+TITLE: BJT Models
+TEXT: 
+TEXT:                The bipolar junction transistor model in  SPICE  is  an
+TEXT: H          adaptation  of  the  integral charge control model of Gummel
+TEXT: H          and Poon.  This modified Gummel-Poon model extends the  ori-
+TEXT: H          ginal  model to include several effects at high bias levels.
+TEXT: H          The model will automatically simplify to the simpler  Ebers-
+TEXT: H          Moll  model  when  certain parameters are not specified. The
+TEXT: H          parameter names used in the modified Gummel-Poon model  have
+TEXT: H          been  chosen  to  be  more  easily understood by the program
+TEXT: H          user, and to reflect better both physical and circuit design
+TEXT: H          thinking.
+TEXT: H
+TEXT:                The dc model is defined by the parameters GIS,  BF,  NF,
+TEXT: H          ISE,  IKFH,  and  GNE Hwhich determine the forward current gain
+TEXT: H          characteristics, GIS, BR, NR, ISC, IKRH, and GNC  Hwhich  deter-
+TEXT: H          mine  the  reverse current gain characteristics, and GVAF Hand
+TEXT: H          GVAR Hwhich determine the output conductance for  forward  and
+TEXT: H          reverse regions.  Three ohmic resistances GRB, RCH, and GRE Hare
+TEXT: H          included, where GRB Hcan  be  high  current  dependent.   Base
+TEXT: H          charge  storage  is  modeled  by forward and reverse transit
+TEXT: H          times, GTF Hand GTRH, the forward transit  time  TF  being  bias
+TEXT: H          dependent  if desired, and nonlinear depletion layer capaci-
+TEXT: H          tances which are determined by GCJE, VJEH, and GMJE Hfor the B-E
+TEXT: H          junction  ,  GCJC, VJCH, and GMJC Hfor the B-C junction and GCJS,
+TEXT: H          VJSH, and GMJS Hfor  the  C-S  (Collector-Substrate)  junction.
+TEXT: H          The temperature dependence of the saturation current, GISH, is
+TEXT: H          determined by the energy-gap, GEGH, and the saturation current
+TEXT: H          temperature  exponent,  GXTIH.  Additionally base current tem-
+TEXT: H          perature dependence  is  modeled  by  the  beta  temperature
+TEXT: H          exponent GXTB Hin the new model.
+TEXT: H
+TEXT:                The  BJT parameters used in  the  modified  Gummel-Poon
+TEXT: H          model  are listed below. The parameter names used in earlier
+TEXT: H          versions of SPICE2 are still accepted.
+TEXT: H
+TEXT:                                   Modified Gummel-Poon BJT Parameters.
+TEXT: H               name   parameter                               units   default    example   area
+TEXT: H
+TEXT: H          1    GIS     Htransport saturation current            A       1.0E-16    1.0E-15   *
+TEXT: H          2    GBF     Hideal maximum forward beta              -       100        100
+TEXT: H          3    GNF     Hforward current emission coefficient    -       1.0        1
+TEXT: H          4    GVAF    Hforward Early voltage                   V       infinite   200
+TEXT: H          5    GIKF    Hcorner for forward beta
+TEXT: H                      high current roll-off                   A       infinite   0.01      *
+TEXT: H          6    GISE    HB-E leakage saturation current          A       0          1.0E-13   *
+TEXT: H          7    GNE     HB-E leakage emission coefficient        -       1.5        2
+TEXT: H          8    GBR     Hideal maximum reverse beta              -       1          0.1
+TEXT: H          9    GNR     Hreverse current emission coefficient    -       1          1
+TEXT: H          10   GVAR    Hreverse Early voltage                   V       infinite   200
+TEXT: H          11   GIKR    Hcorner for reverse beta
+TEXT: H                      high current roll-off                   A       infinite   0.01      *
+TEXT: H          12   GISC    HB-C leakage saturation current          A       0          1.0E-13   *
+TEXT: H
+TEXT: 
+TEXT:           13   GNC     HB-C leakage emission coefficient        -       2          1.5
+TEXT: H          14   GRB     Hzero bias base resistance               Ohms    0          100       *
+TEXT: H          15   GIRB    Hcurrent where base resistance
+TEXT: H                      falls halfway to its min value          A       infinite   0.1       *
+TEXT: H          16   GRBM    Hminimum base resistance
+TEXT: H                      at high currents                        Ohms    RB         10        *
+TEXT: H          17   GRE     Hemitter resistance                      Ohms    0          1         *
+TEXT: H          18   GRC     Hcollector resistance                    Ohms    0          10        *
+TEXT: H          19   GCJE    HB-E zero-bias depletion capacitance     F       0          2PF       *
+TEXT: H          20   GVJE    HB-E built-in potential                  V       0.75       0.6
+TEXT: H          21   GMJE    HB-E junction exponential factor         -       0.33       0.33
+TEXT: H          22   GTF     Hideal forward transit time              sec     0          0.1Ns
+TEXT: H          23   GXTF    Hcoefficient for bias dependence of TF   -       0
+TEXT: H          24   GVTF    Hvoltage describing VBC
+TEXT: H                      dependence of TF                        V       infinite
+TEXT: H          25   GITF    Hhigh-current parameter
+TEXT: H                      for effect on TF                        A       0                    *
+TEXT: H          26   GPTF    Hexcess phase at freq=1.0/(TF*2PI) Hz    deg     0
+TEXT: H          27   GCJC    HB-C zero-bias depletion capacitance     F       0          2PF       *
+TEXT: H          28   GVJC    HB-C built-in potential                  V       0.75       0.5
+TEXT: H          29   GMJC    HB-C junction exponential factor         -       0.33       0.5
+TEXT: H          30   GXCJC   Hfraction of B-C depletion capacitance   -       1
+TEXT: H                      connected to internal base node
+TEXT: H          31   GTR     Hideal reverse transit time              sec     0          10Ns
+TEXT: H          32   GCJS    Hzero-bias collector-substrate
+TEXT: H                      capacitance                             F       0          2PF       *
+TEXT: H          33   GVJS    Hsubstrate junction built-in potential   V       0.75
+TEXT: H          34   GMJS    Hsubstrate junction exponential factor   -       0          0.5
+TEXT: H          35   GXTB    Hforward and reverse beta
+TEXT: H                      temperature exponent                    -       0
+TEXT: H          36   GEG     Henergy gap for temperature
+TEXT: H                      effect on IS                            eV      1.11
+TEXT: H          37   GXTI    Htemperature exponent for effect on IS   -       3
+TEXT: H          38   GKF     Hflicker-noise coefficient               -       0
+TEXT: H          39   GAF     Hflicker-noise exponent                  -       1
+TEXT: H          40   GFC     Hcoefficient for forward-bias
+TEXT: H                      depletion capacitance formula           -       0.5
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:q
+
+SUBJECT: c
+TITLE: Capacitor Models
+TEXT: 
+TEXT:                The capacitor model contains process  information  that
+TEXT: H          may  be  used  to  compute  the  capacitance  from  strictly
+TEXT: H          geometric information.
+TEXT: H
+TEXT:           Gname     Hparameter                       units       default   example
+TEXT: H
+TEXT: H          GCJ       Hjunction bottom capacitance     F/meters2   -         5e-5
+TEXT: H          GCJSW     Hjunction sidewall capacitance   F/meters    -         2e-11
+TEXT: H          GDEFW     Hdefault device width            meters      1e-6      2e-6
+TEXT: H          GNARROW   Hnarrowing due to side etching   meters      0.0       1e-7
+TEXT: H
+TEXT: 
+TEXT:                The capacitor has a capacitance computed as
+TEXT: H
+TEXT:           CAP=CJx(LENGTH-NARROW)x(WIDTH-NARROW)+2xCJSWx(LENGTH+WIDTH-2*NARROW)
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:c
+
+SUBJECT: d
+TITLE: Diode Models
+TEXT: 
+TEXT:                The dc characteristics of the diode are  determined  by
+TEXT: H          the  parameters  GIS  Hand  GNH.   An  ohmic  resistance, GRSH, is
+TEXT: H          included.  Charge storage effects are modeled by  a  transit
+TEXT: H          time,  GTTH, and a nonlinear depletion layer capacitance which
+TEXT: H          is determined by the parameters GCJO, VJH, and  GMH.   The  tem-
+TEXT: H          perature  dependence of the saturation current is defined by
+TEXT: H          the parameters  GEGH,  the  energy  and  GXTIH,  the  saturation
+TEXT: H          current  temperature exponent.  Reverse breakdown is modeled
+TEXT: H          by an exponential increase in the reverse diode current  and
+TEXT: H          is  determined  by  the parameters GBV Hand GIBV H(both of which
+TEXT: H          are positive numbers).
+TEXT: H
+TEXT:                Gname   Hparameter                        units   default    example    area
+TEXT: H
+TEXT: H           1   GIS     Hsaturation current               A       1.0E-14    1.0E-14    *
+TEXT: H           2   GRS     Hohmic resistance                 Ohm     0          10         *
+TEXT: H           3   GN      Hemission coefficient             -       1          1.0
+TEXT: H           4   GTT     Htransit-time                     sec     0          0.1Ns
+TEXT: H           5   GCJO    Hzero-bias junction capacitance   F       0          2PF        *
+TEXT: H           6   GVJ     Hjunction potential               V       1          0.6
+TEXT: H           7   GM      Hgrading coefficient              -       0.5        0.5
+TEXT: H           8   GEG     Hactivation energy                eV      1.11       1.11 Si
+TEXT: H                                                                          0.69 Sbd
+TEXT: H                                                                          0.67 Ge
+TEXT: H           9   GXTI    Hsaturation-current temp. exp     -       3.0        3.0 jn
+TEXT: H                                                                          2.0 Sbd
+TEXT: H          10   GKF     Hflicker noise coefficient        -       0
+TEXT: H          11   GAF     Hflicker noise exponent           -       1
+TEXT: H          12   GFC     Hcoefficient for forward-bias     -       0.5
+TEXT: H                      depletion capacitance formula
+TEXT: H          13   GBV     Hreverse breakdown voltage        V       infinite   40.0
+TEXT: H          14   GIBV    Hcurrent at breakdown voltage     A       1.0E-3
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:juncd
+
+SUBJECT: jfet
+TITLE: JFET Models
+TEXT: 
+TEXT:                The JFET model is derived from the FET model of  Shich-
+TEXT: H          man  and  Hodges.  The DC characteristics are defined by the
+TEXT: H          parameters GVTO Hand GBETAH, which determine  the  variation  of
+TEXT: H          drain  current  with  gate voltage, GLAMBDAH, which determines
+TEXT: H          the output conductance, and GISH, the  saturation  current  of
+TEXT: H          the  two  gate junctions.  Two ohmic resistances, GRD Hand GRSH,
+TEXT: H          are included.  Charge storage is modeled by nonlinear deple-
+TEXT: H          tion  layer  capacitances for both gate junctions which vary
+TEXT: H          as the -1/2 power of junction voltage and are defined by the
+TEXT: H          parameters GCGS, CGD, Hand GPBH.
+TEXT: H
+TEXT:                name     parameter                            units    default   example   area
+TEXT: H
+TEXT: H           1   GVTO      Hthreshold voltage                    V        -2.0      -2.0
+TEXT: H           2   GBETA     Htransconductance parameter           A/V**2   1.0E-4    1.0E-3    *
+TEXT: H           3   GLAMBDA   Hchannel length modulation
+TEXT: H                        parameter                            1/V      0         1.0E-4
+TEXT: H           4   GRD       Hdrain ohmic resistance               Ohm      0         100       *
+TEXT: H           5   GRS       Hsource ohmic resistance              Ohm      0         100       *
+TEXT: H           6   GCGS      Hzero-bias G-S junction capacitance   F        0         5PF       *
+TEXT: H           7   GCGD      Hzero-bias G-D junction capacitance   F        0         1PF       *
+TEXT: H           8   GPB       Hgate junction potential              V        1         0.6
+TEXT: H           9   GIS       Hgate junction saturation current     A        1.0E-14   1.0E-14   *
+TEXT: H          10   GKF       Hflicker noise coefficient            -        0
+TEXT: H          11   GAF       Hflicker noise exponent               -        1
+TEXT: H          12   GFC       Hcoefficient for forward-bias         -        0.5
+TEXT: H                        depletion capacitance formula
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:j
+
+SUBJECT: mesfet
+TITLE: MESFET Models
+TEXT: 
+TEXT:                The MESFET model is derived from the GaAs FET model  of
+TEXT: H          Statz  et  al.  as described in [4].  The dc characteristics
+TEXT: H          are defined by the parameters GVTOH, GBH, and GBETAH, which deter-
+TEXT: H          mine  the  variation  of  drain  current  with gate voltage,
+TEXT: H          GALPHAH, which  determines  saturation  voltage,  and  GLAMBDAH,
+TEXT: H          which  determines  the  output  conductance. The formula are
+TEXT: H          given by
+TEXT: H
+TEXT: 
+TEXT:           Id = 1 + b(Vgs - VT)
+TEXT:                  8| (Vgs-VT)2_______________
+TEXT:                                |
+TEXT:                                |
+TEXT:                                |
+TEXT:                                |
+TEXT:                                 1 -
+TEXT:                                     |
+TEXT:                                     |
+TEXT:                                     |
+TEXT:                                      1-o( 3
+TEXT:                                         Vds___
+TEXT:                                            |
+TEXT:                                            |
+TEXT:                                            |
+TEXT: 
+TEXT:                                             3|
+TEXT:                                              |
+TEXT:                                              |
+TEXT:                                              |
+TEXT:                                               (1 + ,\ Vds)     for 0<Vds<o(
+TEXT:                                                                         3_
+TEXT: H
+TEXT: 
+TEXT:                  Id = 1 + b(Vgs - VT)
+TEXT:                         8| (Vgs-VT)2_______________(1 + ,\ Vds)     for Vds>o(
+TEXT:                                                              3_
+TEXT: H
+TEXT:           Two ohmic resistances, GRD  Hand  GRSH,  are  included.   Charge
+TEXT: H          storage  is  modeled  by  total gate charge as a function of
+TEXT: H          gate-drain and gate-source voltages and is  defined  by  the
+TEXT: H          parameters GCGS, CGD, Hand GPBH.
+TEXT: H
+TEXT:                name     parameter                            units    default   example   area
+TEXT: H
+TEXT: H           1   GVTO      Hpinch-off voltage                    V        -2.0      -2.0
+TEXT: H           2   GBETA     Htransconductance parameter           A/V**2   1.0E-4    1.0E-3    *
+TEXT: H           3   GB        Hdoping tail extending parameter      1/V      0.3       0.3       *
+TEXT: H           4   GALPHA    Hsaturation voltage parameter         1/V      2         2         *
+TEXT: H           5   GLAMBDA   Hchannel length modulation
+TEXT: H                        parameter                            1/V      0         1.0E-4
+TEXT: H           6   GRD       Hdrain ohmic resistance               Ohm      0         100       *
+TEXT: H           7   GRS       Hsource ohmic resistance              Ohm      0         100       *
+TEXT: H           8   GCGS      Hzero-bias G-S junction capacitance   F        0         5PF       *
+TEXT: H           9   GCGD      Hzero-bias G-D junction capacitance   F        0         1PF       *
+TEXT: H          10   GPB       Hgate junction potential              V        1         0.6
+TEXT: H          11   GKF       Hflicker noise coefficient            -        0
+TEXT: H          12   GAF       Hflicker noise exponent               -        1
+TEXT: H          13   GFC       Hcoefficient for forward-bias         -        0.5
+TEXT: H                        depletion capacitance formula
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:z
+
+SUBJECT: mosfet
+TITLE: MOSFET Models
+TEXT: 
+TEXT:                SPICE provides four MOSFET device models, which  differ
+TEXT: H          in  the formulation of the I-V characteristic.  The variable
+TEXT: H          GLEVEL Hspecifies the model to be used:
+TEXT: H
+TEXT:              LEVEL = 1 ->    Shichman-Hodges
+TEXT: H             LEVEL = 2 ->    MOS2 (as described in [1])
+TEXT: H             LEVEL = 3 ->    MOS3, a semi-empirical model (see [1])
+TEXT: H             LEVEL = 4 ->    BSIM (as described in [2])
+TEXT: H
+TEXT: 
+TEXT:                The dc characteristics of the level 1 through  level  3
+TEXT: H          MOSFETs  are  defined  by  the  device  parameters  GVTO, KP,
+TEXT: H          LAMBDA, PHI Hand GGAMMAH.  These  parameters  are  computed  by
+TEXT: H          SPICE  if process parameters (GNSUB, TOXH, ...) are given, but
+TEXT: H          user-specified values  always  override.   GVTO  His  positive
+TEXT: H          (negative)  for enhancement mode and negative (positive) for
+TEXT: H          depletion mode N-channel (P-channel) devices. Charge storage
+TEXT: H          is  modeled  by  three  constant capacitors, GCGSO, CGDO, Hand
+TEXT: H          GCGBO Hwhich represent overlap capacitances, by the  nonlinear
+TEXT: H          thin-oxide  capacitance which is distributed among the gate,
+TEXT: H          source, drain,  and  bulk  regions,  and  by  the  nonlinear
+TEXT: H          depletion-layer  capacitances  for  both substrate junctions
+TEXT: H          divided into bottom and periphery, which vary as the GMJ  Hand
+TEXT: H          GMJSW  Hpower of junction voltage respectively, and are deter-
+TEXT: H          mined by the parameters GCBD, CBS, CJ, CJSW, MJ, MJSW Hand GPBH.
+TEXT: H          Charge  storage  effects are modeled by the piecewise linear
+TEXT: H          voltags-dependent capacitance model proposed by Meyer.   The
+TEXT: H          thin-oxide  charge storage effects are treated slightly dif-
+TEXT: H          ferent for the LEVEL =  1  model.   These  voltage-dependent
+TEXT: H          capacitances  are  included  only if GTOX His specified in the
+TEXT: H          input description and they  are  represented  using  Meyer's
+TEXT: H          formulation.
+TEXT: H
+TEXT:                There is some overlap among the  parameters  describing
+TEXT: H          the  junctions, e.g. the reverse current can be input either
+TEXT: H          as GIS H(in A) or as GJS H(in A/m**2). Whereas the first  is  an
+TEXT: H          absolute value the second is multiplied by GAD Hand GAS Hto give
+TEXT: H          the reverse  current  of  the  drain  and  source  junctions
+TEXT: H          respectively.  This  methodology has been chosen since there
+TEXT: H          is no sense in relating always junction characteristics with
+TEXT: H          GAD  Hand  GAS  Hentered  on  the  device line; the areas can be
+TEXT: H          defaulted.  The same idea  applies  also  to  the  zero-bias
+TEXT: H          junction capacitances GCBD Hand GCBS H(in F) on one hand, and GCJ
+TEXT: H          H(in F/m**2) on the other.  The parasitic  drain  and  source
+TEXT: H          series  resistance  can be expressed as either GRD Hand GRS H(in
+TEXT: H          ohms) or GRSH H(in ohms/sq.), the latter being  multiplied  by
+TEXT: H          the number of squares GNRD Hand GNRS Hinput on the device line.
+TEXT: H
+TEXT:                                      SPICE level 1 to level 3 parameters.
+TEXT: H               name     parameter                               units       default          example
+TEXT: H
+TEXT: H
+TEXT: 
+TEXT:           1    GLEVEL    Hmodel index                             -           1
+TEXT: H          2    GVTO      Hzero-bias threshold voltage             V           0.0              1.0
+TEXT: H          3    GKP       Htransconductance parameter              A/V**2      2.0E-5           3.1E-5
+TEXT: H          4    GGAMMA    Hbulk threshold parameter                V**0.5      0.0              0.37
+TEXT: H          5    GPHI      Hsurface potential                       V           0.6              0.65
+TEXT: H          6    GLAMBDA   Hchannel-length modulation
+TEXT: H                        (MOS1 and MOS2 only)                    1/V         0.0              0.02
+TEXT: H          7    GRD       Hdrain ohmic resistance                  Ohm         0.0              1.0
+TEXT: H          8    GRS       Hsource ohmic resistance                 Ohm         0.0              1.0
+TEXT: H          9    GCBD      Hzero-bias B-D junction capacitance      F           0.0              20FF
+TEXT: H          10   GCBS      Hzero-bias B-S junction capacitance      F           0.0              20FF
+TEXT: H          11   GIS       Hbulk junction saturation current        A           1.0E-14          1.0E-15
+TEXT: H          12   GPB       Hbulk junction potential                 V           0.8              0.87
+TEXT: H          13   GCGSO     Hgate-source overlap capacitance
+TEXT: H                        per meter channel width                 F/m         0.0              4.0E-11
+TEXT: H          14   GCGDO     Hgate-drain overlap capacitance
+TEXT: H                        per meter channel width                 F/m         0.0              4.0E-11
+TEXT: H          15   GCGBO     Hgate-bulk overlap capacitance
+TEXT: H                        per meter channel length                F/m         0.0              2.0E-10
+TEXT: H          16   GRSH      Hdrain and source diffusion
+TEXT: H                        sheet resistance                        Ohm/sq.     0.0              10.0
+TEXT: H          17   GCJ       Hzero-bias bulk junction bottom cap.
+TEXT: H                        per sq-meter of junction area           F/m**2      0.0              2.0E-4
+TEXT: H          18   GMJ       Hbulk junction bottom grading coef.      -           0.5              0.5
+TEXT: H          19   GCJSW     Hzero-bias bulk junction sidewall cap.
+TEXT: H                        per meter of junction perimeter         F/m         0.0              1.0E-9
+TEXT: H          20   GMJSW     Hbulk junction sidewall grading coef.    -           0.50(level1)
+TEXT: H                                                                            0.33(level2,3)
+TEXT: H          21   GJS       Hbulk junction saturation current
+TEXT: H                        per sq-meter of junction area           A/m**2                       1.0E-8
+TEXT: H          22   GTOX      Hoxide thickness                         meter       1.0E-7           1.0E-7
+TEXT: H          23   GNSUB     Hsubstrate doping                        1/cm**3     0.0              4.0E15
+TEXT: H          24   GNSS      Hsurface state density                   1/cm**2     0.0              1.0E10
+TEXT: H          25   GNFS      Hfast surface state density              1/cm**2     0.0              1.0E10
+TEXT: H          26   GTPG      Htype of gate material:                  -           1.0
+TEXT: H                            +1 opp. to substrate
+TEXT: H                            -1 same as substrate
+TEXT: H                             0  Al gate
+TEXT: H          27   GXJ       Hmetallurgical junction depth            meter       0.0              1U
+TEXT: H          28   GLD       Hlateral diffusion                       meter       0.0              0.8U
+TEXT: H          29   GUO       Hsurface mobility                        cm**2/V-s   600              700
+TEXT: H          30   GUCRIT    Hcritical field for mobility
+TEXT: H                        degradation (MOS2 only)                 V/cm        1.0E4            1.0E4
+TEXT: H          31   GUEXP     Hcritical field exponent in
+TEXT: H                        mobility degradation (MOS2 only)        -           0.0              0.1
+TEXT: H          32   GUTRA     Htransverse field coef (mobility)
+TEXT: H                        (deleted for MOS2)                      -           0.0              0.3
+TEXT: H          33   GVMAX     Hmaximum drift velocity of carriers      m/s         0.0              5.0E4
+TEXT: H          34   GNEFF     Htotal channel charge (fixed and
+TEXT: H                        mobile) coefficient (MOS2 only)         -           1.0              5.0
+TEXT: H          35   GKF       Hflicker noise coefficient               -           0.0              1.0E-26
+TEXT: H          36   GAF       Hflicker noise exponent                  -           1.0              1.2
+TEXT: H          37   GFC       Hcoefficient for forward-bias
+TEXT: H
+TEXT: 
+TEXT:                         depletion capacitance formula           -           0.5
+TEXT: H          38   GDELTA    Hwidth effect on threshold voltage
+TEXT: H                        (MOS2 and MOS3)                         -           0.0              1.0
+TEXT: H          39   GTHETA    Hmobility modulation (MOS3 only)         1/V         0.0              0.1
+TEXT: H          40   GETA      Hstatic feedback (MOS3 only)             -           0.0              1.0
+TEXT: H          41   GKAPPA    Hsaturation field factor (MOS3 only)     -           0.2              0.5
+TEXT: H
+TEXT: 
+TEXT:                The level 4 parameters are  all  values  obtained  from
+TEXT: H          process  characterization,  and  can  be generated automati-
+TEXT: H          cally.  J. Pierret [3] describes a  means  of  generating  a
+TEXT: H          'process'  file,  and  the  program  GProc2Mod  Hprovided with
+TEXT: H          SPICE3 will convert this file  into  a  sequence  of  G.MODEL
+TEXT: H          Hlines  suitable  for  inclusion  in  a  SPICE  circuit file.
+TEXT: H          Parameters marked below with an * in  the  l/w  column  also
+TEXT: H          have corresponding parameters with a length and width depen-
+TEXT: H          dency.  For example, GVFB His the basic parameter  with  units
+TEXT: H          of  Volts,  and  GLVFB  Hand GWVFB Halso exist and have units of
+TEXT: H          Volt-umeter The formula
+TEXT: H
+TEXT:                            P=P0+Leffective
+TEXT:                                     PL__________+Weffective
+TEXT:                                                PW__________
+TEXT: H
+TEXT:           is used to evaluate the  parameter  for  the  actual  device
+TEXT: H          specified with
+TEXT: H
+TEXT:                               Leffective=Linput-DL
+TEXT: H
+TEXT:           and
+TEXT: H
+TEXT:                               Weffective=Winput-DW
+TEXT: H
+TEXT: 
+TEXT:                Note that unlike the other models in  SPICE,  the  BSIM
+TEXT: H          model  is  designed  for use with a process characterization
+TEXT: H          system that provides all the parameters, thus there  are  no
+TEXT: H          defaults  for  the  parameters,  and leaving one out is con-
+TEXT: H          sidered an error.  For an example set of parameters and  the
+TEXT: H          format  of  a  process  file,  see the SPICE2 implementation
+TEXT: H          notes[2].
+TEXT: H
+TEXT:                                           SPICE BSIM (level 4) parameters.
+TEXT: H          name    parameter                                                                 units      l/w
+TEXT: H
+TEXT: H          GVFB     Hflat-band voltage                                                         V          *
+TEXT: H          GPHI     Hsurface inversion potential                                               V          *
+TEXT: H          GK1      Hbody effect coefficient                                                   V1/2       *
+TEXT: H          GK2      Hdrain/source depletion charge sharing coefficient                         -          *
+TEXT: H          GETA     Hzero-bias drain-induced barrier lowering coefficient                      -          *
+TEXT: H          GMUZ     Hzero-bias mobility                                                        cm2/V-s
+TEXT: H          GDL      Hshortening of channel                                                     um
+TEXT: H          GDW      Hnarrowing of channel                                                      um
+TEXT: H
+TEXT: 
+TEXT:           GU0      Hzero-bias transverse-field mobility degradation coefficient               V-1        *
+TEXT: H          GU1      Hzero-bias velocity saturation coefficient                                 um/V       *
+TEXT: H          GX2MZ    Hsens. of mobility to substrate bias at vds=0                              cm2/V2-s   *
+TEXT: H          GX2E     Hsens. of drain-induced barrier lowering effect to substrate bias          V-1        *
+TEXT: H          GX3E     Hsens. of drain-induced barrier lowering effect to drain bias at Vds=Vdd   V-1        *
+TEXT: H          GX2U0    Hsens. of transverse field mobility degradation effect to substrate bias   V-2        *
+TEXT: H          GX2U1    Hsens. of velocity saturation effect to substrate bias                     umV-2      *
+TEXT: H          GMUS     Hmobility at zero substrate bias and at Vds=Vdd                            cm2/V2-s
+TEXT: H          GX2MS    Hsens. of mobility to substrate bias at Vds=Vdd                            cm2/V2-s   *
+TEXT: H          GX3MS    Hsens. of mobility to drain bias at Vds=Vdd                                cm2/V2-s   *
+TEXT: H          GX3U1    Hsens. of velocity saturation effect on drain bias at Vds=Vdd              umV-2      *
+TEXT: H          GTOX     Hgate oxide thickness                                                      um
+TEXT: H          GTEMP    Htemperature at which parameters were measured                             C
+TEXT: H          GVDD     Hmeasurement bias range                                                    V
+TEXT: H          GCGDO    Hgate-drain overlap capacitance per meter channel width                    F/m
+TEXT: H          GCGSO    Hgate-source overlap capacitance per meter channel width                   F/m
+TEXT: H          GCGBO    Hgate-bulk overlap capacitance per meter channel length                    F/m
+TEXT: H          GXPART   Hgate-oxide capacitance charge model flag                                  -
+TEXT: H          GN0      Hzero-bias subthreshold slope coefficient                                  -          *
+TEXT: H          GNB      Hsens. of subthreshold slope to substrate bias                             -          *
+TEXT: H          GND      Hsens. of subthreshold slope to drain bias                                 -          *
+TEXT: H          GRSH     Hdrain and source diffusion sheet resistance                               O_/[]
+TEXT: H          GJS      Hsource drain junction current density                                     A/m2
+TEXT: H          GPB      Hbuilt in potential of source drain junction                               V
+TEXT: H          GMJ      HGrading coefficient of source drain junction                              -
+TEXT: H          GPBSW    Hbuilt in potential of source,drain juntion sidewall                       V
+TEXT: H          GMJSW    Hgrading coefficient of source drain junction sidewall                     -
+TEXT: H          GCJ      HSource drain junction capacitance per unit area                           F/m2
+TEXT: H          GCJSW    Hsource drain junction sidewall capacitance per unit length                F/m
+TEXT: H          GWDF     Hsource drain junction default width                                       m
+TEXT: H          GDELL    HSource drain junction length reduction                                    m
+TEXT: H
+TEXT: 
+TEXT:                GXPART H= 0 selects a 40/60 drain/source charge partition
+TEXT: H          in  saturation, while GXPART H= 1 selects a 0/100 drain/source
+TEXT: H          charge partition.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:m
+
+SUBJECT: rmodel
+TITLE: Resistor Models
+TEXT: 
+TEXT:                The resistor model consists of  process-related  device
+TEXT: H          data  that  allow  the  resistance  to  be  calculated  from
+TEXT: H          geometric information and to be corrected  for  temperature.
+TEXT: H          The parameters available are:
+TEXT: H
+TEXT:           Gname     Hparameter                         units    default   example
+TEXT: H
+TEXT: H          GTC1      Hfirst order temperature coeff.    O_/C      0.0       -
+TEXT: H          GTC2      Hsecond order temperature coeff.   O_/C2     0.0       -
+TEXT: H          GRSH      Hsheet resistance                  O_/[]     -         50
+TEXT: H          GDEFW     Hdefault width                     meters   1e-6      2e-6
+TEXT: H          GNARROW   Hnarrowing due to side etching     meters   0.0       1e-7
+TEXT: H
+TEXT: 
+TEXT:                The sheet resistance is used with the narrowing parame-
+TEXT: H          ter and _L and _W from the resistor line to determine the nom-
+TEXT: H          inal resistance by the formula
+TEXT: H
+TEXT:                                  R=RSHxW-NARROW
+TEXT:                                        L-NARROW________
+TEXT: H
+TEXT:           _D_E_F_W is used to supply a default value for _W if one  is  not
+TEXT: H          specified  on  the  device  line.  If either _R_S_H or _L is not
+TEXT: H          specified, then the standard default resistance value of  1k
+TEXT: H          O_  is  used.  After the nominal resistance is calculated, it
+TEXT: H          is adjusted for temperature by the formula:
+TEXT: H
+TEXT:             RES(temp)=RES(tnom)x(1+TC1x(temp-tnom)+TC2*(temp-tnom)2)
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:r
+
+SUBJECT: swmodel
+TITLE: Switch Models
+TEXT: 
+TEXT:                The switch model allows an almost ideal  switch  to  be
+TEXT: H          described  in SPICE.  The switch is not quite ideal, in that
+TEXT: H          the resistance can not change from 0 to infinity,  but  must
+TEXT: H          always have a finite positive value.  By proper selection of
+TEXT: H          the on and off resistances, they can be effectively zero and
+TEXT: H          infinity  in  comparison  to  other  circuit  elements.  The
+TEXT: H          parameters available are:
+TEXT: H
+TEXT:               name   parameter            units   default   switch
+TEXT: H
+TEXT: H              GVT     Hthreshold voltage    Volts   0.0       S
+TEXT: H              GIT     Hthreshold current    Amps    0.0       W
+TEXT: H              GVH     Hhysteresis voltage   Volts   0.0       S
+TEXT: H              GIH     Hhysteresis current   Amps    0.0       W
+TEXT: H              GRON    Hon resistance        O_       1.0       both
+TEXT: H              GROFF   Hoff resistance       O_       1/GMIN*   both
+TEXT: H
+TEXT: 
+TEXT:                *(See the  description  of  the  G.OPTIONS  Hline  for  a
+TEXT: H          description  of  GGMINH,  its  default  value results is a off
+TEXT: H          resistance of 1.0e+12 ohms.)
+TEXT: H
+TEXT:                The use of an ideal element that is  highly  non-linear
+TEXT: H          such as a switch can cause large discontinuities to occur in
+TEXT: H          the circuit node voltages.  A  rapid  change  such  as  that
+TEXT: H          associated  with a switch changing state can cause numerical
+TEXT: H          roundoff or tolerance problems leading to erroneous  results
+TEXT: H          or  timestep difficulties.  The user of switches can improve
+TEXT: H          the situation by taking the following steps:
+TEXT: H
+TEXT:                First of all it is wise to set ideal switch  impedences
+TEXT: H          only  high  and  low enough to be negligible with respect to
+TEXT: H          other circuit elements.  Using switch  impedences  that  are
+TEXT: H          close  to "ideal" in all cases will aggravate the problem of
+TEXT: H          discontinuities mentioned above.  Of course,  when  modeling
+TEXT: H          real  devices  such  as MOSFETS, the on resistance should be
+TEXT: H          adjusted to a realistic level depending on the size  of  the
+TEXT: H          device being modelled.
+TEXT: H
+TEXT:                If a wide range of ON to OFF resistance must be used in
+TEXT: H          the switches (ROFF/RON >1e+12), then the tolerance on errors
+TEXT: H          allowed during transient analysis  should  be  decreased  by
+TEXT: H          using the G.OPTIONS Hline and specifying GTRTOL Hto be less than
+TEXT: H          the default value of 7.0.  When switches are  placed  around
+TEXT: H          capacitors,  then  the option GCHGTOL Hshould also be reduced.
+TEXT: H          Suggested values for these two options  are  1.0  and  1e-16
+TEXT: H          respectively.   These changes inform SPICE3 to be more care-
+TEXT: H          ful around the switch points so that no errors are made  due
+TEXT: H          to the rapid change in the circuit.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:sw
+
+SUBJECT: urc
+TITLE: URC Models
+TEXT: 
+TEXT:                The URC model is derived from a model  proposed  by  L.
+TEXT: H          Gertzberrg  in 1974.  The model is accomplished by a subcir-
+TEXT: H          cuit type expansion of the URC line into a network of lumped
+TEXT: H          RC  segments  with  internally generated nodes.  The RC seg-
+TEXT: H          ments are in a geometric progression, increasing toward  the
+TEXT: H          middle  of  the  URC  line, with K as a proportionality con-
+TEXT: H          stant.  The number of lumped segments used, if not specified
+TEXT: H          on the URC line, is determined by the following formula:
+TEXT: H
+TEXT: 
+TEXT:                         N=             logK
+TEXT: 
+TEXT:                           log
+TEXT:                              |
+TEXT:                              |
+TEXT:                              |
+TEXT:                               FmaxxL
+TEXT:                                    R_xL
+TEXT:                                      C_x2xi~i~xl2x|
+TEXT:                                                |  K
+TEXT:                                                 (K-1)_____|
+TEXT:                                                      |2
+TEXT:                                                        |
+TEXT:                                                        |
+TEXT:                                                        |______________________________
+TEXT: H
+TEXT: 
+TEXT:                The URC line will be made up strictly of  resistor  and
+TEXT: H          capacitor  segments  unless  the GISPERL Hparameter is given a
+TEXT: H          non-zero value, in which case the  capacitors  are  replaced
+TEXT: H          with reverse biased diodes with a zero-bias junction capaci-
+TEXT: H          tance equivalent to the capacitance  replaced,  and  with  a
+TEXT: H          saturation  current of GISPERL Hamps per meter of transmission
+TEXT: H          line and an optional series resistance equivalent to  GRSPERL
+TEXT: H          Hohms per meter.
+TEXT: H
+TEXT:                name     parameter                            units   default   example   area
+TEXT: H
+TEXT: H           1   GK        HPropagation Constant                 -       2.0       1.2       -
+TEXT: H           2   GFMAX     HMaximum Frequency of interest        Hz      1.0G      6.5MEG    -
+TEXT: H           3   GRPERL    HResistance per unit length           Ohm/m   1000      10        -
+TEXT: H           4   GCPERL    HCapacitance per unit length          F/m     1.0E-15   1PF       -
+TEXT: H           5   GISPERL   HSaturation Current per unit length   Amp/m   0         -         -
+TEXT: H           6   GRSPERL   HDiode Resistance per unit length     Ohm/m   0         -         -
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:u
+
+SUBJECT: options
+TITLE: Circuit Options
+TEXT: 
+TEXT:           The  following  options  are  recognised  by  SPICE3.    Not
+TEXT: H          included are options recognised by the front-end and options
+TEXT: H          supported for backward compatibility with SPICE2.
+TEXT: H
+TEXT: 
+SUBTOPIC: SPICE:abstol SPICE:bypass SPICE:chgtol
+SUBTOPIC: SPICE:defad SPICE:defas SPICE:defl
+SUBTOPIC: SPICE:defw SPICE:gmin SPICE:itl1
+SUBTOPIC: SPICE:itl2 SPICE:itl5 SPICE:pivrel
+SUBTOPIC: SPICE:pivtol SPICE:reltol SPICE:tnom
+SUBTOPIC: SPICE:trtol SPICE:vntol
+SEEALSO: NUTMEG:set
+SEEALSO: SPICE:option
+
+SUBJECT: abstol
+TITLE: abstol
+TEXT: 
+TEXT:           ABSTOL = x
+TEXT: H               Resets the absolute current error tolerance of the pro-
+TEXT: H               gram.  The default value is 1 picoamp.
+TEXT: H
+TEXT: 
+
+SUBJECT: bypass
+TITLE: bypass
+TEXT: 
+TEXT:           BYPASS
+TEXT: H               The bypass option...
+TEXT: H
+TEXT: 
+
+SUBJECT: chgtol
+TITLE: chgtol
+TEXT: 
+TEXT:           CHGTOL = x
+TEXT: H               Resets  the  charge  tolerance  of  the  program.   The
+TEXT: H               default value is 1.0E-14.
+TEXT: H
+TEXT: 
+
+SUBJECT: defad
+TITLE: defad
+TEXT: 
+TEXT:           DEFAD = x
+TEXT: H               Resets the value for  MOS  drain  diffusion  area;  the
+TEXT: H               default is 0.0.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:m
+
+SUBJECT: defas
+TITLE: defas
+TEXT: 
+TEXT:           DEFAS = x
+TEXT: H               Resets the value for MOS  source  diffusion  area;  the
+TEXT: H               default is 0.0.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:m
+
+SUBJECT: defl
+TITLE: defl
+TEXT: 
+TEXT:           DEFL = x
+TEXT: H               Resets the value for MOS channel length; the default is
+TEXT: H               100.0 micrometer.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:m
+
+SUBJECT: defw
+TITLE: defw
+TEXT: 
+TEXT:           DEFW = x
+TEXT: H               Resets the value for MOS channel width; the default  is
+TEXT: H               100.0 micrometer.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:m
+
+SUBJECT: gmin
+TITLE: gmin
+TEXT: 
+TEXT:           GMIN = x
+TEXT: H               Resets the  value  of  GMIN,  the  minimum  conductance
+TEXT: H               allowed by the program.  The default value is 1.0E-12.
+TEXT: H
+TEXT: 
+
+SUBJECT: itl1
+TITLE: itl1
+TEXT: 
+TEXT:           ITL1 = x
+TEXT:                Resets the dc iteration limit.  The default is 100.
+TEXT: 
+SEEALSO: SPICE:dcanalysis
+
+SUBJECT: itl2
+TITLE: itl2
+TEXT: 
+TEXT:           ITL2 = x
+TEXT:                Resets the dc  transfer  curve  iteration  limit.   The
+TEXT:                default is 50.
+TEXT: 
+SEEALSO: SPICE:dcanalysis
+
+SUBJECT: itl5
+TITLE: itl5
+TEXT: 
+TEXT:           ITL5 = x
+TEXT: H               Resets the transient analysis  total  iteration  limit.
+TEXT: H               The default is 5000.  Set ITL5=0 to omit this test.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:trananalysis
+
+SUBJECT: pivrel
+TITLE: pivrel
+TEXT: 
+TEXT:           PIVREL = x
+TEXT: H               Resets the relative ratio between  the  largest  column
+TEXT: H               entry  and an acceptable pivot value. The default value
+TEXT: H               is 1.0E-3.  In the  numerical  pivoting  algorithm  the
+TEXT: H               allowed   minimum   pivot   value   is   determined  by
+TEXT: H               EPSREL=AMAX1(PIVREL*MAXVAL,PIVTOL) where MAXVAL is  the
+TEXT: H               maximum  element  in the column where a pivot is sought
+TEXT: H               (partial pivoting).
+TEXT: H
+TEXT: 
+
+SUBJECT: pivtol
+TITLE: pivtol
+TEXT: 
+TEXT:           PIVTOL = x
+TEXT: H               Resets the absolute minimum value for a matrix entry to
+TEXT: H               be accepted as a pivot.  The default value is 1.0E-13.
+TEXT: H
+TEXT: 
+
+SUBJECT: reltol
+TITLE: reltol
+TEXT: 
+TEXT:           RELTOL = x
+TEXT: H               Resets the relative error  tolerance  of  the  program.
+TEXT: H               The default value is 0.001 (0.1 percent).
+TEXT: H
+TEXT: 
+
+SUBJECT: tnom
+TITLE: tnom
+TEXT: 
+TEXT:           TNOM = x
+TEXT: H               Resets the nominal temperature.  The default  value  is
+TEXT: H               27 deg C (300 deg K).
+TEXT: H
+TEXT: 
+
+SUBJECT: trtol
+TITLE: trtol
+TEXT: 
+TEXT:           TRTOL = x
+TEXT: H               Resets the  transient  error  tolerance.   The  default
+TEXT: H               value  is  7.0.   This  parameter is an estimate of the
+TEXT: H               factor by which SPICE overestimates the actual  trunca-
+TEXT: H               tion error.
+TEXT: H
+TEXT: 
+
+SUBJECT: vntol
+TITLE: vntol
+TEXT: 
+TEXT:           VNTOL = x
+TEXT: H               Resets the absolute voltage error tolerance of the pro-
+TEXT: H               gram.  The default value is 1 microvolt.
+TEXT: H
+TEXT: 
+
+SUBJECT: convergence
+TITLE: Convergence
+TEXT: 
+TEXT:                Both dc and transient  solutions  are  obtained  by  an
+TEXT: H          iterative  process which is terminated when both of the fol-
+TEXT: H          lowing conditions hold:
+TEXT: H
+TEXT:           1)   The nonlinear branch  currents  converge  to  within  a
+TEXT: H               tolerance  of  0.1  percent or 1 picoamp (1.0E-12 Amp),
+TEXT: H               whichever is larger.
+TEXT: H
+TEXT:           2)   The node voltages converge to within a tolerance of 0.1
+TEXT: H               percent  or  1  microvolt  (1.0E-6  Volt), whichever is
+TEXT: H               larger.
+TEXT: H
+TEXT:                Although the algorithm used in SPICE has been found  to
+TEXT: H          be  very reliable, in some cases it will fail to converge to
+TEXT: H          a solution.  When this failure occurs, the program will ter-
+TEXT: H          minate the job.
+TEXT: H
+TEXT:                Failure to converge in dc analysis is usually due to an
+TEXT: H          error  in specifying circuit connections, element values, or
+TEXT: H          model parameter values.  Regenerative switching circuits  or
+TEXT: H          circuits  with  positive feedback probably will not converge
+TEXT: H          in the dc analysis unless the GOFF Hoption is used for some of
+TEXT: H          the  devices  in  the feedback path, or the G.NODESET Hline is
+TEXT: H          used to force the circuit to converge to the desired state.
+TEXT: H
+TEXT: 
+
+
+SUBJECT: elements
+TITLE: Circuit Elements
+TEXT: 
+TEXT:                The following circuit elements are available in SPICE.
+TEXT: H
+TEXT: 
+SUBTOPIC: SPICE:cl SPICE:depsource SPICE:iv
+SUBTOPIC: SPICE:k SPICE:r SPICE:semicond
+SUBTOPIC: SPICE:sw SPICE:t
+
+SUBJECT: cl
+TITLE: Capacitors and Inductors
+TEXT: 
+TEXT:           GGeneral form:
+TEXT: H
+TEXT:               CH_X_X_X_X_X_X_X _N+ _N- _V_A_L_U_E <GICH=_I_N_C_O_N_D>
+TEXT: H              LYYYYYYY N+ N- VALUE <GICH=_I_N_C_O_N_D>
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:               CHBYP 13 0 1UF
+TEXT: H              GCHOSC 17 23 10U IC=3V
+TEXT: H              GLHLINK 42 69 1UH
+TEXT: H              GLHSHUNT 23 51 10U IC=15.7MA
+TEXT: H
+TEXT: 
+TEXT:                _N+ and _N- are the positive and negative element  nodes,
+TEXT: H          respectively.   _V_A_L_U_E  is  the  capacitance in Farads or the
+TEXT: H          inductance in Henries.
+TEXT: H
+TEXT:                For the capacitor, the (optional) initial condition  is
+TEXT: H          the  initial  (time-zero)  value  of  capacitor  voltage (in
+TEXT: H          Volts).  For the inductor, the (optional) initial  condition
+TEXT: H          is  the  initial  (time-zero)  value of inductor current (in
+TEXT: H          Amps) that flows from _N+, through the inductor, to _N-.  Note
+TEXT: H          that  the  initial conditions (if any) apply only if the GUIC
+TEXT: H          Hoption is specified on the G.TRAN Hline.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:c
+
+SUBJECT: depsource
+TITLE: Linear Dependent Sources
+TEXT: 
+TEXT:                SPICE  allows  circuits  to  contain  linear  dependent
+TEXT: H          sources characterized by any of the four equations
+TEXT: H
+TEXT:                  i = _g * v   v = _e * v   i = _f * i   v = _h * i
+TEXT: H
+TEXT:           where  _g,  _e,  _f,   and   _h   are   constants   representing
+TEXT: H          transconductance,voltage gain, current gain, and transresis-
+TEXT: H          tance, respectively.
+TEXT: H
+TEXT: 
+SUBTOPIC: SPICE:VCVS SPICE:f SPICE:g
+SUBTOPIC: SPICE:h
+
+SUBJECT: VCVS
+TITLE: Voltage-Controlled Voltage Sources
+TEXT: 
+TEXT:           GGeneral form:
+TEXT: H
+TEXT:               EH_X_X_X_X_X_X_X _N+ _N- _N_C+ _N_C- _V_A_L_U_E
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:               EH1 2 3 14 1 2.0
+TEXT: H
+TEXT: 
+TEXT:                _N+ is the positive node, and _N- is the  negative  node.
+TEXT: H          _N_C+ and _N_C- are the positive and negative controlling nodes,
+TEXT: H          respectively.  _V_A_L_U_E is the voltage gain.
+TEXT: H
+TEXT: 
+
+SUBJECT: f
+TITLE: Current-Controlled Current Sources
+TEXT: 
+TEXT:           GGeneral form:
+TEXT: H
+TEXT:               FH_X_X_X_X_X_X_X _N+ _N- _V_N_A_M _V_A_L_U_E
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:               FH1 13 5 VSENS 5
+TEXT: H
+TEXT: 
+TEXT:                _N+ and _N- are the positive and negative nodes,  respec-
+TEXT: H          tively.  Current flow is from the positive node, through the
+TEXT: H          source, to the negative node.  _V_N_A_M is the name of a voltage
+TEXT: H          source  through  which  the  controlling current flows.  The
+TEXT: H          direction of positive controlling current flow is  from  the
+TEXT: H          positive  node,  through the source, to the negative node of
+TEXT: H          _V_N_A_M.  _V_A_L_U_E is the current gain.
+TEXT: H
+TEXT: 
+
+SUBJECT: g
+TITLE: Voltage Controlled Current Sources
+TEXT: 
+TEXT:           GGeneral form:
+TEXT: H
+TEXT:               GH_X_X_X_X_X_X_X _N+ _N- _N_C+ _N_C- _V_A_L_U_E
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:               GH1 2 0 5 0 0.1MMHO
+TEXT: H
+TEXT: 
+TEXT:                _N+ and _N- are the positive and negative nodes,  respec-
+TEXT: H          tively.  Current flow is from the positive node, through the
+TEXT: H          source, to the negative node.  _N_C+ and _N_C- are the  positive
+TEXT: H          and  negative controlling nodes, respectively.  _V_A_L_U_E is the
+TEXT: H          transconductance (in mhos).
+TEXT: H
+TEXT: 
+
+SUBJECT: h
+TITLE: Current-Controlled Voltage Sources
+TEXT: 
+TEXT:           GGeneral form:
+TEXT: H
+TEXT:               HH_X_X_X_X_X_X_X _N+ _N- _V_N_A_M _V_A_L_U_E
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:               HHX 5 17 VZ 0.5K
+TEXT: H
+TEXT: 
+TEXT:                _N+ and _N- are the positive and negative nodes,  respec-
+TEXT: H          tively.   _V_N_A_M is the name of a voltage source through which
+TEXT: H          the controlling current flows.  The  direction  of  positive
+TEXT: H          controlling  current flow is from the positive node, through
+TEXT: H          the source, to the negative node  of  _V_N_A_M.   _V_A_L_U_E  is  the
+TEXT: H          transresistance (in ohms).
+TEXT: H
+TEXT: 
+
+SUBJECT: iv
+TITLE: Independent Sources
+TEXT: 
+TEXT:           GGeneral form:
+TEXT: H
+TEXT:               VH_X_X_X_X_X_X_X _N+ _N- <<_D_C> _D_C/_T_R_A_N _V_A_L_U_E> <_A_C <_A_C_M_A_G <_A_C_P_H_A_S_E>>>
+TEXT: H              GIH_Y_Y_Y_Y_Y_Y_Y _N+ _N- <<_D_C> _D_C/_T_R_A_N _V_A_L_U_E> <_A_C <_A_C_M_A_G <_A_C_P_H_A_S_E>>>
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:               VHCC 10 0 GDC H6
+TEXT: H              GVHIN 13 2 0.001 GAC H1 GSINH(0 1 1MEG)
+TEXT: H              GIHSRC 23 21 GAC H0.333 45.0 GSFFMH(0 1 10K 5 1K)
+TEXT: H              GVHMEAS 12 9
+TEXT: H
+TEXT: 
+TEXT:                _N+ and _N- are the positive and negative nodes,  respec-
+TEXT: H          tively.   Note  that  voltage  sources need not be grounded.
+TEXT: H          Positive current is assumed to flow from the positive  node,
+TEXT: H          through  the source, to the negative node.  A current source
+TEXT: H          of positive value, will force current to flow out of the  _N+
+TEXT: H          node,  through  the  source,  and into the _N- node.  Voltage
+TEXT: H          sources, in addition to being used for  circuit  excitation,
+TEXT: H          are  the  'ammeters' for SPICE, that is, zero valued voltage
+TEXT: H          sources may be inserted into the circuit for the purpose  of
+TEXT: H          measuring  current.  They will, of course, have no effect on
+TEXT: H          circuit operation since they represent short-circuits.
+TEXT: H
+TEXT:                _D_C/_T_R_A_N is the dc and transient analysis value  of  the
+TEXT: H          source.   If  the source value is zero both for dc and tran-
+TEXT: H          sient analyses, this value may be omitted.   If  the  source
+TEXT: H          value  is  time-invariant  (e.g.,  a  power supply), then he
+TEXT: H          value may optionally be preceded by the letters DC.
+TEXT: H
+TEXT:                _A_C_M_A_G is the ac magnitude and _A_C_P_H_A_S_E is the ac  phase.
+TEXT: H          The  source  is  set  to  this value in the ac analysis.  If
+TEXT: H          _A_C_M_A_G is omitted following the keyword GACH, a value of  unity
+TEXT: H          is  assumed.   If  _A_C_P_H_A_S_E  is  omitted,  a value of zero is
+TEXT: H          assumed.  If the source is not an ac small-signal input, the
+TEXT: H          keyword GAC Hand the ac values are omitted.
+TEXT: H
+TEXT:                Any independent source can be assigned a time-dependent
+TEXT: H          value  for  transient  analysis.   If a source is assigned a
+TEXT: H          time-dependent value, the time-zero value  is  used  for  dc
+TEXT: H          analysis.   There  are  five  independent  source functions:
+TEXT: H          pulse,  exponential,  sinusoidal,  piece-wise  linear,   and
+TEXT: H          single-frequency FM.  If parameters other than source values
+TEXT: H          are omitted or set to zero, the default values shown will be
+TEXT: H          assumed.   (_T_S_T_E_P is the printing increment and _T_S_T_O_P is the
+TEXT: H          final time (see the G.TRAN Hline for explanation)).
+TEXT: H
+TEXT: 
+SUBTOPIC: SPICE:Exponential SPICE:fm SPICE:pulse
+SUBTOPIC: SPICE:pwl SPICE:sin
+
+SUBJECT: Exponential
+TITLE: Exponential
+TEXT: 
+TEXT:                GEXPH(_V_1 _V_2 _T_D_1 _T_A_U_1 _T_D_2 _T_A_U_2)
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:               VHIN 3 0 GEXPH(-4 -1 2NS 30NS 60NS 40NS)
+TEXT: H
+TEXT: 
+TEXT:           Gparameters      default values  units
+TEXT: H
+TEXT: H          V1   (initial value)                                HVolts or Amps
+TEXT: H          GV2   (pulsed value)                                 HVolts or Amps
+TEXT: H          GTD1  (rise delay time)                  H0.0         seconds
+TEXT: H          GTAU1 (rise time constant)               HTSTEP       seconds
+TEXT: H          GTD2  (fall delay time)                  HTD1+TSTEP   seconds
+TEXT: H          GTAU2 (fall time constant)               HTSTEP       seconds
+TEXT: H
+TEXT: 
+TEXT:                The shape of the waveform is described by the following
+TEXT: H          table:
+TEXT: H
+TEXT:               time    value
+TEXT: H
+TEXT: H              0 to TD1        V1
+TEXT: H              TD1 to TD2      V1+(V2-V1)*(1-exp(-(time-TD1)/TAU1))
+TEXT: H              TD2 to TSTOP    V1+(V2-V1)*(1-exp(-(time-TD1)/TAU1))
+TEXT: H                              +(V1-V2)*(1-exp(-(time-TD2)/TAU2))
+TEXT: H
+TEXT: 
+
+SUBJECT: fm
+TITLE: Single-Frequency FM
+TEXT: 
+TEXT:                GSFFMH(_V_O _V_A _F_C _M_D_I _F_S)
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:               VH1 12 0 GSFFMH(0 1M 20K 5 1K)
+TEXT: H
+TEXT: 
+TEXT:           Gparameters      default values  units
+TEXT: H
+TEXT: H          VO  (offset)                                      HVolts or Amps
+TEXT: H          GVA  (amplitude)                                   HVolts or Amps
+TEXT: H          GFC  (carrier frequency)                 H1/TSTOP   Hz
+TEXT: H          GMDI (modulation index)
+TEXT: H          FS  (signal frequency)                  H1/TSTOP   Hz
+TEXT: H
+TEXT: 
+TEXT:                The shape of the waveform is described by the following
+TEXT: H          equation:
+TEXT: H
+TEXT:               value = VO + VA*sine((twopi*FC*time) + MDI*sine(twopi*FS*time))
+TEXT: H
+TEXT: 
+
+SUBJECT: pulse
+TITLE: Pulse
+TEXT: 
+TEXT:                GPULSEH(_V_1 _V_2 _T_D _T_R _T_F _P_W _P_E_R)
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:               VHIN 3 0 GPULSEH(-1 1 2NS 2NS 2NS 50NS 100NS)
+TEXT: H
+TEXT: 
+TEXT:               Gparameters           Hdefault values   units
+TEXT: H
+TEXT: H              GV1 (initial value)                    HVolts or Amps
+TEXT: H              GV2 (pulsed value)                     HVolts or Amps
+TEXT: H              GTD (delay time)      H0.0              seconds
+TEXT: H              GTR (rise time)       HTSTEP            seconds
+TEXT: H              GTF (fall time)       HTSTEP            seconds
+TEXT: H              GPW (pulse width)     HTSTOP            seconds
+TEXT: H              GPER(period)          HTSTOP            seconds
+TEXT: H
+TEXT: 
+TEXT:                A single pulse so specified is described by the follow-
+TEXT: H          ing table:
+TEXT: H
+TEXT:                                time    value
+TEXT: H
+TEXT: H                               0               V1
+TEXT: H                               TD              V1
+TEXT: H                               TD+TR           V2
+TEXT: H                               TD+TR+PW        V2
+TEXT: H                               TD+TR+PW+TF     V1
+TEXT: H                               TSTOP           V1
+TEXT: H
+TEXT: 
+TEXT:           Intermediate points are determined by linear interpolation.
+TEXT: H
+TEXT: 
+
+SUBJECT: pwl
+TITLE: Piece-Wise Linear
+TEXT: 
+TEXT:                GPWLH(_T_1 _V_1 <_T_2 _V_2 _T_3 _V_3 _T_4 _V_4 ...>)
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:               VHCLOCK 7 5 GPWLH(0 -7 10NS -7 11NS -3 17NS -3 18NS -7 50NS -7)
+TEXT: H
+TEXT: 
+TEXT:                Each pair of values (_T_i, _V_i) specifies that  the  value
+TEXT: H          of  the  source  is _V_i (in Volts or Amps) at time = _T_i.  The
+TEXT: H          value of the source at intermediate values of time is deter-
+TEXT: H          mined by using linear interpolation on the input values.
+TEXT: H
+TEXT: 
+
+SUBJECT: sin
+TITLE: Sinusoidal
+TEXT: 
+TEXT:                GSINH(_V_O _V_A _F_R_E_Q _T_D _T_H_E_T_A)
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:               VHIN 3 0 GSINH(0 1 100MEG 1NS 1E10)
+TEXT: H
+TEXT: 
+TEXT:               Gparameters      default value   units
+TEXT: H
+TEXT: H              VO     (offset)                 Volts or Amps
+TEXT: H              VA     (amplitude)              Volts or Amps
+TEXT: H              FREQ   (frequency)      1/TSTOP Hz
+TEXT: H              TD     (delay)  0.0     seconds
+TEXT: H              THETA  (damping factor) 0.0     1/seconds
+TEXT: H
+TEXT: 
+TEXT:                HThe shape of the waveform is described by the following
+TEXT: H          table:
+TEXT: H
+TEXT:           time    value
+TEXT: H
+TEXT: H          0 to TD VO
+TEXT: H          TD to TSTOP     VO + VA*exp(-(time-TD)*THETA)*
+TEXT: H                                                           sine(twopi*FREQ*(time+TD))
+TEXT: H
+TEXT: 
+
+SUBJECT: k
+TITLE: Coupled (Mutual) Inductors
+TEXT: 
+TEXT:           GGeneral form:
+TEXT: H
+TEXT:               KHXXXXXXX GLH_Y_Y_Y_Y_Y_Y_Y GLH_Z_Z_Z_Z_Z_Z_Z _V_A_L_U_E
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:               KH43 GLHAA GLHBB 0.999
+TEXT: H              GKHXFRMR GLH1 GLH2 0.87
+TEXT: H
+TEXT: 
+TEXT:                GLH_Y_Y_Y_Y_Y_Y_Y _a_n_d GLH_Z_Z_Z_Z_Z_Z_Z _a_r_e _t_h_e _n_a_m_e_s _o_f _t_h_e _t_w_o  _c_o_u_p_l_e_d
+TEXT: H          _i_n_d_u_c_t_o_r_s,  _a_n_d  _V_A_L_U_E  is  the  coefficient of coupling, K,
+TEXT: H          which must be greater than 0 and less than or  equal  to  1.
+TEXT: H          Using  the 'dot' convention, place a 'dot' on the first node
+TEXT: H          of each inductor.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:cl
+
+SUBJECT: semicond
+TITLE: Semiconductor Devices
+TEXT: 
+TEXT:                The elements described to this point typically  require
+TEXT: H          only  a  few  parameter values.  However, the models for the
+TEXT: H          semiconductor devices that are included in the SPICE program
+TEXT: H          require  many  parameter  values.   Often, many devices in a
+TEXT: H          circuit are defined by the same set of device model  parame-
+TEXT: H          ters.   For  these reasons, a set of device model parameters
+TEXT: H          is defined on a separate G.MODEL Hline and assigned  a  unique
+TEXT: H          model name.  The device element lines in SPICE then refer to
+TEXT: H          the model name.  This scheme alleviates the need to  specify
+TEXT: H          all of the model parameters on each device element line.
+TEXT: H
+TEXT:                Each device element line contains the device name,  the
+TEXT: H          nodes to which the device is connected, and the device model
+TEXT: H          name.  In addition, other optional parameters may be  speci-
+TEXT: H          fied  for  some  devices:   geometric factors and an initial
+TEXT: H          condition.
+TEXT: H
+TEXT:                The area factor used on the diode, BJT, JFET, and  MES-
+TEXT: H          FET  device lines determines the number of equivalent paral-
+TEXT: H          lel devices of a specified model.  The  affected  parameters
+TEXT: H          are  marked with an asterisk under the heading 'area' in the
+TEXT: H          model descriptions below.  Several geometric factors associ-
+TEXT: H          ated  with  the  channel and the drain and source diffusions
+TEXT: H          can be specified on the MOSFET device line.
+TEXT: H
+TEXT:                Two different forms of initial conditions may be speci-
+TEXT: H          fied  for  some  devices.   The  first  form  is included to
+TEXT: H          improve the dc convergence for circuits  that  contain  more
+TEXT: H          than one stable state.  If a device is specified GOFFH, the dc
+TEXT: H          operating point is determined with the terminal voltages for
+TEXT: H          that device set to zero.  After convergence is obtained, the
+TEXT: H          program continues to iterate to obtain the exact  value  for
+TEXT: H          the  terminal  voltages.   If a circuit has more than one dc
+TEXT: H          stable state, the GOFF Hoption can be used to force the  solu-
+TEXT: H          tion  to  correspond  to  a  desired  state.  If a device is
+TEXT: H          specified GOFF Hwhen in reality the device is conducting,  the
+TEXT: H          program will still obtain the correct solution (assuming the
+TEXT: H          solutions converge) but more  iterations  will  be  required
+TEXT: H          since   the  program  must  independently  converge  to  two
+TEXT: H          separate solutions.  The G.NODESET Hline serves a similar pur-
+TEXT: H          pose  as  the  OFF option.  The G.NODESET Hoption is easier to
+TEXT: H          apply and is the preferred means to aid convergence.
+TEXT: H
+TEXT:                The second form of initial conditions are specified for
+TEXT: H          use  with  the  transient analysis.  These are true 'initial
+TEXT: H          conditions' as opposed to the convergence aids  above.   See
+TEXT: H          the  description  of  the  G.IC Hline and the G.TRAN Hline for a
+TEXT: H          detailed explanation of initial conditions.
+TEXT: H
+TEXT: 
+SUBTOPIC: SPICE:Capacitors SPICE:juncd SPICE:j
+SUBTOPIC: SPICE:m SPICE:q SPICE:r
+SUBTOPIC: SPICE:u SPICE:z
+
+SUBJECT: Capacitors
+TITLE: Capacitors
+TEXT: 
+TEXT:           GGeneral form:
+TEXT: H
+TEXT:               CH_X_X_X_X_X_X_X _N_1 _N_2 <_V_A_L_U_E> <_M_N_A_M_E> <_L=_L_E_N_G_T_H> <_W=_W_I_D_T_H> <_I_C=_V_A_L>
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:               CHLOAD 2 10 10P
+TEXT: H              GCHMOD 3 7 CMODEL L=10u W=1u
+TEXT: H
+TEXT: 
+TEXT:                This  is  the  more  general  form  of  the   capacitor
+TEXT: H          presented  in section 6.2, and allows for the calculation of
+TEXT: H          the actual capacitance value from strictly geometric  infor-
+TEXT: H          mation  and  the specifications of the process.  If _V_A_L_U_E is
+TEXT: H          specified, it defines the capacitance.  If _M_N_A_M_E  is  speci-
+TEXT: H          fied,  then  the  capacitance is calculated from the process
+TEXT: H          information in the model _M_N_A_M_E  and  the  given  _L_E_N_G_T_H  and
+TEXT: H          _W_I_D_T_H.   If  _V_A_L_U_E  is  not specified, then _M_N_A_M_E and _L_E_N_G_T_H
+TEXT: H          Gmust Hbe specified.  If _W_I_D_T_H is not specified, then it  will
+TEXT: H          be  taken from the default width given in the model.  Either
+TEXT: H          _V_A_L_U_E or _M_N_A_M_E, _L_E_N_G_T_H, and _W_I_D_T_H may be specified, but  not
+TEXT: H          both sets.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:cl
+
+SUBJECT: juncd
+TITLE: Junction Diodes
+TEXT: 
+TEXT:           GGeneral form:
+TEXT: H
+TEXT:               DH_X_X_X_X_X_X_X _N+ _N- _M_N_A_M_E <_A_R_E_A> <GOFFH> <IC=VD>
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:               DHBRIDGE 2 10 DIODE1
+TEXT: H              GDHCLMP 3 7 DMOD 3.0 IC=0.2
+TEXT: H
+TEXT: 
+TEXT:                _N+ and _N- are the positive and negative nodes,  respec-
+TEXT: H          tively.   _M_N_A_M_E  is the model name, _A_R_E_A is the area factor,
+TEXT: H          and GOFF Hindicates an (optional) starting  condition  on  the
+TEXT: H          device  for  dc  analysis.  If the area factor is omitted, a
+TEXT: H          value of 1.0 is assumed.  The (optional)  initial  condition
+TEXT: H          specification  using  GICH=_V_D is intended for use with the GUIC
+TEXT: H          Hoption on the Gother than the quiescent operating point.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:d
+
+SUBJECT: j
+TITLE: Junction Field-Effect Transistors
+TEXT: 
+TEXT:           GGeneral form:
+TEXT: H
+TEXT:               JH_X_X_X_X_X_X_X _N_D _N_G _N_S _M_N_A_M_E <_A_R_E_A> <GOFFH> <_I_C=_V_D_S,_V_G_S>
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:               JH1 7 2 3 JM1 GOFF
+TEXT: H
+TEXT: 
+TEXT:                H_N_D, _N_G, and _N_S are the drain, gate, and  source  nodes,
+TEXT: H          respectively.   _M_N_A_M_E  is  the  model name, _A_R_E_A is the area
+TEXT: H          factor, and GOFF Hindicates an (optional) initial condition on
+TEXT: H          the  device for dc analysis.  If the area factor is omitted,
+TEXT: H          a value of 1.0 is assumed.  The (optional) initial condition
+TEXT: H          specificaion  using  GICH=_V_D_S,_V_G_S is intended for use with the
+TEXT: H          GUIC Hoption on the G.TRAN Hline, when a transient  analysis  is
+TEXT: H          desired  starting  from  other  than the quiescent operating
+TEXT: H          point.  See the description of the G.IC Hline for a better way
+TEXT: H          to set initial conditions.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:jfet
+
+SUBJECT: m
+TITLE: MOSFET's
+TEXT: 
+TEXT:           GGeneral form:
+TEXT: H
+TEXT:               MH_X_X_X_X_X_X_X _N_D _N_G _N_S _N_B _M_N_A_M_E <_L=_V_A_L> <_W=_V_A_L> <_A_D=_V_A_L> <_A_S=_V_A_L>
+TEXT: H              + <_P_D=_V_A_L> <_P_S=_V_A_L> <_N_R_D=_V_A_L> <_N_R_S=_V_A_L> <GOFFH> <_I_C=_V_D_S,_V_G_S,_V_B_S>
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:               MH1 24 2 0 20 TYPE1
+TEXT: H              GMH31 2 17 6 10 MODM L=5U W=2U
+TEXT: H              GMH1 2 9 3 0 MOD1 L=10U W=5U AD=100P AS=100P PD=40U PS=40U
+TEXT: H
+TEXT: 
+TEXT:                _N_D, _N_G, _N_S, and _N_B are the  drain,  gate,  source,  and
+TEXT: H          bulk  (substrate)  nodes,  respectively.  _M_N_A_M_E is the model
+TEXT: H          name.  _L and _W are the channel length and width, in  meters.
+TEXT: H          _A_D  and _A_S are the areas of the drain and source diffusions,
+TEXT: H          in sq-meters.  Note that the suffix  `U'  specifies  microns
+TEXT: H          (1E-6  m) and P sq-microns (1E-12 sq-m). If any of _L, _W, _A_D,
+TEXT: H          or _A_S are not specified, default values are used.   The  use
+TEXT: H          of  defaults  simplifies  input file preparation, as well as
+TEXT: H          the editing required if device geometries are to be changed.
+TEXT: H          _P_D  and  _P_S are the perimeters of the drain and source junc-
+TEXT: H          tions, in meters.  _N_R_D  and  _N_R_S  designate  the  equivalent
+TEXT: H          number  of squares of the drain and source diffusions; these
+TEXT: H          values multiply the sheet resistance _R_S_H  specified  on  the
+TEXT: H          G.MODEL  Hline for an accurate representation of the parasitic
+TEXT: H          series drain and source resistance of each  transistor.   _P_D
+TEXT: H          and  _P_S  default to 0.0 while _N_R_D and _N_R_S to 1.0.  GOFF Hindi-
+TEXT: H          cates an (optional) initial condition on the device  for  dc
+TEXT: H          analysis.   The  (optional)  initial condition specification
+TEXT: H          using GICH=_V_D_S,_V_G_S,_V_B_S is intended for use with the GUIC Hoption
+TEXT: H          on  the  G.TRAN  Hline,  when  a transient analysis is desired
+TEXT: H          starting from other than the quiescent operating point.  See
+TEXT: H          the  description  of the G.IC Hline for a better and more con-
+TEXT: H          venient way to specify transient initial conditions.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:mosfet
+
+SUBJECT: q
+TITLE: Bipolar Junction Transistors
+TEXT: 
+TEXT:           GGeneral form:
+TEXT: H
+TEXT:               QH_X_X_X_X_X_X_X _N_C _N_B _N_E <_N_S> _M_N_A_M_E <_A_R_E_A> <GOFFH> <_I_C=_V_B_E,_V_C_E>
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:               QH23 10 24 13 QMOD IC=0.6,5.0
+TEXT: H              GQH50A 11 26 4 20 MOD1
+TEXT: H
+TEXT: 
+TEXT:                _N_C, _N_B, and _N_E are the  collector,  base,  and  emitter
+TEXT: H          nodes,  respectively.   _N_S is the (optional) substrate node.
+TEXT: H          If unspecified, ground is used.  _M_N_A_M_E is  the  model  name,
+TEXT: H          _A_R_E_A  is  the  area  factor, and GOFF Hindicates an (optional)
+TEXT: H          initial condition on the device for the dc analysis.  If the
+TEXT: H          area  factor  is  omitted,  a  value of 1.0 is assumed.  The
+TEXT: H          (optional) initial condition specification using  GICH=_V_B_E,_V_C_E
+TEXT: H          is  intended  for use with the GUIC Hoption on the G.TRAN Hline,
+TEXT: H          when a transient analysis is  desired  starting  from  other
+TEXT: H          than  the  quiescent  operating  point.   See  the  G.IC Hline
+TEXT: H          description for a better way to set transient initial condi-
+TEXT: H          tions.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:bjt
+
+SUBJECT: r
+TITLE: Resistors
+TEXT: 
+TEXT:           GGeneral form:
+TEXT: H
+TEXT:               RH_X_X_X_X_X_X_X _N_1 _N_2 <_V_A_L_U_E> <_M_N_A_M_E> <_L=_L_E_N_G_T_H> <_W=_W_I_D_T_H>
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:               RHLOAD 2 10 10K
+TEXT: H              GRHMOD 3 7 RMODEL L=10u W=1u
+TEXT: H
+TEXT: 
+TEXT:                This is the more general form of the resistor presented
+TEXT: H          in  section  6.1,  and  allows  the  modeling of temperature
+TEXT: H          effects and for the calculation  of  the  actual  resistance
+TEXT: H          value from strictly geometric information and the specifica-
+TEXT: H          tions of the process.  If _V_A_L_U_E is specified,  it  overrides
+TEXT: H          the  geometric  information  and defines the resistance.  If
+TEXT: H          _M_N_A_M_E is specified, then the resistance  may  be  calculated
+TEXT: H          from  the  process  information  in  the model _M_N_A_M_E and the
+TEXT: H          given _L_E_N_G_T_H and _W_I_D_T_H.  If _V_A_L_U_E  is  not  specified,  then
+TEXT: H          _M_N_A_M_E  and _L_E_N_G_T_H Gmust Hbe specified.  If _W_I_D_T_H is not speci-
+TEXT: H          fied, then it will be taken from the default width given  in
+TEXT: H          the model.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:rmodel
+
+SUBJECT: u
+TITLE: URC's (Lossy)
+TEXT: 
+TEXT:           GGeneral form:
+TEXT: H
+TEXT:               UH_X_X_X_X_X_X_X _N_1 _N_2 _N_3 _M_N_A_M_E _L=_L_E_N <_N=_L_U_M_P_S>
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:               UH1 1 2 0 URCMOD L=50U
+TEXT: H              GUHRC2 1 12 2 UMODL l=1MIL N=6
+TEXT: H
+TEXT: 
+TEXT:                _N_1 and _N_2 are the two element nodes the  RC  line  con-
+TEXT: H          nects,  while  _N_3  is the node to which the capacitances are
+TEXT: H          connected.  _M_N_A_M_E is the model name, _L_E_N is  the  length  of
+TEXT: H          the  RC  line in meters.  _L_U_M_P_S, if specified, is the number
+TEXT: H          of lumped segments to use in modeling the RC line  (see  the
+TEXT: H          model  description for the action taken if this parameter is
+TEXT: H          omitted).
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:t
+
+SUBJECT: z
+TITLE: MESFET's
+TEXT: 
+TEXT:           GGeneral form:
+TEXT: H
+TEXT:               ZH_X_X_X_X_X_X_X _N_D _N_G _N_S _M_N_A_M_E <_A_R_E_A> <GOFFH> <_I_C=_V_D_S,_V_G_S>
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:               ZH1 7 2 3 ZM1 GOFF
+TEXT: H
+TEXT: 
+TEXT:                H_N_D, _N_G, and _N_S are the drain, gate, and  source  nodes,
+TEXT: H          respectively.   _M_N_A_M_E  is  the  model name, _A_R_E_A is the area
+TEXT: H          factor, and GOFF Hindicates an (optional) initial condition on
+TEXT: H          the  device for dc analysis.  If the area factor is omitted,
+TEXT: H          a value of 1.0 is assumed.  The (optional) initial condition
+TEXT: H          specification, using GICH=_V_D_S,_V_G_S is intended for use with the
+TEXT: H          GUIC Hoption on the G.TRAN Hline, when a transient  analysis  is
+TEXT: H          desired  starting  from  other  than the quiescent operating
+TEXT: H          point.  See the description of the G.IC Hline for a better way
+TEXT: H          to set initial conditions.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:mesfet
+
+SUBJECT: sw
+TITLE: Switches
+TEXT: 
+TEXT:           GGeneral form:
+TEXT: H
+TEXT:               SH_X_X_X_X_X_X_X _N+ _N- _N_C+ _N_C- _M_O_D_E_L G<ON><OFF>
+TEXT: H              WH_Y_Y_Y_Y_Y_Y_Y _N+ _N- _V_N_A_M _M_O_D_E_L G<ON><OFF>
+TEXT: H
+TEXT:           Examples:
+TEXT: H
+TEXT:               SH1 1 2 3 4 SWITCH1 GON
+TEXT: H              SH2 5 6 3 0 SM2 GOFF
+TEXT: H              SHWITCH1 1 2 10 0 SMODEL1
+TEXT: H              GWH1 1 2 VCLOCK SWITCHMOD1
+TEXT: H              GWH2 3 0 VRAMP SM1 GON
+TEXT: H              WHRESET 5 6 VCLCK LOSSYSWITCH GOFF
+TEXT: H
+TEXT: 
+TEXT:                HNodes _N+ and _N- are the nodes between which the  switch
+TEXT: H          terminals  are connected.  The model name is mandatory while
+TEXT: H          the initial conditions are optional.  For the  voltage  con-
+TEXT: H          trolled switch, nodes _N_C+ and _N_C- are the positive and nega-
+TEXT: H          tive controlling nodes respectively.  For the  current  con-
+TEXT: H          trolled  switch, the controlling current is that through the
+TEXT: H          specified voltage source.  The direction  of  positive  con-
+TEXT: H          trolling current flow is from the positive node, through the
+TEXT: H          source, to the negative node.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:swmodel
+
+SUBJECT: t
+TITLE: Transmission Lines (Lossless)
+TEXT: 
+TEXT:           GGeneral form:
+TEXT: H
+TEXT:               TH_X_X_X_X_X_X_X _N_1 _N_2 _N_3 _N_4 GZ0H=_V_A_L_U_E <GTDH=_V_A_L_U_E>
+TEXT: H              +               <GF=H_F_R_E_Q <GNLH=_N_R_M_L_E_N>> <GICH=_V_1,_I_1,_V_2,_I_2>
+TEXT: H
+TEXT:           GExamples:
+TEXT: H
+TEXT:               TH1 1 0 2 0 Z0=50 GTDH=10NS
+TEXT: H
+TEXT: 
+TEXT:                _N_1 and _N_2 are the nodes at port 1;  _N_3 and _N_4  are  the
+TEXT: H          nodes  at  port 2.  _Z_0 is the characteristic impedance.  The
+TEXT: H          length of the line may be expressed in either of two  forms.
+TEXT: H          The  transmission  delay,  _T_D, may be specified directly (as
+TEXT: H          GTDH=10ns, for example).  Alternatively, a frequency GF Hmay  be
+TEXT: H          given, together with GNLH, the normalized electrical length of
+TEXT: H          the transmission line with respect to the wavelength in  the
+TEXT: H          line at the frequency GFH.  If a frequency is specified but GNL
+TEXT: H          His omitted, 0.25 is  assumed  (that  is,  the  frequency  is
+TEXT: H          assumed  to  be  the  quarter-wave  frequency).   Note  that
+TEXT: H          although both forms for expressing the line length are indi-
+TEXT: H          cated as optional, one of the two must be specified.
+TEXT: H
+TEXT:                Note that this  element  models  only  one  propagating
+TEXT: H          mode.  If all four nodes are distinct in the actual circuit,
+TEXT: H          then two modes may be excited.  To simulate  such  a  situa-
+TEXT: H          tion, two transmission-line elements are required.  (see the
+TEXT: H          example in Appendix A for further clarification.)
+TEXT: H
+TEXT:                The (optional) initial condition specification consists
+TEXT: H          of  the voltage and current at each of the transmission line
+TEXT: H          ports.  Note that the initial conditions (if any) apply only
+TEXT: H          if the GUIC Hoption is specified on the G.TRAN Hline.
+TEXT: H
+TEXT: 
+
+SUBJECT: examples
+TITLE: Circuit Examples
+TEXT: 
+TEXT:                The following circuits are examples.
+TEXT: H
+TEXT: 
+SUBTOPIC: SPICE:ex1 SPICE:ex2 SPICE:ex3
+SUBTOPIC: SPICE:ex4 SPICE:ex5
+
+SUBJECT: ex1
+TITLE: Example 1
+TEXT: 
+TEXT:                The following circuit determines the dc operating point
+TEXT: H          of  a  simple differential pair.  In addition, the ac small-
+TEXT: H          signal response is computed over the frequency range 1Hz  to
+TEXT: H          100MEGHz.
+TEXT: H
+TEXT:                SIMPLE DIFFERENTIAL PAIR
+TEXT: H               GVHCC 7 0 12
+TEXT: H               GVHEE 8 0 -12
+TEXT: H               GVHIN 1 0 AC 1
+TEXT: H               GRHS1 1 2 1K
+TEXT: H               GRHS2 6 0 1K
+TEXT: H               GQH1 3 2 4 MOD1
+TEXT: H               GQH2 5 6 4 MOD1
+TEXT: H               GRHC1 7 3 10K
+TEXT: H               GRHC2 7 5 10K
+TEXT: H               GRHE 4 8 10K
+TEXT: H               G.MODEL HMOD1 NPN BF=50 VAF=50 IS=1.E-12 RB=100 CJC=.5PF TF=.6NS
+TEXT: H               G.AC DEC H10 1 100MEG
+TEXT: H               G.END
+TEXT: H
+TEXT: 
+
+SUBJECT: ex2
+TITLE: Example 2
+TEXT: 
+TEXT:                The following file computes the output  characteristics
+TEXT: H          of a MOSFET device over the range 0-10V for VDS and 0-5V for
+TEXT: H          VGS.
+TEXT: H
+TEXT:                MOS OUTPUT CHARACTERISTICS
+TEXT: H               GVHDS 3 0
+TEXT: H               GVHGS 2 0
+TEXT: H               GMH1 1 2 0 0 MOD1 L=4U W=6U AD=10P AS=10P
+TEXT: H               G.MODEL HMOD1 NMOS VTO=-2 NSUB=1.0E15 UO=550
+TEXT: H               * VIDS MEASURES ID, WE COULD HAVE USED VDS, BUT ID WOULD BE NEGATIVE
+TEXT: H               GVHIDS 3 1
+TEXT: H               G.DC HVDS 0 10 .5 VGS 0 5 1
+TEXT: H               G.END
+TEXT: H
+TEXT: 
+
+SUBJECT: ex3
+TITLE: Example 3
+TEXT: 
+TEXT:                The following file determines the dc transfer curve and
+TEXT: H          the  transient pulse response of a simple RTL inverter.  The
+TEXT: H          input is a pulse from 0 to 5 Volts  with  delay,  rise,  and
+TEXT: H          fall  times of 2ns and a pulse width of 30ns.  The transient
+TEXT: H          interval is 0 to 100ns,  with  printing  to  be  done  every
+TEXT: H          nanosecond.
+TEXT: H
+TEXT:                SIMPLE RTL INVERTER
+TEXT: H               GVHCC 4 0 5
+TEXT: H               GVHIN 1 0 PULSE 0 5 2NS 2NS 2NS 30NS
+TEXT: H               GRHB 1 2 10K
+TEXT: H               GQH1 3 2 0 Q1
+TEXT: H               GRHC 3 4 1K
+TEXT: H               G.MODEL HQ1 NPN BF 20 RB 100 TF .1NS CJC 2PF
+TEXT: H               G.DC HVIN 0 5 0.1
+TEXT: H               G.TRAN H1NS 100NS
+TEXT: H               G.END
+TEXT: H
+TEXT: 
+
+SUBJECT: ex4
+TITLE: Example 4
+TEXT: 
+TEXT:                The following file simulates a four-bit  binary  adder,
+TEXT: H          using  several subcircuits to describe various pieces of the
+TEXT: H          overall circuit.
+TEXT: H
+TEXT:                ADDER - 4 BIT ALL-NAND-GATE BINARY ADDER
+TEXT: H               *** SUBCIRCUIT DEFINITIONS
+TEXT: H               G.SUBCKT HNAND 1 2 3 4
+TEXT: H               *   NODES:  INPUT(2), OUTPUT, VCC
+TEXT: H               GQH1 9 5 1 QMOD
+TEXT: H               GDH1CLAMP 0 1 DMOD
+TEXT: H               GQH2 9 5 2 QMOD
+TEXT: H               GDH2CLAMP 0 2 DMOD
+TEXT: H               GRHB 4 5 4K
+TEXT: H               GRH1 4 6 1.6K
+TEXT: H               GQH3 6 9 8 QMOD
+TEXT: H               GRH2 8 0 1K
+TEXT: H               GRHC 4 7 130
+TEXT: H               GQH4 7 6 10 QMOD
+TEXT: H               GDHVBEDROP 10 3 DMOD
+TEXT: H               GQH5 3 8 0 QMOD
+TEXT: H               G.ENDS HNAND
+TEXT: H               G.SUBCKT HONEBIT 1 2 3 4 5 6
+TEXT: H               *   NODES:  INPUT(2), CARRY-IN, OUTPUT, CARRY-OUT, VCC
+TEXT: H               GXH1 1 2 7 6 NAND
+TEXT: H               GXH2 1 7 8 6 NAND
+TEXT: H               GXH3 2 7 9 6 NAND
+TEXT: H               GXH4 8 9 10 6 NAND
+TEXT: H               GXH5 3 10 11 6 NAND
+TEXT: H               GXH6 3 11 12 6 NAND
+TEXT: H               GXH7 10 11 13 6 NAND
+TEXT: H               GXH8 12 13 4 6 NAND
+TEXT: H               GXH9 11 7 5 6 NAND
+TEXT: H               G.ENDS HONEBIT
+TEXT: H               .SUBCKT TWOBIT 1 2 3 4 5 6 7 8 9
+TEXT: H               *   NODES:  INPUT - BIT0(2) / BIT1(2), OUTPUT - BIT0 / BIT1,
+TEXT: H               *           CARRY-IN, CARRY-OUT, VCC
+TEXT: H               GXH1 1 2 7 5 10 9 ONEBIT
+TEXT: H               GXH2 3 4 10 6 8 9 ONEBIT
+TEXT: H               G.ENDS HTWOBIT
+TEXT: H               .SUBCKT FOURBIT 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+TEXT: H               *   NODES:  INPUT - BIT0(2) / BIT1(2) / BIT2(2) / BIT3(2),
+TEXT: H               *           OUTPUT - BIT0 / BIT1 / BIT2 / BIT3, CARRY-IN, CARRY-OUT,
+TEXT: H               GVHCC
+TEXT: H               GXH1 1 2 3 4 9 10 13 16 15 TWOBIT
+TEXT: H               GXH2 5 6 7 8 11 12 16 14 15 TWOBIT
+TEXT: H               .ENDS FOURBIT
+TEXT: H               *** DEFINE NOMINAL CIRCUIT
+TEXT: H               G.MODEL HDMOD D
+TEXT: H               G.MODEL HQMOD NPN(BF=75 RB=100 CJE=1PF CJC=3PF)
+TEXT: H               GVHCC 99 0 DC 5V
+TEXT: H               GVHIN1A 1 0 PULSE(0 3 0 10NS 10NS   10NS   50NS)
+TEXT: H               GVHIN1B 2 0 PULSE(0 3 0 10NS 10NS   20NS  100NS)
+TEXT: H               GVHIN2A 3 0 PULSE(0 3 0 10NS 10NS   40NS  200NS)
+TEXT: H
+TEXT: 
+TEXT:                GVHIN2B 4 0 PULSE(0 3 0 10NS 10NS   80NS  400NS)
+TEXT: H               GVHIN3A 5 0 PULSE(0 3 0 10NS 10NS  160NS  800NS)
+TEXT: H               GVHIN3B 6 0 PULSE(0 3 0 10NS 10NS  320NS 1600NS)
+TEXT: H               GVHIN4A 7 0 PULSE(0 3 0 10NS 10NS  640NS 3200NS)
+TEXT: H               GVHIN4B 8 0 PULSE(0 3 0 10NS 10NS 1280NS 6400NS)
+TEXT: H               GXH1 1 2 3 4 5 6 7 8 9 10 11 12 0 13 99 FOURBIT
+TEXT: H               GRHBIT0 9 0 1K
+TEXT: H               GRHBIT1 10 0 1K
+TEXT: H               GRHBIT2 11 0 1K
+TEXT: H               GRHBIT3 12 0 1K
+TEXT: H               GRHCOUT 13 0 1K
+TEXT: H               *** (FOR THOSE WITH MONEY (AND MEMORY) TO BURN)
+TEXT: H               G.TRAN H1NS 6400NS
+TEXT: H               G.END
+TEXT: H
+TEXT: 
+
+SUBJECT: ex5
+TITLE: Example 5
+TEXT: 
+TEXT:                The  following  file  simulates   a   transmission-line
+TEXT: H          inverter.  Two transmission-line elements are required since
+TEXT: H          two propagation modes are excited.  In the case of a coaxial
+TEXT: H          line,  the  first  line (T1) models the inner conductor with
+TEXT: H          respect to the shield, and the second line (T2)  models  the
+TEXT: H          shield with respect to the outside world.
+TEXT: H
+TEXT:                TRANSMISSION-LINE INVERTER
+TEXT: H               GVH1 1 0 PULSE(0 1 0 0.1N)
+TEXT: H               GRH1 1 2 50
+TEXT: H               GXH1 2 0 0 4 TLINE
+TEXT: H               GRH2 4 0 50
+TEXT: H               G.SUBCKT HTLINE 1 2 3 4
+TEXT: H               GTH1 1 2 3 4 Z0=50 TD=1.5NS
+TEXT: H               GTH2 2 0 4 0 Z0=100 TD=1NS
+TEXT: H               G.ENDS HTLINE
+TEXT: H               G.TRAN H0.1NS 20NS
+TEXT: H               G.END
+TEXT: H
+TEXT: 
+
+SUBJECT: batchmode
+TITLE: Batch Mode
+TEXT: 
+TEXT:      If Gspice His given a circuit file as the standard input, or
+TEXT: H     if it is run with the G-b Hflag, it will process the circuit
+TEXT: H     in batch mode, similar to that of SPICE2.  Most of the con-
+TEXT: H     trol lines recognised by SPICE2 will be handled, including
+TEXT: H     G.plotH, G.printH, and G.fourH.  The format of the output is some-
+TEXT: H     what different, however, and much less information is avail-
+TEXT: H     able from an operating point analysis.  Some SPICE2 options
+TEXT: H     are not supported, and only the analysis types Gtran, op, ac,
+TEXT: H     dc, Hand Gpz Hare recognised.
+TEXT: H
+TEXT: 
+SEEALSO: SPICE:dashb
+

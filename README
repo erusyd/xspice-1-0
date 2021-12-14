@@ -1,0 +1,63 @@
+
+COPYRIGHTS AND LICENSE AGREEMENTS
+
+This directory contains software comprising the XSPICE Simulator and
+the XSPICE Code Model Subsystem.  XSPICE is based on the SPICE3
+program developed by the Electronics Research Laboratory, Department
+of Electrical Engineering and Computer Sciences, University of
+California at Berkeley.  SPICE3 and its documentation are
+copyrighted and licensed by the Regents of the University of
+California.
+
+Code added to SPICE3 to create the XSPICE Simulator and the XSPICE
+Code Model Subsystem was developed at the Computer Science and
+Information Technology Laboratory, Georgia Tech Research Institute,
+Atlanta GA, and is covered by license agreement the following
+copyright:
+
+   Copyright 1992
+   Georgia Tech Research Corporation
+   All Rights Reserved.
+   This material may be reproduced by or for the U.S. Government
+   pursuant to the copyright license under the clause at DFARS
+   252.227-7013 (Oct. 1988)
+
+Refer to U.C. Berkeley and Georgia Tech license agreements for
+additional information.
+
+
+                       *** WARNING ***
+
+Redistribution and export of this software is subject to the
+terms of your license agreement and to U.S. Government restrictions.
+
+
+
+
+COMPILATION INFORMATION
+
+XSPICE has been successfully compiled on HP Apollo and Sun
+workstations.  The source files require approximately 10Mb of
+disk space and the entire compiled system requires approximately
+30Mb of space on HP Apollo platforms.  The resulting executable
+size depends on the number of models included.  On HP Apollo
+platforms with all supplied code models, the XSPICE executable
+is approximately 2.5 Mb.
+
+The following software is required for compilation:
+
+    UNIX BSD4.3 or compatible operating system
+    UNIX Lex, Yacc, and Sed utilities
+    X11R4 X Window System with Athena Widgets
+    ANSI compatible C compiler
+
+
+If your system does not have an ANSI compatible C compiler named cc,
+edit the 'CC=cc' line in /usr/local/xspice-1-0/include/make.include
+to specify the name of the ANSI C compiler on your system
+(e.g. 'CC=gcc').
+
+
+To build the XSPICE system, move into the 'src' subdirectory
+and execute 'make'.
+

@@ -1,0 +1,59 @@
+
+xspice-1-0                --  The XSPICE root directory (under /usr/local)
+    bin                   --  Binaries - include in $(PATH) of shells
+        cmpp              --  Code model preprocessor executable
+        mkmoddir          --  Mkmoddir shell script
+        mksimdir          --  Mksimdir shell script
+        mkudndir          --  Mkudndir shell script
+        xspice            --  'Standalone' simulator (includes nutmeg)
+    lib                   --  The 'released' library
+        sim               --  Subdirectory for simulator
+            source        --  Where SPIinit.c is kept for making new XSPICE simulators
+            object        --  Where core.o is kept for linking with code models
+            helpdir       --  Unmodified Berkeley files
+            news          --  Unmodified Berkeley files
+            scripts       --  Unmodified Berkeley files
+            mfbcap        --  Unmodified Berkeley files
+            examples      --  Example input circuits (SPICE3 and XSPICE)
+        cmt               --  Code model toolset
+            cmpp          --  (empty)
+            mkmoddir      --  Templates for mkmoddir
+            mksimdir      --  Templates for mksimdir
+            mkudndir      --  Templates for mkudndir
+        cml               --  Code model library
+            gain          --  Gain block model
+            limit         --  Limiter model
+            ilimit        --  Current limiter model
+            climit        --  Controlled limiter model
+            ...           --  Other models
+        udnl              --  User-Defined Node library
+            real          --  Real-valued event-driven data
+            int           --  Integer-valued event-driven data
+    include               --  The 'release' directory for shared/runtime .h's
+        sim               --  .h files used to compile code models
+        cmt               --  (empty)
+        cml               --  (empty)
+    src                   --  Source code (including .h source)
+        sim               --  Simulator source
+            include       --  SPICE include directory
+            FTE           --  SPICE front-end directory
+            INP           --  SPICE input subdirectory
+            CKT           --  SPICE circuit subdirectory
+            ...           --  Other SPICE3 and XSPICE subdirectories
+        cmt               --  Code model toolset source
+            cmpp          --  Source for code model preprocessor
+            mkmoddir      --  Source for mkmoddir script
+            mksimdir      --  Source for mksimdir script
+            mkudndir      --  Source for mkudndir script
+        cml               --  Code model library 
+            gain          --  Gain block model
+            limit         --  Limiter model
+            ilimit        --  Current limiter model
+            climit        --  Controlled limiter model
+            ...           --  Other models
+        udnl              --  User-Defined Node library
+            real          --  Real-valued event-driven data
+            int           --  Integer-valued event-driven data
+    doc                   --  Documentation
+        sum               --  XSPICE User Manual in Postscript format
+

@@ -1,0 +1,1502 @@
+
+COPYRIGHTS AND LICENSE AGREEMENTS
+
+This directory contains software comprising the XSPICE Simulator and
+the XSPICE Code Model Subsystem.  XSPICE is based on the SPICE3
+program developed by the Electronics Research Laboratory, Department
+of Electrical Engineering and Computer Sciences, University of
+California at Berkeley.  SPICE3 and its documentation are
+copyrighted and licensed by the Regents of the University of
+California.
+
+Code added to SPICE3 to create the XSPICE Simulator and the XSPICE
+Code Model Subsystem was developed at the Computer Science and
+Information Technology Laboratory, Georgia Tech Research Institute,
+Atlanta GA, and is covered by license agreement the following
+copyright:
+
+   Copyright 1992
+   Georgia Tech Research Corporation
+   All Rights Reserved.
+   This material may be reproduced by or for the U.S. Government
+   pursuant to the copyright license under the clause at DFARS
+   252.227-7013 (Oct. 1988)
+
+Refer to U.C. Berkeley and Georgia Tech license agreements for
+additional information.
+
+
+                       *** WARNING ***
+
+Redistribution and export of this software is subject to the
+terms of your license agreement and to U.S. Government restrictions.
+
+
+
+COMPILATION INFORMATION
+
+XSPICE has been successfully compiled on HP Apollo and Sun
+workstations.  The source files require approximately 10Mb of
+disk space and the entire compiled system requires approximately
+30Mb of space on HP Apollo platforms.  The resulting executable
+size depends on the number of models included.  On HP Apollo
+platforms with all supplied code models, the XSPICE executable
+is approximately 2.5 Mb.
+
+The following software is required for compilation:
+
+    UNIX BSD4.3 or compatible operating system
+    UNIX Lex, Yacc, and Sed utilities
+    X11R4 X Window System with Athena Widgets
+    ANSI compatible C compiler
+
+
+
+The "Makefile" in this directory is the top-level Makefile for
+building the XSPICE system.  Refer to the XSPICE Software User's
+Manual for additional information on compiling and using this
+software.
+
+If your system does not have an ANSI compatible C compiler named cc,
+edit the 'CC=cc' line in /usr/local/xspice-1-0/include/make.include
+to specify the name of the ANSI C compiler on your system
+(e.g. 'CC=gcc').
+
+
+The following is a transcript of a successful compilation on an
+HP Apollo Series 400 workstation:
+
+bsd4.3
+1 pwd
+//mint/usr/local/xspice-1-0/src
+2 make
+true
+cd cmt;\
+	make
+true
+cd cmpp;\
+	make
+cc -g  -c main.c
+cc -g  -c pp_ifs.c
+cc -g  -c pp_lst.c
+cc -g  -c pp_mod.c
+cc -g  -c read_ifs.c
+cc -g  -c util.c
+cc -g  -c writ_ifs.c
+yacc -d ifs_yacc.y
+mv y.tab.h ifs_tok.h
+mv y.tab.c ifs_yacc.c
+cc -g  -c ifs_yacc.c
+yacc -d mod_yacc.y
+
+conflicts: 38 shift/reduce
+mv y.tab.h mod_tok.h
+sed -f mod_yacc.sed y.tab.c > mod_yacc.c
+/bin/rm y.tab.c
+cc -g  -c mod_yacc.c
+lex -t -v ifs_lex.l > ifs_lex.c
+677/1000 nodes(%e), 2771/5000 positions(%p), 327/500 (%n), 10831 transitions
+, 113/1000 packed char classes(%k), 1070/2000 packed transitions(%a), 916/3000 output slots(%o)
+cc -g -c ifs_lex.c
+lex -t -v mod_lex.l | sed -f mod_lex.sed > mod_lex.c
+432/1000 nodes(%e), 1718/2500 positions(%p), 198/500 (%n), 11973 transitions
+, 12/1000 packed char classes(%k), 1130/2000 packed transitions(%a), 1207/3000 output slots(%o)
+cc -g -c mod_lex.c
+cc -g -o cmpp main.o pp_ifs.o pp_lst.o pp_mod.o read_ifs.o util.o writ_ifs.o ifs_yacc.o mod_yacc.o ifs_lex.o mod_lex.o 
+cp cmpp /usr/local/xspice-1-0/bin/cmpp
+cd mkmoddir;\
+	make
+cp cfunc.tpl /usr/local/xspice-1-0/lib/cmt/mkmoddir/cfunc.tpl
+cp ifspec.tpl /usr/local/xspice-1-0/lib/cmt/mkmoddir/ifspec.tpl
+cp Makefile.tpl /usr/local/xspice-1-0/lib/cmt/mkmoddir/Makefile.tpl
+cp mkmoddir.sh /usr/local/xspice-1-0/bin/mkmoddir
+cd mkudndir;\
+	make
+cp udnfunc.tpl /usr/local/xspice-1-0/lib/cmt/mkudndir/udnfunc.tpl
+cp Makefile.tpl /usr/local/xspice-1-0/lib/cmt/mkudndir/Makefile.tpl
+cp mkudndir.sh /usr/local/xspice-1-0/bin/mkudndir
+cd mksimdir;\
+	make
+cp modpath.tpl /usr/local/xspice-1-0/lib/cmt/mksimdir/modpath.tpl
+cp udnpath.tpl /usr/local/xspice-1-0/lib/cmt/mksimdir/udnpath.tpl
+cp Makefile.tpl /usr/local/xspice-1-0/lib/cmt/mksimdir/Makefile.tpl
+cp mksimdir.sh /usr/local/xspice-1-0/bin/mksimdir
+cd cml;\
+	make
+true
+cd adc_bridge;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r adc_bridge ../../lib/cml/adc_bridge
+cd d_fdiv;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r d_fdiv ../../lib/cml/d_fdiv
+cd d_ram;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r d_ram ../../lib/cml/d_ram
+cd gain;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r gain ../../lib/cml/gain
+cd pwl;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r pwl ../../lib/cml/pwl
+cd aswitch;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r aswitch ../../lib/cml/aswitch
+cd d_inverter;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r d_inverter ../../lib/cml/d_inverter
+cd d_source;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r d_source ../../lib/cml/d_source
+cd hyst;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r hyst ../../lib/cml/hyst
+cd s_xfer;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r s_xfer ../../lib/cml/s_xfer
+cd capacitor;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r capacitor ../../lib/cml/capacitor
+cd d_jkff;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r d_jkff ../../lib/cml/d_jkff
+cd d_srff;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r d_srff ../../lib/cml/d_srff
+cd ilimit;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r ilimit ../../lib/cml/ilimit
+cd sine;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r sine ../../lib/cml/sine
+cd climit;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r climit ../../lib/cml/climit
+cd d_nand;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r d_nand ../../lib/cml/d_nand
+cd d_srlatch;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r d_srlatch ../../lib/cml/d_srlatch
+cd inductor;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r inductor ../../lib/cml/inductor
+cd slew;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r slew ../../lib/cml/slew
+cd cmeter;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r cmeter ../../lib/cml/cmeter
+cd d_nor;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r d_nor ../../lib/cml/d_nor
+cd d_state;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r d_state ../../lib/cml/d_state
+cd int;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r int ../../lib/cml/int
+cd square;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r square ../../lib/cml/square
+cd core;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r core ../../lib/cml/core
+cd d_open_c;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r d_open_c ../../lib/cml/d_open_c
+cd d_tff;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r d_tff ../../lib/cml/d_tff
+cd lcouple;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r lcouple ../../lib/cml/lcouple
+cd summer;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r summer ../../lib/cml/summer
+cd d_and;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r d_and ../../lib/cml/d_and
+cd d_open_e;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r d_open_e ../../lib/cml/d_open_e
+cd d_tristate;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r d_tristate ../../lib/cml/d_tristate
+cd limit;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r limit ../../lib/cml/limit
+cd triangle;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r triangle ../../lib/cml/triangle
+cd d_buffer;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r d_buffer ../../lib/cml/d_buffer
+cd d_or;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r d_or ../../lib/cml/d_or
+cd d_xnor;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r d_xnor ../../lib/cml/d_xnor
+cd lmeter;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r lmeter ../../lib/cml/lmeter
+cd zener;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r zener ../../lib/cml/zener
+cd d_dff;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r d_dff ../../lib/cml/d_dff
+cd d_osc;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r d_osc ../../lib/cml/d_osc
+cd d_xor;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r d_xor ../../lib/cml/d_xor
+cd mult;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r mult ../../lib/cml/mult
+cd d_dlatch;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r d_dlatch ../../lib/cml/d_dlatch
+cd d_pulldown;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r d_pulldown ../../lib/cml/d_pulldown
+cd dac_bridge;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r dac_bridge ../../lib/cml/dac_bridge
+cd oneshot;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r oneshot ../../lib/cml/oneshot
+cd d_dt;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r d_dt ../../lib/cml/d_dt
+cd d_pullup;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r d_pullup ../../lib/cml/d_pullup
+cd divide;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r divide ../../lib/cml/divide
+cd potentiometer;\
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c cfunc.c
+cp -r potentiometer ../../lib/cml/potentiometer
+cd udnl;\
+	make
+true
+cd real;\
+	make
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c udnfunc.c
+cp -r real ../../lib/udnl/real
+cd int;\
+	make
+cc  -I. -I/usr/local/xspice-1-0/include/sim -c udnfunc.c
+cp -r int ../../lib/udnl/int
+cd sim;\
+	make
+true
+cd CKT;\
+	make
+cc  -I../include -c ACan.c
+cc  -I../include -c ACaskQuest.c
+cc  -I../include -c ACsetParm.c
+cc  -I../include -c CKTaccept.c
+cc  -I../include -c CKTacct.c
+cc  -I../include -c CKTacDump.c
+cc  -I../include -c CKTacLoad.c
+cc  -I../include -c CKTask.c
+cc  -I../include -c CKTaskAnalQ.c
+cc  -I../include -c CKTaskNodQst.c
+cc  -I../include -c CKTbindNode.c
+cc  -I../include -c CKTbreakDump.c
+cc  -I../include -c CKTclrBreak.c
+cc  -I../include -c CKTconvTest.c
+cc  -I../include -c CKTcrtElt.c
+cc  -I../include -c CKTdelTask.c
+cc  -I../include -c CKTdestroy.c
+cc  -I../include -c CKTdltInst.c
+cc  -I../include -c CKTdltMod.c
+cc  -I../include -c CKTdltNod.c
+cc  -I../include -c CKTdoJob.c
+cc  -I../include -c CKTdump.c
+cc  -I../include -c CKTfndAnal.c
+cc  -I../include -c CKTfndBranch.c
+cc  -I../include -c CKTfndDev.c
+cc  -I../include -c CKTfndMod.c
+cc  -I../include -c CKTfndNode.c
+cc  -I../include -c CKTfndTask.c
+cc  -I../include -c CKTground.c
+cc  -I../include -c CKTinit.c
+cc  -I../include -c CKTic.c
+cc  -I../include -c CKTinst2Node.c
+cc  -I../include -c CKTlinkEq.c
+cc  -I../include -c CKTload.c
+cc  -I../include -c CKTmkCur.c
+cc  -I../include -c CKTmkNode.c
+cc  -I../include -c CKTmkVolt.c
+cc  -I../include -c CKTmapNode.c
+cc  -I../include -c CKTmodAsk.c
+cc  -I../include -c CKTmodCrt.c
+cc  -I../include -c CKTmodParam.c
+cc  -I../include -c CKTnames.c
+cc  -I../include -c CKTnewAnal.c
+cc  -I../include -c CKTnewEq.c
+cc  -I../include -c CKTnewNode.c
+cc  -I../include -c CKTnewTask.c
+cc  -I../include -c CKTnodName.c
+cc  -I../include -c CKTnum2nod.c
+cc  -I../include -c CKTop.c
+cc  -I../include -c CKTparam.c
+cc  -I../include -c CKTpModName.c
+cc  -I../include -c CKTpName.c
+cc  -I../include -c CKTpzLoad.c
+cc  -I../include -c CKTpzSetup.c
+cc  -I../include -c CKTsenAC.c
+cc  -I../include -c CKTsenComp.c
+cc  -I../include -c CKTsenDCtran.c
+cc  -I../include -c CKTsenLoad.c
+cc  -I../include -c CKTsenPrint.c
+cc  -I../include -c CKTsenSetup.c
+cc  -I../include -c CKTsenUpdate.c
+cc  -I../include -c CKTsetAnalPm.c
+cc  -I../include -c CKTsetBreak.c
+cc  -I../include -c CKTsetNodPm.c
+cc  -I../include -c CKTsetOpt.c
+cc  -I../include -c CKTsetup.c
+cc  -I../include -c CKTtemp.c
+cc  -I../include -c CKTterr.c
+cc  -I../include -c CKTtrunc.c
+cc  -I../include -c CKTtypelook.c
+cc  -I../include -c DCOaskQuest.c
+cc  -I../include -c DCOsetParm.c
+cc  -I../include -c DCTaskQuest.c
+cc  -I../include -c DCTsetParm.c
+cc  -I../include -c DCop.c
+cc  -I../include -c DCtran.c
+cc  -I../include -c DCtrCurv.c
+cc  -I../include -c SENstartup.c
+cc  -I../include -c SENsetParm.c
+cc  -I../include -c SENaskQuest.c
+cc  -I../include -c SENdestroy.c
+cc  -I../include -c SPerror.c
+cc  -I../include -c PZan.c
+cc  -I../include -c PZaskQuest.c
+cc  -I../include -c PZsetParm.c
+cc  -I../include -c TFanal.c
+cc  -I../include -c TFsetParm.c
+cc  -I../include -c TFaskQuest.c
+cc  -I../include -c TRANaskQuest.c
+cc  -I../include -c TRANsetParm.c
+ar r ../CKT.a ACan.o ACaskQuest.o ACsetParm.o CKTaccept.o CKTacct.o CKTacDump.o CKTacLoad.o CKTask.o CKTaskAnalQ.o CKTaskNodQst.o CKTbindNode.o CKTbreakDump.o CKTclrBreak.o CKTconvTest.o CKTcrtElt.o CKTdelTask.o CKTdestroy.o CKTdltInst.o CKTdltMod.o CKTdltNod.o CKTdoJob.o CKTdump.o CKTfndAnal.o CKTfndBranch.o CKTfndDev.o CKTfndMod.o CKTfndNode.o CKTfndTask.o CKTground.o CKTinit.o CKTic.o CKTinst2Node.o CKTlinkEq.o CKTload.o CKTmkCur.o CKTmkNode.o CKTmkVolt.o CKTmapNode.o CKTmodAsk.o CKTmodCrt.o CKTmodParam.o CKTnames.o CKTnewAnal.o CKTnewEq.o CKTnewNode.o CKTnewTask.o CKTnodName.o CKTnum2nod.o CKTop.o CKTparam.o CKTpModName.o CKTpName.o CKTpzLoad.o CKTpzSetup.o CKTsenAC.o CKTsenComp.o CKTsenDCtran.o CKTsenLoad.o CKTsenPrint.o CKTsenSetup.o CKTsenUpdate.o CKTsetAnalPm.o CKTsetBreak.o CKTsetNodPm.o CKTsetOpt.o CKTsetup.o CKTtemp.o CKTterr.o CKTtrunc.o CKTtypelook.o DCOaskQuest.o DCOsetParm.o DCTaskQuest.o DCTsetParm.o DCop.o DCtran.o DCtrCurv.o SENstartup.o SENsetParm.o SENaskQuest.o SENdestroy.o SPerror.o PZa
+ar: creating ../CKT.a
+ranlib ../CKT.a
+cd CP;\
+	make
+cc  -I. -I../include -c alias.c
+cc  -I. -I../include -c backquote.c
+cc  -I. -I../include -c complete.c
+cc  -I. -I../include -c cshpar.c
+cc  -I. -I../include -c front.c
+cc  -I. -I../include -c glob.c
+cc  -I. -I../include -c history.c
+cc  -I. -I../include -c lexical.c
+cc  -I. -I../include -c modify.c
+cc  -I. -I../include -c output.c
+cc  -I. -I../include -c quote.c
+cc  -I. -I../include -c spawn.c
+cc  -I. -I../include -c std.c
+cc  -I. -I../include -c unixcom.c
+cc  -I. -I../include -c variable.c
+cc  -I. -I../include -c wlist.c
+ar r ../CP.a alias.o backquote.o complete.o cshpar.o front.o glob.o history.o lexical.o modify.o output.o quote.o spawn.o std.o unixcom.o variable.o wlist.o
+ar: creating ../CP.a
+ranlib ../CP.a
+cc  -I. -I../include -c input.c
+cd HLP;\
+	make
+cc  -I../include -I/usr/include/X11/Xaw -I/usr/include/X11 -c help.c
+cc  -I../include -I/usr/include/X11/Xaw -I/usr/include/X11 -c provide.c
+cc  -I../include -I/usr/include/X11/Xaw -I/usr/include/X11 -c readhelp.c
+cc  -I../include -I/usr/include/X11/Xaw -I/usr/include/X11 -c textdisplay.c
+cc  -I../include -I/usr/include/X11/Xaw -I/usr/include/X11 -c xdisplay.c
+cc  -I../include -I/usr/include/X11/Xaw -I/usr/include/X11 -c x11display.c
+ar r ../HLP.a help.o provide.o readhelp.o textdisplay.o xdisplay.o x11display.o
+ar: creating ../HLP.a
+ranlib ../HLP.a
+cc  -I../include -I/usr/include/X11/Xaw -I/usr/include/X11 -c helpmain.c
+cc  -I../include -I/usr/include/X11/Xaw -I/usr/include/X11 -o help helpmain.o \
+	../HLP.a ../CP.a -L/usr/X11/lib -lXaw -lXt -lXmu -lX11 -ltermlib
+cc  -I../include -I/usr/include/X11/Xaw -I/usr/include/X11 -c makeindex.c
+cc   -o makeindex makeindex.o
+cd INP;\
+	make
+cc   -I../include -c IFeval.c
+cc   -I../include -c IFnewUid.c
+cc   -I../include -c INP2B.c
+cc   -I../include -c INP2C.c
+cc   -I../include -c INP2D.c
+cc   -I../include -c INP2E.c
+cc   -I../include -c INP2F.c
+cc   -I../include -c INP2G.c
+cc   -I../include -c INP2H.c
+cc   -I../include -c INP2I.c
+cc   -I../include -c INP2J.c
+cc   -I../include -c INP2K.c
+cc   -I../include -c INP2L.c
+cc   -I../include -c INP2M.c
+cc   -I../include -c INP2Q.c
+cc   -I../include -c INP2R.c
+cc   -I../include -c INP2S.c
+cc   -I../include -c INP2T.c
+cc   -I../include -c INP2U.c
+cc   -I../include -c INP2V.c
+cc   -I../include -c INP2W.c
+cc   -I../include -c INP2Z.c
+cc   -I../include -c INP2dot.c
+cc   -I../include -c INPaName.c
+cc   -I../include -c INPapName.c
+cc   -I../include -c INPcaseFix.c
+cc   -I../include -c INPdevParse.c
+cc   -I../include -c INPdoOpts.c
+cc   -I../include -c INPdomodel.c
+cc   -I../include -c INPerrCat.c
+cc   -I../include -c INPerror.c
+cc   -I../include -c INPevaluate.c
+cc   -I../include -c INPfindLev.c
+cc   -I../include -c INPgetMod.c
+cc   -I../include -c INPgetTitle.c
+cc   -I../include -c INPgetTok.c
+cc   -I../include -c INPgetValue.c
+cc   -I../include -c INPkillMods.c
+cc   -I../include -c INPlist.c
+cc   -I../include -c INPlookMod.c
+cc   -I../include -c INPmakeMod.c
+cc   -I../include -c INPmkTemp.c
+cc   -I../include -c INPpName.c
+cc   -I../include -c INPparseTree.c
+cc   -I../include -c INPpas1.c
+cc   -I../include -c INPpas2.c
+cc   -I../include -c INPsymTab.c
+cc   -I../include -c INPtypelook.c
+cc   -I../include -c PTfunctions.c
+ar r ../INP.a IFeval.o IFnewUid.o INP2B.o INP2C.o INP2D.o INP2E.o INP2F.o INP2G.o INP2H.o INP2I.o INP2J.o INP2K.o INP2L.o INP2M.o INP2Q.o INP2R.o INP2S.o INP2T.o INP2U.o INP2V.o INP2W.o INP2Z.o INP2dot.o INPaName.o INPapName.o INPcaseFix.o INPdevParse.o INPdoOpts.o INPdomodel.o INPerrCat.o INPerror.o INPevaluate.o INPfindLev.o INPgetMod.o INPgetTitle.o INPgetTok.o INPgetValue.o INPkillMods.o INPlist.o INPlookMod.o INPmakeMod.o INPmkTemp.o INPpName.o INPparseTree.o INPpas1.o INPpas2.o INPsymTab.o INPtypelook.o PTfunctions.o
+ar: creating ../INP.a
+ranlib ../INP.a
+cc   -I../include -c Proc2Mod.c
+cc  -o Proc2Mod Proc2Mod.o ../INP.a -z -lm
+cd NI;\
+	make
+cc   -I../include -c NIacIter.c
+cc   -I../include -c NIcomCof.c
+cc   -I../include -c NIconvTest.c
+cc   -I../include -c NIdestroy.c
+cc   -I../include -c NIinit.c
+cc   -I../include -c NIintegrate.c
+cc   -I../include -c NIiter.c
+cc   -I../include -c NIpred.c
+cc   -I../include -c NIpzMuller.c
+cc   -I../include -c NIpzSolve.c
+cc   -I../include -c NIreinit.c
+cc   -I../include -c NIsenReinit.c
+ar r ../NI.a NIacIter.o NIcomCof.o NIconvTest.o NIdestroy.o NIinit.o NIintegrate.o NIiter.o NIpred.o NIpzMuller.o NIpzSolve.o NIreinit.o NIsenReinit.o
+ar: creating ../NI.a
+ranlib ../NI.a
+cd SMP;\
+	make
+cc  -I../include -c DCdiveq.c
+cc  -I../include -c SMPaddElt.c
+cc  -I../include -c SMPcClear.c
+cc  -I../include -c SMPcLUfac.c
+cc  -I../include -c SMPcReorder.c
+cc  -I../include -c SMPcSolve.c
+cc  -I../include -c SMPclear.c
+cc  -I../include -c SMPcolSwap.c
+cc  -I../include -c SMPcProdDiag.c
+cc  -I../include -c SMPdestroy.c
+cc  -I../include -c SMPfillup.c
+cc  -I../include -c SMPfindElt.c
+cc  -I../include -c SMPgetError.c
+cc  -I../include -c SMPluFac.c
+cc  -I../include -c SMPmakeElt.c
+cc  -I../include -c SMPmatSize.c
+cc  -I../include -c SMPnewMatrix.c
+cc  -I../include -c SMPnewNode.c
+cc  -I../include -c SMPpreOrder.c
+cc  -I../include -c SMPprint.c
+cc  -I../include -c SMPreorder.c
+cc  -I../include -c SMProwSwap.c
+cc  -I../include -c SMPsolve.c
+ar r ../SMP.a DCdiveq.o SMPaddElt.o SMPcClear.o SMPcLUfac.o SMPcReorder.o SMPcSolve.o SMPclear.o SMPcolSwap.o SMPcProdDiag.o SMPdestroy.o SMPfillup.o SMPfindElt.o SMPgetError.o SMPluFac.o SMPmakeElt.o SMPmatSize.o SMPnewMatrix.o SMPnewNode.o SMPpreOrder.o SMPprint.o SMPreorder.o SMProwSwap.o SMPsolve.o
+ar: creating ../SMP.a
+ranlib ../SMP.a
+cd MFB;\
+	make
+cc  -I. -I../include -c mfb3d.c
+cc  -I. -I../include -c mfbbasic.c
+cc  -I. -I../include -c mfbcaps.c
+cc  -I. -I../include -c mfbclip.c
+cc  -I. -I../include -c mfbdecode.c
+cc  -I. -I../include -c mfbgncode.c
+cc  -I. -I../include -c mfbio.c
+cc  -I. -I../include -c mfbtext.c
+cc  -I. -I../include -c paths.c
+ar r ../MFB.a mfb3d.o mfbbasic.o mfbcaps.o mfbclip.o mfbdecode.o mfbgncode.o mfbio.o mfbtext.o paths.o
+ar: creating ../MFB.a
+ranlib ../MFB.a
+cd MIF;\
+	make
+cc  -I../include -c MIF_INP2A.c
+cc  -I../include -c MIFgetMod.c
+cc  -I../include -c MIFgetValue.c
+cc  -I../include -c MIFload.c
+cc  -I../include -c MIFmParam.c
+cc  -I../include -c MIFsetup.c
+cc  -I../include -c MIFutil.c
+cc  -I../include -c MIFask.c
+cc  -I../include -c MIFmAsk.c
+cc  -I../include -c MIFtrunc.c
+cc  -I../include -c MIFconvTest.c
+cc  -I../include -c MIFdelete.c
+cc  -I../include -c MIFmDelete.c
+cc  -I../include -c MIFdestroy.c
+cc  -I../include -c MIF.c
+ar r ../MIF.a MIF_INP2A.o MIFgetMod.o MIFgetValue.o MIFload.o MIFmParam.o MIFsetup.o MIFutil.o MIFask.o MIFmAsk.o MIFtrunc.o MIFconvTest.o MIFdelete.o MIFmDelete.o MIFdestroy.o MIF.o
+ar: creating ../MIF.a
+ranlib ../MIF.a
+cd CM;\
+	make
+cc  -I../include -c CM.c
+../include/util.h: 12: TRUE redefined
+cc  -I../include -c CMevt.c
+../include/CMconstants.h: 47: TRUE redefined
+cc  -I../include -c CMutil.c
+cc  -I../include -c CMmeters.c
+ar r ../CM.a CM.o CMevt.o CMutil.o CMmeters.o
+ar: creating ../CM.a
+ranlib ../CM.a
+cd EVT;\
+	make
+cc  -I../include -c EVTaccept.c
+cc  -I../include -c EVTbackup.c
+cc  -I../include -c EVTcall_hybrids.c
+cc  -I../include -c EVTdequeue.c
+cc  -I../include -c EVTinit.c
+cc  -I../include -c EVTiter.c
+cc  -I../include -c EVTload.c
+cc  -I../include -c EVTnext_time.c
+cc  -I../include -c EVTnode_copy.c
+cc  -I../include -c EVTop.c
+cc  -I../include -c EVTprint.c
+cc  -I../include -c EVTplot.c
+cc  -I../include -c EVTqueue.c
+cc  -I../include -c EVTsetup.c
+cc  -I../include -c EVTdump.c
+cc  -I../include -c EVTtermInsert.c
+ar r ../EVT.a EVTaccept.o EVTbackup.o EVTcall_hybrids.o EVTdequeue.o EVTinit.o EVTiter.o EVTload.o EVTnext_time.o EVTnode_copy.o EVTop.o EVTprint.o EVTplot.o EVTqueue.o EVTsetup.o EVTdump.o EVTtermInsert.o
+ar: creating ../EVT.a
+ranlib ../EVT.a
+cd ENH;\
+	make
+cc  -I../include -c ENHtranslate_poly.c
+cc  -I../include -c ENH.c
+ar r ../ENH.a ENHtranslate_poly.o ENH.o
+ar: creating ../ENH.a
+ranlib ../ENH.a
+cd IPC;\
+	make
+cc -DIPC_UNIX_SOCKETS -I../include -c IPC.c
+cc -DIPC_UNIX_SOCKETS -I../include -c IPCtiein.c
+cc -DIPC_UNIX_SOCKETS -I../include -c IPCsockets.c
+ar r ../IPC.a IPC.o IPCtiein.o IPCsockets.o
+ar: creating ../IPC.a
+ranlib ../IPC.a
+cd ICM;\
+	make
+true
+cd POLY; \
+	make
+/usr/local/xspice-1-0/bin/cmpp -ifs
+cc  -I. -I../../include -c ifspec.c
+/usr/local/xspice-1-0/bin/cmpp -mod cfunc.mod 
+cc  -I. -I../../include -c cfunc.c
+ar r ../../ICM.a *.o
+ar: creating ../../ICM.a
+ranlib ../../ICM.a
+cd IDN;\
+	make
+cc  -I../include -c IDNdig.c
+ar r ../IDN.a IDNdig.o
+ar: creating ../IDN.a
+ranlib ../IDN.a
+cd DEV;\
+	make
+true
+cd ASRC; \
+	make
+cc   -I../../include -c ASRC.c
+cc   -I../../include -c ASRCask.c
+cc   -I../../include -c ASRCacLoad.c
+cc   -I../../include -c ASRCconvTest.c
+cc   -I../../include -c ASRCdelete.c
+cc   -I../../include -c ASRCdestroy.c
+cc   -I../../include -c ASRCfindBr.c
+cc   -I../../include -c ASRCload.c
+cc   -I../../include -c ASRCmDelete.c
+cc   -I../../include -c ASRCparam.c
+cc   -I../../include -c ASRCpzLoad.c
+cc   -I../../include -c ASRCsetup.c
+ar r ../../DEV.a ASRC.o ASRCask.o ASRCacLoad.o ASRCconvTest.o ASRCdelete.o ASRCdestroy.o ASRCfindBr.o ASRCload.o ASRCmDelete.o ASRCparam.o ASRCpzLoad.o ASRCsetup.o
+ar: creating ../../DEV.a
+ranlib ../../DEV.a
+cd BJT; \
+	make
+cc   -I../../include -c BJT.c
+cc   -I../../include -c BJTacLoad.c
+cc   -I../../include -c BJTask.c
+cc   -I../../include -c BJTconvTest.c
+cc   -I../../include -c BJTdelete.c
+cc   -I../../include -c BJTdestroy.c
+cc   -I../../include -c BJTgetic.c
+cc   -I../../include -c BJTload.c
+cc   -I../../include -c BJTmAsk.c
+cc   -I../../include -c BJTmDelete.c
+cc   -I../../include -c BJTmParam.c
+cc   -I../../include -c BJTparam.c
+cc   -I../../include -c BJTpzLoad.c
+cc   -I../../include -c BJTsAcLoad.c
+cc   -I../../include -c BJTsLoad.c
+cc   -I../../include -c BJTsPrint.c
+cc   -I../../include -c BJTsSetup.c
+cc   -I../../include -c BJTsUpdate.c
+cc   -I../../include -c BJTsetup.c
+cc   -I../../include -c BJTtemp.c
+cc   -I../../include -c BJTtrunc.c
+ar r ../../DEV.a BJT.o BJTacLoad.o BJTask.o BJTconvTest.o BJTdelete.o BJTdestroy.o BJTgetic.o BJTload.o BJTmAsk.o BJTmDelete.o BJTmParam.o BJTparam.o BJTpzLoad.o BJTsAcLoad.o BJTsLoad.o BJTsPrint.o BJTsSetup.o BJTsUpdate.o BJTsetup.o BJTtemp.o BJTtrunc.o
+ranlib ../../DEV.a
+cd BSIM; \
+	make
+cc   -I../../include -c BSIM.c
+cc   -I../../include -c BSIMacLoad.c
+cc   -I../../include -c BSIMask.c
+cc   -I../../include -c BSIMconvTest.c
+cc   -I../../include -c BSIMdelete.c
+cc   -I../../include -c BSIMdestroy.c
+cc   -I../../include -c BSIMevaluate.c
+cc   -I../../include -c BSIMgetic.c
+cc   -I../../include -c BSIMload.c
+cc   -I../../include -c BSIMmAsk.c
+cc   -I../../include -c BSIMmDelete.c
+cc   -I../../include -c BSIMmParam.c
+cc   -I../../include -c BSIMmosCap.c
+cc   -I../../include -c BSIMparam.c
+cc   -I../../include -c BSIMpzLoad.c
+cc   -I../../include -c BSIMsetup.c
+cc   -I../../include -c BSIMtemp.c
+cc   -I../../include -c BSIMtrunc.c
+ar r ../../DEV.a BSIM.o BSIMacLoad.o BSIMask.o BSIMconvTest.o BSIMdelete.o BSIMdestroy.o BSIMevaluate.o BSIMgetic.o BSIMload.o BSIMmAsk.o BSIMmDelete.o BSIMmParam.o BSIMmosCap.o BSIMparam.o BSIMpzLoad.o BSIMsetup.o BSIMtemp.o BSIMtrunc.o
+ranlib ../../DEV.a
+cd CAP; \
+	make
+cc   -I../../include -c CAP.c
+cc   -I../../include -c CAPacLoad.c
+cc   -I../../include -c CAPask.c
+cc   -I../../include -c CAPdelete.c
+cc   -I../../include -c CAPdestroy.c
+cc   -I../../include -c CAPgetic.c
+cc   -I../../include -c CAPload.c
+cc   -I../../include -c CAPmAsk.c
+cc   -I../../include -c CAPmDelete.c
+cc   -I../../include -c CAPmParam.c
+cc   -I../../include -c CAPparam.c
+cc   -I../../include -c CAPpzLoad.c
+cc   -I../../include -c CAPsAcLoad.c
+cc   -I../../include -c CAPsLoad.c
+cc   -I../../include -c CAPsPrint.c
+cc   -I../../include -c CAPsSetup.c
+cc   -I../../include -c CAPsUpdate.c
+cc   -I../../include -c CAPsetup.c
+cc   -I../../include -c CAPtemp.c
+cc   -I../../include -c CAPtrunc.c
+ar r ../../DEV.a CAP.o CAPacLoad.o CAPask.o CAPdelete.o CAPdestroy.o CAPgetic.o CAPload.o CAPmAsk.o CAPmDelete.o CAPmParam.o CAPparam.o CAPpzLoad.o CAPsAcLoad.o CAPsLoad.o CAPsPrint.o CAPsSetup.o CAPsUpdate.o CAPsetup.o CAPtemp.o CAPtrunc.o
+ranlib ../../DEV.a
+cd CCCS; \
+	make
+cc   -I../../include -c CCCS.c
+cc   -I../../include -c CCCSask.c
+cc   -I../../include -c CCCSdelete.c
+cc   -I../../include -c CCCSdestroy.c
+cc   -I../../include -c CCCSload.c
+cc   -I../../include -c CCCSmDelete.c
+cc   -I../../include -c CCCSparam.c
+cc   -I../../include -c CCCSpzLoad.c
+cc   -I../../include -c CCCSsAcLoad.c
+cc   -I../../include -c CCCSsLoad.c
+cc   -I../../include -c CCCSsPrint.c
+cc   -I../../include -c CCCSsSetup.c
+cc   -I../../include -c CCCSsetup.c
+ar r ../../DEV.a CCCS.o CCCSask.o CCCSdelete.o CCCSdestroy.o CCCSload.o CCCSmDelete.o CCCSparam.o CCCSpzLoad.o CCCSsAcLoad.o CCCSsLoad.o CCCSsPrint.o CCCSsSetup.o CCCSsetup.o
+ranlib ../../DEV.a
+cd CCVS; \
+	make
+cc   -I../../include  -c CCVS.c
+cc   -I../../include  -c CCVSask.c
+cc   -I../../include  -c CCVSdelete.c
+cc   -I../../include  -c CCVSdestroy.c
+cc   -I../../include  -c CCVSfindBr.c
+cc   -I../../include  -c CCVSload.c
+cc   -I../../include  -c CCVSmDelete.c
+cc   -I../../include  -c CCVSparam.c
+cc   -I../../include  -c CCVSpzLoad.c
+cc   -I../../include  -c CCVSsAcLoad.c
+cc   -I../../include  -c CCVSsLoad.c
+cc   -I../../include  -c CCVSsPrint.c
+cc   -I../../include  -c CCVSsSetup.c
+cc   -I../../include  -c CCVSsetup.c
+ar r ../../DEV.a CCVS.o CCVSask.o CCVSdelete.o CCVSdestroy.o CCVSfindBr.o CCVSload.o CCVSmDelete.o CCVSparam.o CCVSpzLoad.o CCVSsAcLoad.o CCVSsLoad.o CCVSsPrint.o CCVSsSetup.o CCVSsetup.o
+ranlib ../../DEV.a
+cd CSW; \
+	make
+cc   -I../../include -c CSW.c
+cc   -I../../include -c CSWask.c
+cc   -I../../include -c CSWacLoad.c
+cc   -I../../include -c CSWdelete.c
+cc   -I../../include -c CSWdestroy.c
+cc   -I../../include -c CSWload.c
+cc   -I../../include -c CSWmAsk.c
+cc   -I../../include -c CSWmDelete.c
+cc   -I../../include -c CSWmParam.c
+cc   -I../../include -c CSWparam.c
+cc   -I../../include -c CSWpzLoad.c
+cc   -I../../include -c CSWsetup.c
+ar r ../../DEV.a CSW.o CSWask.o CSWacLoad.o CSWdelete.o CSWdestroy.o CSWload.o CSWmAsk.o CSWmDelete.o CSWmParam.o CSWparam.o CSWpzLoad.o CSWsetup.o
+ranlib ../../DEV.a
+cd DIO; \
+	make
+cc   -I../../include -c DIO.c
+cc   -I../../include -c DIOask.c
+cc   -I../../include -c DIOacLoad.c
+cc   -I../../include -c DIOconvTest.c
+cc   -I../../include -c DIOdelete.c
+cc   -I../../include -c DIOdestroy.c
+cc   -I../../include -c DIOgetic.c
+cc   -I../../include -c DIOload.c
+cc   -I../../include -c DIOmAsk.c
+cc   -I../../include -c DIOmDelete.c
+cc   -I../../include -c DIOmParam.c
+cc   -I../../include -c DIOparam.c
+cc   -I../../include -c DIOpzLoad.c
+cc   -I../../include -c DIOsAcLoad.c
+cc   -I../../include -c DIOsLoad.c
+cc   -I../../include -c DIOsPrint.c
+cc   -I../../include -c DIOsSetup.c
+cc   -I../../include -c DIOsUpdate.c
+cc   -I../../include -c DIOsetup.c
+cc   -I../../include -c DIOtemp.c
+cc   -I../../include -c DIOtrunc.c
+ar r ../../DEV.a DIO.o DIOask.o DIOacLoad.o DIOconvTest.o DIOdelete.o DIOdestroy.o DIOgetic.o DIOload.o DIOmAsk.o DIOmDelete.o DIOmParam.o DIOparam.o DIOpzLoad.o DIOsAcLoad.o DIOsLoad.o DIOsPrint.o DIOsSetup.o DIOsUpdate.o DIOsetup.o DIOtemp.o DIOtrunc.o
+ranlib ../../DEV.a
+cd IND; \
+	make
+cc   -I../../include -c IND.c
+cc   -I../../include -c INDacLoad.c
+cc   -I../../include -c INDask.c
+cc   -I../../include -c INDdelete.c
+cc   -I../../include -c INDdestroy.c
+cc   -I../../include -c INDload.c
+cc   -I../../include -c INDmDelete.c
+cc   -I../../include -c INDparam.c
+cc   -I../../include -c INDpzLoad.c
+cc   -I../../include -c INDsAcLoad.c
+cc   -I../../include -c INDsLoad.c
+cc   -I../../include -c INDsPrint.c
+cc   -I../../include -c INDsSetup.c
+cc   -I../../include -c INDsUpdate.c
+cc   -I../../include -c INDsetup.c
+cc   -I../../include -c INDtrunc.c
+cc   -I../../include -c MUTacLoad.c
+cc   -I../../include -c MUTask.c
+cc   -I../../include -c MUTdelete.c
+cc   -I../../include -c MUTdestroy.c
+cc   -I../../include -c MUTmDelete.c
+cc   -I../../include -c MUTparam.c
+cc   -I../../include -c MUTpzLoad.c
+cc   -I../../include -c MUTsPrint.c
+cc   -I../../include -c MUTsSetup.c
+cc   -I../../include -c MUTsetup.c
+ar r ../../DEV.a IND.o INDacLoad.o INDask.o INDdelete.o INDdestroy.o INDload.o INDmDelete.o INDparam.o INDpzLoad.o INDsAcLoad.o INDsLoad.o INDsPrint.o INDsSetup.o INDsUpdate.o INDsetup.o INDtrunc.o MUTacLoad.o MUTask.o MUTdelete.o MUTdestroy.o MUTmDelete.o MUTparam.o MUTpzLoad.o MUTsPrint.o MUTsSetup.o MUTsetup.o
+ranlib ../../DEV.a
+cd ISRC; \
+	make
+cc   -I../../include -c ISRC.c
+cc   -I../../include -c ISRCask.c
+cc   -I../../include -c ISRCaccept.c
+cc   -I../../include -c ISRCacLoad.c
+cc   -I../../include -c ISRCdelete.c
+cc   -I../../include -c ISRCdestroy.c
+cc   -I../../include -c ISRCload.c
+cc   -I../../include -c ISRCmDelete.c
+cc   -I../../include -c ISRCparam.c
+cc   -I../../include -c ISRCtemp.c
+ar r ../../DEV.a ISRC.o ISRCask.o ISRCaccept.o ISRCacLoad.o ISRCdelete.o ISRCdestroy.o ISRCload.o ISRCmDelete.o ISRCparam.o ISRCtemp.o
+ranlib ../../DEV.a
+cd JFET; \
+	make
+cc   -I../../include -c JFET.c
+cc   -I../../include -c JFETask.c
+cc   -I../../include -c JFETacLoad.c
+cc   -I../../include -c JFETdelete.c
+cc   -I../../include -c JFETdestroy.c
+cc   -I../../include -c JFETgetic.c
+cc   -I../../include -c JFETload.c
+cc   -I../../include -c JFETmAsk.c
+cc   -I../../include -c JFETmDelete.c
+cc   -I../../include -c JFETmParam.c
+cc   -I../../include -c JFETparam.c
+cc   -I../../include -c JFETpzLoad.c
+cc   -I../../include -c JFETsetup.c
+cc   -I../../include -c JFETtemp.c
+cc   -I../../include -c JFETtrunc.c
+ar r ../../DEV.a JFET.o JFETask.o JFETacLoad.o JFETdelete.o JFETdestroy.o JFETgetic.o JFETload.o JFETmAsk.o JFETmDelete.o JFETmParam.o JFETparam.o JFETpzLoad.o JFETsetup.o JFETtemp.o JFETtrunc.o
+ranlib ../../DEV.a
+cd MES; \
+	make
+cc   -I../../include -c MES.c
+cc   -I../../include -c MESacLoad.c
+cc   -I../../include -c MESask.c
+cc   -I../../include -c MESdelete.c
+cc   -I../../include -c MESdestroy.c
+cc   -I../../include -c MESgetic.c
+cc   -I../../include -c MESload.c
+cc   -I../../include -c MESmAsk.c
+cc   -I../../include -c MESmDelete.c
+cc   -I../../include -c MESmParam.c
+cc   -I../../include -c MESparam.c
+cc   -I../../include -c MESpzLoad.c
+cc   -I../../include -c MESsetup.c
+cc   -I../../include -c MEStemp.c
+cc   -I../../include -c MEStrunc.c
+ar r ../../DEV.a MES.o MESacLoad.o MESask.o MESdelete.o MESdestroy.o MESgetic.o MESload.o MESmAsk.o MESmDelete.o MESmParam.o MESparam.o MESpzLoad.o MESsetup.o MEStemp.o MEStrunc.o
+ranlib ../../DEV.a
+cd MOS1; \
+	make
+cc   -I../../include -c MOS1.c
+cc   -I../../include -c MOS1acLoad.c
+cc   -I../../include -c MOS1ask.c
+cc   -I../../include -c MOS1convTest.c
+cc   -I../../include -c MOS1delete.c
+cc   -I../../include -c MOS1destroy.c
+cc   -I../../include -c MOS1getic.c
+cc   -I../../include -c MOS1load.c
+cc   -I../../include -c MOS1mAsk.c
+cc   -I../../include -c MOS1mDelete.c
+cc   -I../../include -c MOS1mParam.c
+cc   -I../../include -c MOS1param.c
+cc   -I../../include -c MOS1pzLoad.c
+cc   -I../../include -c MOS1sAcLoad.c
+cc   -I../../include -c MOS1sLoad.c
+cc   -I../../include -c MOS1sPrint.c
+cc   -I../../include -c MOS1sSetup.c
+cc   -I../../include -c MOS1sUpdate.c
+cc   -I../../include -c MOS1setup.c
+cc   -I../../include -c MOS1temp.c
+cc   -I../../include -c MOS1trunc.c
+ar r ../../DEV.a MOS1.o MOS1acLoad.o MOS1ask.o MOS1convTest.o MOS1delete.o MOS1destroy.o MOS1getic.o MOS1load.o MOS1mAsk.o MOS1mDelete.o MOS1mParam.o MOS1param.o MOS1pzLoad.o MOS1sAcLoad.o MOS1sLoad.o MOS1sPrint.o MOS1sSetup.o MOS1sUpdate.o MOS1setup.o MOS1temp.o MOS1trunc.o
+ranlib ../../DEV.a
+cd MOS2; \
+	make
+cc   -I../../include -c MOS2.c
+cc   -I../../include -c MOS2acLoad.c
+cc   -I../../include -c MOS2ask.c
+cc   -I../../include -c MOS2convTest.c
+cc   -I../../include -c MOS2delete.c
+cc   -I../../include -c MOS2destroy.c
+cc   -I../../include -c MOS2getic.c
+cc   -I../../include -c MOS2load.c
+cc   -I../../include -c MOS2mDelete.c
+cc   -I../../include -c MOS2mParam.c
+cc   -I../../include -c MOS2param.c
+cc   -I../../include -c MOS2pzLoad.c
+cc   -I../../include -c MOS2sAcLoad.c
+cc   -I../../include -c MOS2sLoad.c
+cc   -I../../include -c MOS2sPrint.c
+cc   -I../../include -c MOS2sSetup.c
+cc   -I../../include -c MOS2sUpdate.c
+cc   -I../../include -c MOS2setup.c
+cc   -I../../include -c MOS2temp.c
+cc   -I../../include -c MOS2trunc.c
+ar r ../../DEV.a MOS2.o MOS2acLoad.o MOS2ask.o MOS2convTest.o MOS2delete.o MOS2destroy.o MOS2getic.o MOS2load.o MOS2mDelete.o MOS2mParam.o MOS2param.o MOS2pzLoad.o MOS2sAcLoad.o MOS2sLoad.o MOS2sPrint.o MOS2sSetup.o MOS2sUpdate.o MOS2setup.o MOS2temp.o MOS2trunc.o
+ranlib ../../DEV.a
+cd MOS3; \
+	make
+cc   -I../../include -c MOS3.c
+cc   -I../../include -c MOS3acLoad.c
+cc   -I../../include -c MOS3ask.c
+cc   -I../../include -c MOS3convTest.c
+cc   -I../../include -c MOS3delete.c
+cc   -I../../include -c MOS3destroy.c
+cc   -I../../include -c MOS3getic.c
+cc   -I../../include -c MOS3load.c
+cc   -I../../include -c MOS3mAsk.c
+cc   -I../../include -c MOS3mDelete.c
+cc   -I../../include -c MOS3mParam.c
+cc   -I../../include -c MOS3param.c
+cc   -I../../include -c MOS3pzLoad.c
+cc   -I../../include -c MOS3sAcLoad.c
+cc   -I../../include -c MOS3sLoad.c
+cc   -I../../include -c MOS3sPrint.c
+cc   -I../../include -c MOS3sSetup.c
+cc   -I../../include -c MOS3sUpdate.c
+cc   -I../../include -c MOS3setup.c
+cc   -I../../include -c MOS3temp.c
+cc   -I../../include -c MOS3trunc.c
+ar r ../../DEV.a MOS3.o MOS3acLoad.o MOS3ask.o MOS3convTest.o MOS3delete.o MOS3destroy.o MOS3getic.o MOS3load.o MOS3mAsk.o MOS3mDelete.o MOS3mParam.o MOS3param.o MOS3pzLoad.o MOS3sAcLoad.o MOS3sLoad.o MOS3sPrint.o MOS3sSetup.o MOS3sUpdate.o MOS3setup.o MOS3temp.o MOS3trunc.o
+ranlib ../../DEV.a
+cd RES; \
+	make
+cc   -I../../include -c RES.c
+cc   -I../../include -c RESask.c
+cc   -I../../include -c RESdelete.c
+cc   -I../../include -c RESdestroy.c
+cc   -I../../include -c RESload.c
+cc   -I../../include -c RESmAsk.c
+cc   -I../../include -c RESmDelete.c
+cc   -I../../include -c RESmParam.c
+cc   -I../../include -c RESparam.c
+cc   -I../../include -c RESpzLoad.c
+cc   -I../../include -c RESsAcLoad.c
+cc   -I../../include -c RESsLoad.c
+cc   -I../../include -c RESsSetup.c
+cc   -I../../include -c RESsPrint.c
+cc   -I../../include -c RESsetup.c
+cc   -I../../include -c REStemp.c
+ar r ../../DEV.a RES.o RESask.o RESdelete.o RESdestroy.o RESload.o RESmAsk.o RESmDelete.o RESmParam.o RESparam.o RESpzLoad.o RESsAcLoad.o RESsLoad.o RESsSetup.o RESsPrint.o RESsetup.o REStemp.o
+ranlib ../../DEV.a
+cd SW; \
+	make
+cc   -I../../include -c SW.c
+cc   -I../../include -c SWacLoad.c
+cc   -I../../include -c SWask.c
+cc   -I../../include -c SWdelete.c
+cc   -I../../include -c SWdestroy.c
+cc   -I../../include -c SWload.c
+cc   -I../../include -c SWmAsk.c
+cc   -I../../include -c SWmDelete.c
+cc   -I../../include -c SWmParam.c
+cc   -I../../include -c SWparam.c
+cc   -I../../include -c SWpzLoad.c
+cc   -I../../include -c SWsetup.c
+ar r ../../DEV.a SW.o SWacLoad.o SWask.o SWdelete.o SWdestroy.o SWload.o SWmAsk.o SWmDelete.o SWmParam.o SWparam.o SWpzLoad.o SWsetup.o
+ranlib ../../DEV.a
+cd TRA; \
+	make
+cc   -I../../include -c TRA.c
+cc   -I../../include -c TRAacLoad.c
+cc   -I../../include -c TRAaccept.c
+cc   -I../../include -c TRAask.c
+cc   -I../../include -c TRAdelete.c
+cc   -I../../include -c TRAdestroy.c
+cc   -I../../include -c TRAload.c
+cc   -I../../include -c TRAmDelete.c
+cc   -I../../include -c TRAparam.c
+cc   -I../../include -c TRAsetup.c
+cc   -I../../include -c TRAtemp.c
+cc   -I../../include -c TRAtrunc.c
+ar r ../../DEV.a TRA.o TRAacLoad.o TRAaccept.o TRAask.o TRAdelete.o TRAdestroy.o TRAload.o TRAmDelete.o TRAparam.o TRAsetup.o TRAtemp.o TRAtrunc.o
+ranlib ../../DEV.a
+cd URC; \
+	make
+cc   -I../../include -c URC.c
+cc   -I../../include -c URCask.c
+cc   -I../../include -c URCdelete.c
+cc   -I../../include -c URCdestroy.c
+cc   -I../../include -c URCmAsk.c
+cc   -I../../include -c URCmDelete.c
+cc   -I../../include -c URCmParam.c
+cc   -I../../include -c URCparam.c
+cc   -I../../include -c URCsetup.c
+ar r ../../DEV.a URC.o URCask.o URCdelete.o URCdestroy.o URCmAsk.o URCmDelete.o URCmParam.o URCparam.o URCsetup.o
+ranlib ../../DEV.a
+cd VCCS; \
+	make
+cc   -I../../include -c VCCS.c
+cc   -I../../include -c VCCSask.c
+cc   -I../../include -c VCCSdelete.c
+cc   -I../../include -c VCCSdestroy.c
+cc   -I../../include -c VCCSload.c
+cc   -I../../include -c VCCSmDelete.c
+cc   -I../../include -c VCCSparam.c
+cc   -I../../include -c VCCSpzLoad.c
+cc   -I../../include -c VCCSsAcLoad.c
+cc   -I../../include -c VCCSsLoad.c
+cc   -I../../include -c VCCSsPrint.c
+cc   -I../../include -c VCCSsSetup.c
+cc   -I../../include -c VCCSsetup.c
+ar r ../../DEV.a VCCS.o VCCSask.o VCCSdelete.o VCCSdestroy.o VCCSload.o VCCSmDelete.o VCCSparam.o VCCSpzLoad.o VCCSsAcLoad.o VCCSsLoad.o VCCSsPrint.o VCCSsSetup.o VCCSsetup.o
+ranlib ../../DEV.a
+cd VCVS; \
+	make
+cc   -I../../include -c VCVS.c
+cc   -I../../include -c VCVSask.c
+cc   -I../../include -c VCVSdelete.c
+cc   -I../../include -c VCVSdestroy.c
+cc   -I../../include -c VCVSfindBr.c
+cc   -I../../include -c VCVSload.c
+cc   -I../../include -c VCVSmDelete.c
+cc   -I../../include -c VCVSparam.c
+cc   -I../../include -c VCVSpzLoad.c
+cc   -I../../include -c VCVSsAcLoad.c
+cc   -I../../include -c VCVSsLoad.c
+cc   -I../../include -c VCVSsPrint.c
+cc   -I../../include -c VCVSsSetup.c
+cc   -I../../include -c VCVSsetup.c
+ar r ../../DEV.a VCVS.o VCVSask.o VCVSdelete.o VCVSdestroy.o VCVSfindBr.o VCVSload.o VCVSmDelete.o VCVSparam.o VCVSpzLoad.o VCVSsAcLoad.o VCVSsLoad.o VCVSsPrint.o VCVSsSetup.o VCVSsetup.o
+ranlib ../../DEV.a
+cd VSRC; \
+	make
+cc   -I../../include -c VSRC.c
+cc   -I../../include -c VSRCacLoad.c
+cc   -I../../include -c VSRCaccept.c
+cc   -I../../include -c VSRCask.c
+cc   -I../../include -c VSRCdelete.c
+cc   -I../../include -c VSRCdestroy.c
+cc   -I../../include -c VSRCfindBr.c
+cc   -I../../include -c VSRCload.c
+cc   -I../../include -c VSRCmDelete.c
+cc   -I../../include -c VSRCparam.c
+cc   -I../../include -c VSRCpzLoad.c
+cc   -I../../include -c VSRCpzSetup.c
+cc   -I../../include -c VSRCsetup.c
+cc   -I../../include -c VSRCtemp.c
+ar r ../../DEV.a VSRC.o VSRCacLoad.o VSRCaccept.o VSRCask.o VSRCdelete.o VSRCdestroy.o VSRCfindBr.o VSRCload.o VSRCmDelete.o VSRCparam.o VSRCpzLoad.o VSRCpzSetup.o VSRCsetup.o VSRCtemp.o
+ranlib ../../DEV.a
+cc  -I../include -c DEVsupport.c
+ar r ../DEV.a DEVsupport.o
+ranlib ../DEV.a
+cd FTE;\
+	make
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c agraf.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c arg.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c aspice.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c breakpoint.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c circuits.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c clip.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c cmath1.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c cmath2.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c cmath3.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c cmath4.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c cmdtab.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c compose.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c cpinterface.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c debugcoms.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c define.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c device.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c diff.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c display.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c doplot.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c dotcards.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c error.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c evaluate.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c fourier.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c graf.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c graphdb.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c grid.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c inp.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c interpolate.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c mfb.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c misccoms.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c numparse.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c options.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c parse.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c plotcurve.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c plot5.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c postcoms.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c postscript.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c rawfile.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c resource.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c runcoms.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c shyu.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c signal.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c subckt.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c types.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c vectors.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c x10.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c x11.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c OUTinterface.c
+ar r ../FTE.a agraf.o arg.o aspice.o breakpoint.o circuits.o clip.o cmath1.o cmath2.o cmath3.o cmath4.o cmdtab.o compose.o cpinterface.o debugcoms.o define.o device.o diff.o display.o doplot.o dotcards.o error.o evaluate.o fourier.o graf.o graphdb.o grid.o inp.o interpolate.o mfb.o misccoms.o numparse.o options.o parse.o plotcurve.o plot5.o postcoms.o postscript.o rawfile.o resource.o runcoms.o shyu.o signal.o subckt.o types.o vectors.o x10.o x11.o OUTinterface.o
+ar: creating ../FTE.a
+ranlib ../FTE.a
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c nutmeg.c
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c spiceif.c
+true
+ld -r -o /usr/local/xspice-1-0/lib/sim/object/core.o nutmeg.o spiceif.o \
+	../CM/*.o ../MIF/*.o ../EVT/*.o ../ENH/*.o \
+	../IDN/*.o ../ICM/POLY/*.o \
+	../FTE.a ../*.a ../*.a ../*.a -z -L/usr/X11/lib -lXaw -lXt -lXmu -lX11 -lm -ltermlib
+cc  -I../include -I../MFB -I/usr/include/X11/Xaw -I/usr/include/X11 -c bspice.c
+ld -r -o /usr/local/xspice-1-0/lib/sim/object/bcore.o bspice.o spiceif.o OUTinterface.o subckt.o  inp.o resource.o runcoms.o error.o types.o numparse.o shyu.o  ../CP/quote.o ../CP/std.o ../CP/wlist.o ../CP/input.o ../CP/lexical.o  ../CP/variable.o \
+	../CM/*.o ../MIF/*.o ../EVT/*.o ../ENH/*.o ../IDN/*.o \
+	../ICM/*/*.o \
+	../INP.a ../CKT.a ../DEV.a ../NI.a ../SMP.a\
+	../INP.a ../CKT.a ../DEV.a ../NI.a ../SMP.a\
+	../INP.a ../CKT.a ../DEV.a ../NI.a ../SMP.a\
+	../IPC.a
+All done.  core.o and bcore.o created and installed.
+cd simdir;\
+	make
+
+Running preprocessor on modpath.lst and udnpath.lst ...
+/usr/local/xspice-1-0/bin/cmpp -lst
+
+Compiling list of models and node types...
+cc -o temp.o -g -I. -I/usr/local/xspice-1-0/include/sim -I/usr/include/X11/Xaw -I/usr/include/X11 -c /usr/local/xspice-1-0/lib/sim/source/SPIinit.c
+
+Linking ATESSE XSPICE simulator ...
+cc -o atesse_xspice temp.o \
+/usr/local/xspice-1-0/lib/sim/object/bcore.o -L/usr/X11/lib -lXaw -lXt -lXmu -lX11 -lm -ltermlib \
+/usr/local/xspice-1-0/lib/cml/adc_bridge/*.o \
+/usr/local/xspice-1-0/lib/cml/aswitch/*.o \
+/usr/local/xspice-1-0/lib/cml/capacitor/*.o \
+/usr/local/xspice-1-0/lib/cml/climit/*.o \
+/usr/local/xspice-1-0/lib/cml/cmeter/*.o \
+/usr/local/xspice-1-0/lib/cml/core/*.o \
+/usr/local/xspice-1-0/lib/cml/d_and/*.o \
+/usr/local/xspice-1-0/lib/cml/d_buffer/*.o \
+/usr/local/xspice-1-0/lib/cml/d_dff/*.o \
+/usr/local/xspice-1-0/lib/cml/d_dlatch/*.o \
+/usr/local/xspice-1-0/lib/cml/d_dt/*.o \
+/usr/local/xspice-1-0/lib/cml/d_fdiv/*.o \
+/usr/local/xspice-1-0/lib/cml/d_inverter/*.o \
+/usr/local/xspice-1-0/lib/cml/d_jkff/*.o \
+/usr/local/xspice-1-0/lib/cml/d_nand/*.o \
+/usr/local/xspice-1-0/lib/cml/d_nor/*.o \
+/usr/local/xspice-1-0/lib/cml/d_open_c/*.o \
+/usr/local/xspice-1-0/lib/cml/d_open_e/*.o \
+/usr/local/xspice-1-0/lib/cml/d_or/*.o \
+/usr/local/xspice-1-0/lib/cml/d_osc/*.o \
+/usr/local/xspice-1-0/lib/cml/d_pulldown/*.o \
+/usr/local/xspice-1-0/lib/cml/d_pullup/*.o \
+/usr/local/xspice-1-0/lib/cml/d_ram/*.o \
+/usr/local/xspice-1-0/lib/cml/d_source/*.o \
+/usr/local/xspice-1-0/lib/cml/d_srff/*.o \
+/usr/local/xspice-1-0/lib/cml/d_srlatch/*.o \
+/usr/local/xspice-1-0/lib/cml/d_state/*.o \
+/usr/local/xspice-1-0/lib/cml/d_tff/*.o \
+/usr/local/xspice-1-0/lib/cml/d_tristate/*.o \
+/usr/local/xspice-1-0/lib/cml/d_xnor/*.o \
+/usr/local/xspice-1-0/lib/cml/d_xor/*.o \
+/usr/local/xspice-1-0/lib/cml/dac_bridge/*.o \
+/usr/local/xspice-1-0/lib/cml/divide/*.o \
+/usr/local/xspice-1-0/lib/cml/gain/*.o \
+/usr/local/xspice-1-0/lib/cml/hyst/*.o \
+/usr/local/xspice-1-0/lib/cml/ilimit/*.o \
+/usr/local/xspice-1-0/lib/cml/inductor/*.o \
+/usr/local/xspice-1-0/lib/cml/int/*.o \
+/usr/local/xspice-1-0/lib/cml/lcouple/*.o \
+/usr/local/xspice-1-0/lib/cml/limit/*.o \
+/usr/local/xspice-1-0/lib/cml/lmeter/*.o \
+/usr/local/xspice-1-0/lib/cml/mult/*.o \
+/usr/local/xspice-1-0/lib/cml/oneshot/*.o \
+/usr/local/xspice-1-0/lib/cml/potentiometer/*.o \
+/usr/local/xspice-1-0/lib/cml/pwl/*.o \
+/usr/local/xspice-1-0/lib/cml/s_xfer/*.o \
+/usr/local/xspice-1-0/lib/cml/sine/*.o \
+/usr/local/xspice-1-0/lib/cml/slew/*.o \
+/usr/local/xspice-1-0/lib/cml/square/*.o \
+/usr/local/xspice-1-0/lib/cml/summer/*.o \
+/usr/local/xspice-1-0/lib/cml/triangle/*.o \
+/usr/local/xspice-1-0/lib/cml/zener/*.o \
+/usr/local/xspice-1-0/lib/udnl/real/*.o \
+/usr/local/xspice-1-0/lib/udnl/int/*.o
+
+Copying executable to /usr/local/xspice-1-0/bin ...
+
+Deleting temporary files ...
+
+
+ATESSE XSPICE simulator created and installed.
+
+Executable file is "/usr/local/xspice-1-0/bin/atesse_xspice".
+
+
+Running preprocessor on modpath.lst and udnpath.lst ...
+/usr/local/xspice-1-0/bin/cmpp -lst
+
+Compiling list of models and node types...
+cc  -o temp.o -g -I. -I/usr/local/xspice-1-0/include/sim -I/usr/include/X11/Xaw -I/usr/include/X11 -c /usr/local/xspice-1-0/lib/sim/source/SPIinit.c
+
+Linking XSPICE simulator ...
+cc -o xspice temp.o \
+/usr/local/xspice-1-0/lib/sim/object/core.o -L/usr/X11/lib -lXaw -lXt -lXmu -lX11 -lm -ltermlib \
+/usr/local/xspice-1-0/lib/cml/adc_bridge/*.o \
+/usr/local/xspice-1-0/lib/cml/aswitch/*.o \
+/usr/local/xspice-1-0/lib/cml/capacitor/*.o \
+/usr/local/xspice-1-0/lib/cml/climit/*.o \
+/usr/local/xspice-1-0/lib/cml/cmeter/*.o \
+/usr/local/xspice-1-0/lib/cml/core/*.o \
+/usr/local/xspice-1-0/lib/cml/d_and/*.o \
+/usr/local/xspice-1-0/lib/cml/d_buffer/*.o \
+/usr/local/xspice-1-0/lib/cml/d_dff/*.o \
+/usr/local/xspice-1-0/lib/cml/d_dlatch/*.o \
+/usr/local/xspice-1-0/lib/cml/d_dt/*.o \
+/usr/local/xspice-1-0/lib/cml/d_fdiv/*.o \
+/usr/local/xspice-1-0/lib/cml/d_inverter/*.o \
+/usr/local/xspice-1-0/lib/cml/d_jkff/*.o \
+/usr/local/xspice-1-0/lib/cml/d_nand/*.o \
+/usr/local/xspice-1-0/lib/cml/d_nor/*.o \
+/usr/local/xspice-1-0/lib/cml/d_open_c/*.o \
+/usr/local/xspice-1-0/lib/cml/d_open_e/*.o \
+/usr/local/xspice-1-0/lib/cml/d_or/*.o \
+/usr/local/xspice-1-0/lib/cml/d_osc/*.o \
+/usr/local/xspice-1-0/lib/cml/d_pulldown/*.o \
+/usr/local/xspice-1-0/lib/cml/d_pullup/*.o \
+/usr/local/xspice-1-0/lib/cml/d_ram/*.o \
+/usr/local/xspice-1-0/lib/cml/d_source/*.o \
+/usr/local/xspice-1-0/lib/cml/d_srff/*.o \
+/usr/local/xspice-1-0/lib/cml/d_srlatch/*.o \
+/usr/local/xspice-1-0/lib/cml/d_state/*.o \
+/usr/local/xspice-1-0/lib/cml/d_tff/*.o \
+/usr/local/xspice-1-0/lib/cml/d_tristate/*.o \
+/usr/local/xspice-1-0/lib/cml/d_xnor/*.o \
+/usr/local/xspice-1-0/lib/cml/d_xor/*.o \
+/usr/local/xspice-1-0/lib/cml/dac_bridge/*.o \
+/usr/local/xspice-1-0/lib/cml/divide/*.o \
+/usr/local/xspice-1-0/lib/cml/gain/*.o \
+/usr/local/xspice-1-0/lib/cml/hyst/*.o \
+/usr/local/xspice-1-0/lib/cml/ilimit/*.o \
+/usr/local/xspice-1-0/lib/cml/inductor/*.o \
+/usr/local/xspice-1-0/lib/cml/int/*.o \
+/usr/local/xspice-1-0/lib/cml/lcouple/*.o \
+/usr/local/xspice-1-0/lib/cml/limit/*.o \
+/usr/local/xspice-1-0/lib/cml/lmeter/*.o \
+/usr/local/xspice-1-0/lib/cml/mult/*.o \
+/usr/local/xspice-1-0/lib/cml/oneshot/*.o \
+/usr/local/xspice-1-0/lib/cml/potentiometer/*.o \
+/usr/local/xspice-1-0/lib/cml/pwl/*.o \
+/usr/local/xspice-1-0/lib/cml/s_xfer/*.o \
+/usr/local/xspice-1-0/lib/cml/sine/*.o \
+/usr/local/xspice-1-0/lib/cml/slew/*.o \
+/usr/local/xspice-1-0/lib/cml/square/*.o \
+/usr/local/xspice-1-0/lib/cml/summer/*.o \
+/usr/local/xspice-1-0/lib/cml/triangle/*.o \
+/usr/local/xspice-1-0/lib/cml/zener/*.o \
+/usr/local/xspice-1-0/lib/udnl/real/*.o \
+/usr/local/xspice-1-0/lib/udnl/int/*.o
+
+Copying executable to /usr/local/xspice-1-0/bin ...
+
+Deleting temporary files ...
+
+
+XSPICE simulator created and installed.
+
+Type: "/usr/local/xspice-1-0/bin/xspice <input deck>" to run.
+
+See directory /usr/local/xspice-1-0/lib/sim/examples for sample decks.
+
